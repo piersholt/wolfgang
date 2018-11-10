@@ -8,3 +8,6 @@ gem 'pry-byebug'
 gem 'awesome_print'
 gem 'rbczmq'
 gem 'ruby-dbus'
+
+gem 'capistrano'
+gem 'capistrano-rbenv'
