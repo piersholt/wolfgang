@@ -1,0 +1,41 @@
+#!/usr/bin/env ruby
+
+# frozen_string_literal: true
+
+require 'rubygems'
+require 'bundler/setup'
+
+require 'rbczmq'
+
+context = ZMQ::Context.new
+publisher = context.socket(:PUB)
+publisher.bind('tcp://*:5556')
+
+# Thread.new(context) do
+#   begin
+#     subscriber = context.socket(:SUB)
+#     subscriber.connect('tcp://localhost:5556')
+#     subscriber.subscribe('')
+#
+#     received_messages = 0
+#     while received_messages <= 10
+#       message = subscriber.recv
+#       puts "RxD: #{message}"
+#       received_messages += 1
+#     end
+#     subscriber.close
+#   rescue StandardError => e
+#     puts e
+#   end
+# end
+
+i = 0
+while i < 10
+  message = "#{i}. ah, hello?"
+  puts "TxD: #{message}"
+  publisher.send(message)
+  i += 1
+  sleep(10)
+end
+
+publisher.close
