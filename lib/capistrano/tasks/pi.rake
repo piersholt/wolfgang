@@ -13,30 +13,48 @@ namespace :wolfgang do
   end
 end
 
-namespace :scp do
+namespace :source do
+  # decs 'Delete source'
+  # task :delete do
+  #   on roles(:development) do |host|
+  #     hostname = host.hostname
+  #     username = host.user
+  #
+  #     list = %x(ls).split
+  #     restricted_files = %w(.git .gitignore .ruby-version log)
+  #     restricted_files.each { |file| list.delete(file) }
+  #     # puts %x`scp -r . #{username}@#{hostname}:#{fetch :deploy_to}`
+  #     paths = list.join(' ')
+  #     # puts paths
+  #     # puts "scp -B -C -r #{paths} #{username}@#{hostname}:#{fetch :deploy_to}"
+  #     puts %x`rm -rf #{paths} #{username}@#{hostname}:#{fetch :deploy_to}`
+  #   end
+  # end
+
   desc 'Upload source.'
-  task :source do
+  task :upload do
     on roles(:development) do |host|
       hostname = host.hostname
       username = host.user
 
-      restricted_files = %w(.git .gitignore .ruby-version log)
-
       list = %x(ls -A).split
+      restricted_files = %w(.git .gitignore .ruby-version log)
       restricted_files.each { |file| list.delete(file) }
       # puts %x`scp -r . #{username}@#{hostname}:#{fetch :deploy_to}`
       file_arg = list.join(' ')
-      puts %x`scp -B -C -r #{file_arg} #{username}@#{hostname}:#{fetch :deploy_to}`
+      # puts file_arg
+      # puts "scp -B -C -r #{file_arg} #{username}@#{hostname}:#{fetch :deploy_to}"
+      puts %x`scp -C -r #{file_arg} #{username}@#{hostname}:#{fetch :deploy_to}`
     end
   end
 
-  desc 'Upload lib'
-  task :lib do
-    on roles(:development) do |host|
-      hostname = host.hostname
-      username = host.user
-
-      puts %x`scp -B -C -r lib #{username}@#{hostname}:#{fetch :deploy_to}`
-    end
-  end
+  # desc 'Upload lib'
+  # task :lib do
+  #   on roles(:development) do |host|
+  #     hostname = host.hostname
+  #     username = host.user
+  #
+  #     puts %x`scp -B -C -r lib #{username}@#{hostname}:#{fetch :deploy_to}`
+  #   end
+  # end
 end
