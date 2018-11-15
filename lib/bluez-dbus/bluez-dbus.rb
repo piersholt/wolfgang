@@ -34,9 +34,6 @@ require 'bluez-dbus/objects/bluez_controller_object.rb'
 require 'bluez-dbus/objects/bluez_core_object.rb'
 require 'bluez-dbus/objects/bluez_root_object.rb'
 
-# org.bluez
-require 'bluez-dbus/bluez_service.rb'
-
 require 'bluez-dbus/listeners/bluez_base_listener.rb'
 require 'bluez-dbus/handlers/bluez_base_handler.rb'
 
@@ -55,3 +52,6 @@ require 'bluez-dbus/handlers/bluez_media_control_handler.rb'
 require 'bluez-dbus/listeners/bluez_player_listener.rb'
 
 require 'bluez-dbus/handlers/bluez_media_player_handler.rb'
+
+# org.bluez
+require 'bluez-dbus/bluez_service.rb'
