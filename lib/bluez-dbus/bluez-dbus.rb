@@ -55,3 +55,5 @@ require 'bluez-dbus/handlers/bluez_media_player_handler.rb'
 
 # org.bluez
 require 'bluez-dbus/bluez_service.rb'
+
+require 'bluez-dbus/bluez_defaults.rb'
