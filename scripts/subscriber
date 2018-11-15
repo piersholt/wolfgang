@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+
+# frozen_string_literal: true
+
+require 'rubygems'
+require 'bundler/setup'
+
+require 'rbczmq'
+
+context = ZMQ::Context.new
+
+begin
+  subscriber = context.socket(:SUB)
+  subscriber.connect('tcp://localhost:5556')
+  subscriber.subscribe('')
+
+  received_messages = 0
+  while received_messages <= 10
+    message = subscriber.recv
+    puts "RxD: #{message}"
+    received_messages += 1
+  end
+  subscriber.close
+rescue StandardError => e
+  puts e
+end

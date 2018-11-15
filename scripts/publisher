@@ -1,0 +1,23 @@
+#!/usr/bin/env ruby
+
+# frozen_string_literal: true
+
+require 'rubygems'
+require 'bundler/setup'
+
+require 'rbczmq'
+
+context = ZMQ::Context.new
+publisher = context.socket(:PUB)
+publisher.bind('tcp://*:5556')
+
+i = 0
+while i < 10
+  message = "#{i}. ah, hello?"
+  puts "TxD: #{message}"
+  publisher.send(message)
+  i += 1
+  sleep(10)
+end
+
+publisher.close
