@@ -15,4 +15,8 @@ class BluezBaseListener
   def empty_handlers
     DEFAULT_HANDLERS.dup
   end
+
+  def no_handler
+    LOGGER.warn(self.class) { "#{interface} not handled!" }
+  end
 end

@@ -19,8 +19,8 @@ LOGGER = get_logger
 LOGGER.debug('bin/dbus') { 'Require local dependencies' }
 
 begin
-  require 'dbus-decorator/dbus-decorator'
-  require 'bluez-dbus/bluez-dbus'
+  require '1_dbus-decorator/dbus-decorator'
+  require '2_bluez-dbus/bluez-dbus'
 rescue LoadError => e
   puts 'load error'
   puts e

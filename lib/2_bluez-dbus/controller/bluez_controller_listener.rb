@@ -24,8 +24,4 @@ class BluezControllerListener < BluezBaseListener
     return false unless handler
     handler.handle(signal, args)
   end
-
-  def no_handler
-    LOGGER.warn(self.class) { "#{interface} not handled!" }
-  end
 end
