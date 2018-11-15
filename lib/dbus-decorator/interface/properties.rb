@@ -27,6 +27,7 @@ module Properties
     mega_interface_one = properties_interface
     # binding.pry if self.instance_of?(BluezPlayerObject)
     mega_interface_one.on_signal(signal) do |i, h, a|
+      LOGGER.debug(path_suffix) { "Thread: #{Thread.current}: #{Thread.current[:name]}" }
       LOGGER.debug(path_suffix) { "Object: #{self}" }
       LOGGER.debug(path_suffix) { "Observers: #{count_observers}" }
       LOGGER.debug(path_suffix) { "Interface: #{i}" }
