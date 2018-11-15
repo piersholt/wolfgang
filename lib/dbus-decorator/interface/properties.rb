@@ -36,7 +36,7 @@ module Properties
       LOGGER.debug(path_suffix) { "Removed?: #{a}" }
 
       changed(true)
-      args = { p: path_suffix, changes: h, removed: a }
+      args = { p: path_suffix, changes: h, removed: a, state: property_get_all(i) }
       notify_observers(i, signal, args)
     end
   end
