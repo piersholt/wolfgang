@@ -11,6 +11,11 @@
 module ObjectManager
   OBJECT_MANAGER_INTERFACE = 'org.freedesktop.DBus.ObjectManager'
 
+  def object_manager
+    self.default_iface = OBJECT_MANAGER_INTERFACE
+    self
+  end
+
   # private
 
   def get_managed_objects
