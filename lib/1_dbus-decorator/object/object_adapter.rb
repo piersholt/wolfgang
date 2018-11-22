@@ -14,4 +14,9 @@ class ObjectAdapter < DBus::ProxyObject
   def path_suffix
     path[10..-1]
   end
+
+  def selected_interface
+    raise NameError('interface has not been selected!') unless @selected_interface
+    @selected_interface
+  end
 end
