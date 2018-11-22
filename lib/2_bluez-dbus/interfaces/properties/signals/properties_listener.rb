@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module PropertiesListener
+class PropertiesListener < BaseSignalListener
   def properties_changed(signal)
     self.proc = 'PropertiesChanged'
 
