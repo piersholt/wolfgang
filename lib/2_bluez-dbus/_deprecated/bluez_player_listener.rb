@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Listener for Bluez Player objects
-class BluezPlayerListener < BluezBaseListener
+class BluezPlayerListener < BaseSignalListener
   def update(interface, signal, args)
     # LOGGER.debug(self.class) { "#update(#{interface}, #{signal}, #{args})" }
     case interface

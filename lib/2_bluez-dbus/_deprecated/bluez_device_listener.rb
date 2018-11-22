@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Listener for Bluez Device objects
-class BluezDeviceListener < BluezBaseListener
+class BluezDeviceListener < BaseSignalListener
   def update(interface, signal, args)
     case interface
     when BLUEZ_DEVICE

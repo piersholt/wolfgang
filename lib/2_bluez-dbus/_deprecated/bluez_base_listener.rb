@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Base listener for all objects
-class BluezBaseListener
+class BaseSignalListener
   DEFAULT_HANDLERS = {}.freeze
 
   def handlers
