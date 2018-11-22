@@ -4,6 +4,8 @@ require 'dbus'
 
 dbus_decorator_root = '1_dbus-decorator'
 
+require "#{dbus_decorator_root}/constants"
+
 require "#{dbus_decorator_root}/object/object_adapter.rb"
 require "#{dbus_decorator_root}/object/proxy_object_factory_adapter.rb"
 
