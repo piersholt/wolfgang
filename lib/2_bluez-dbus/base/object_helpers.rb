@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module ObjectHelpers
+  include ObjectConstants
+
   def take_a_variable_and_get_a_path(variable); end
 
   def controller_path(controller_index)

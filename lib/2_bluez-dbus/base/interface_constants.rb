@@ -37,14 +37,3 @@ module InterfaceConstants
     BLUEZ_MEDIA_FOLDER
   ].freeze
 end
-
-module SignalConstants
-  OBJECT_MANAGER_SIGNALS = {
-    interfaces_added: 'InterfacesAdded',
-    interfaces_removed: 'InterfacesRemoved'
-  }.freeze
-
-  PROPERTIES_SIGNALS = {
-    properties_changed: 'PropertiesChanged'
-  }.freeze
-end
