@@ -1,31 +1,22 @@
 # frozen_string_literal: true
 
 class BluezService < ServiceAdapter
-  ROOT_OBJECT_PATH = '/'
-  CORE_OBJECT_PATH = '/org/bluez'
-  CONTROLLER_OBJECT_PATH = '/org/bluez/hci'
-  DEVICE_OBJECT_PREFIX = '/dev_'
-  FILE_DESCRIPTOR_OBJECT_PREFIX = '/fd'
-  PLAYER_OBJECT_PREFIX = '/player'
+  include ObjectPathHelper
 
-  def objects
-    root_object.managed_objects
-  end
-
-  # Get root object: '/'
+  # Get service root object: '/"
   def root_object
-    public_send(:[], ROOT_OBJECT_PATH, adapter: BluezRootObject)
+    root
   end
 
   # Get core bluez object: '/org/bluez'
   def core_object
-    public_send(:[], CORE_OBJECT_PATH, adapter: BluezCoreObject)
+    core
   end
 
   # Get controller/adapter object: '/org/bluez/hciX'
   def controller_object(controller_index)
     path = controller_path(controller_index)
-    public_send(:[], path, adapter: BluezControllerObject)
+    controller(path)
   end
 
   # Get device object: '/org/bluez/hciX/dev_XX_XX_XX_XX_XX_XX'
@@ -36,53 +27,84 @@ class BluezService < ServiceAdapter
 
   def media_transport_object(controller_index, device_address, file_descriptor)
     path = transport_path(controller_index, device_address, file_descriptor)
-    public_send(:[], path, adapter: BluezMediaTransportObject)
+    media_transport(path)
   end
 
   def player_object(controller_index, device_address, player_index)
     path = player_path(controller_index, device_address, player_index)
-    public_send(:[], path, adapter: BluezPlayerObject)
+    player(path)
   end
 
-  def player_object_full(path)
-    public_send(:[], path, adapter: BluezPlayerObject)
+  # ------- MODULE GET HELPERS
+
+  def root(full_path = ROOT_OBJECT_PATH)
+    object_by_path(full_path, BluezRootObject)
   end
 
-  private
-
-  def controller_path(controller_index)
-    CONTROLLER_OBJECT_PATH + controller_index.to_s
+  def core(full_path = CORE_OBJECT_PATH)
+    object_by_path(full_path, BluezCoreObject)
   end
 
-  def device_path(controller_index, device_address)
-    controller_path(controller_index) + device_suffix(device_address)
+  def controller(full_path)
+    object_by_path(full_path, BluezControllerObject)
   end
 
-  def transport_path(controller_index, device_address, file_descriptor)
-    controller_path(controller_index) +
-      device_suffix(device_address) +
-      transport_suffix(file_descriptor)
+  def device(full_path)
+    object_by_path(full_path, BluezDeviceObject)
   end
 
-  def player_path(controller_index, device_address, player_index)
-    controller_path(controller_index) +
-      device_suffix(device_address) +
-      player_suffix(player_index)
+  def media_transport(full_path)
+    object_by_path(full_path, BluezMediaTransportObject)
   end
 
-  def device_suffix(device_address)
-    DEVICE_OBJECT_PREFIX + parse_device_address(device_address)
+  def player(full_path)
+    object_by_path(full_path, BluezPlayerObject)
   end
 
-  def transport_suffix(file_descriptor)
-    FILE_DESCRIPTOR_OBJECT_PREFIX + file_descriptor.to_s
+  def browser(full_path)
+    object_by_path(full_path, BluezMediaBrowserObject)
   end
 
-  def player_suffix(player_index)
-    PLAYER_OBJECT_PREFIX + player_index.to_s
+  def object_by_path(path, object_adapter)
+    public_send(:[], path, adapter: object_adapter)
   end
 
-  def parse_device_address(device_address)
-    device_address.tr(':', '_')
+  # ------- MODULE OBJECT FILTER HELPER
+
+  def controller_objects
+    filter_objects(CONTROLLER_OBJECT_PATTERN)
+  end
+
+  def device_objects
+    filter_objects(DEVICE_OBJECT_PATTERN)
+  end
+
+  def media_transport_objects
+    filter_objects(MEDIA_TRANSPORT_OBJECT_PATTERN)
+  end
+
+  def player_objects
+    filter_objects(PLAYER_OBJECT_PATTERN)
+  end
+
+  def filter_objects(pattern)
+    begin
+      LOGGER.debug(self.class) { "Filtering objects: #{pattern}" }
+      objects = root_object.get_managed_objects
+
+      LOGGER.debug(self.class) { "Object paths: #{objects.keys}" }
+      result = objects.find_all do |path, _|
+        matches = path.scan(pattern)
+        result = matches.length.positive?
+        LOGGER.debug(self.class) { "Checking #{path}... => #{result}" }
+        result
+      end
+
+      return [] if result.empty?
+      result.to_h.keys
+    rescue StandardError => e
+      LOGGER.error(self.class) { e }
+      e.backtrace.each { |l| LOGGER.error(self.class) { l } }
+    end
   end
 end
