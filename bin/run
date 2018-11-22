@@ -1,0 +1,51 @@
+#!/usr/bin/env ruby
+
+# frozen_string_literal: true
+
+require 'rubygems'
+require 'bundler/setup'
+
+if ENV['BUNDLE_GEMFILE']
+  root_path = File.dirname(ENV['BUNDLE_GEMFILE'])
+  lib_path = root_path + '/lib'
+  $LOAD_PATH.unshift(lib_path)
+end
+
+require 'cheap_logger'
+require 'pry-byebug'
+
+LOGGER = get_logger
+
+LOGGER.debug('bin/run') { 'Require local dependencies' }
+
+begin
+  require '1_dbus-decorator/dbus-decorator'
+  require '2_bluez-dbus/bluez-dbus'
+  require '3_bluez-manager/bluez-manager'
+  require 'wolfgang'
+rescue LoadError => e
+  puts 'load error'
+  puts e
+  puts lib_path
+  puts $LOAD_PATH
+  binding.pry
+rescue StandardError => e
+  puts 'standard error when loading dependencies'
+  puts e
+  puts e.backtrace
+  binding.pry
+end
+
+begin
+  t = Thread.current
+  t[:name] = 'Main Thread'
+  WolfgangApplication.new.run
+rescue StandardError => e
+  puts 'standard error during session initialize'
+  puts e
+  puts e.backtrace
+end
+
+LOGGER.info('bin/run') { 'All over, red rover' }
+
+exit
