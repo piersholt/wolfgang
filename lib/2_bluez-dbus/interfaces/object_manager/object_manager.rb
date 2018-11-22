@@ -12,9 +12,6 @@ module ObjectManager
   include InterfaceConstants
   include ObjectManager::Signals
 
-  # @deprecated
-  alias_method :get_managed_objects, :managed_objects
-
   def object_manager
     self.default_iface = OBJECT_MANAGER
     @selected_interface = OBJECT_MANAGER
@@ -28,6 +25,8 @@ module ObjectManager
   def object_manager_interface
     interface(OBJECT_MANAGER)
   end
+
+  alias get_managed_objects managed_objects
 
   # begin
   #   signal = InterfacesAdded.new(object, changes)
