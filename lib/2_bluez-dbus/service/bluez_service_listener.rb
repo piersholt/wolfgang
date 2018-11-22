@@ -13,15 +13,19 @@ class BluezServiceListener
   # [NEW] Controller 00:1A:7D:DA:71:13 raspberrypi
   def new_service(service)
     LOGGER.info(PROC) { 'New Service!' }
-    initialize_root(service)
-    initialize_controllers(service)
-    initialize_devices(service)
+    establish_state(service, minimum_state)
   end
 
   # @desc: called on quiting Bluez
   def delete_service; end
 
   private
+
+  def establish_state(service)
+    initialize_root(service)
+    initialize_controllers(service)
+    initialize_devices(service)
+  end
 
   def initialize_root(service)
     LOGGER.info(PROC) { 'Initialize Root!' }
