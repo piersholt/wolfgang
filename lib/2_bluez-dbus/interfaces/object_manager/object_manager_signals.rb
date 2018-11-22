@@ -41,7 +41,7 @@ module ObjectManager
       proc do |object, changes|
         begin
           log_signal(object, changes)
-          signal = klass.new(klass, object, changes)
+          signal = klass.new(object, changes)
           log_callback(klass, signal)
           listener.public_send(method, signal)
         rescue StandardError => e
