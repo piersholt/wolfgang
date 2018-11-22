@@ -23,7 +23,7 @@ def get_logger
       m.concat("\n") unless severity == Logger::UNKNOWN
     end
 
-  l.sev_threshold=(Logger::DEBUG)
+  l.sev_threshold=(Logger::INFO)
 
   l
 end
