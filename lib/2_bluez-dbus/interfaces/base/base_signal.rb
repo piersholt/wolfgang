@@ -1,5 +1,6 @@
 class BaseSignal
-  include ObjectPathHelper
+  include ObjectConstants
+  include ObjectHelpers
 
   attr_reader :sender, :path, :interface, :member
   alias_method :signal, :member

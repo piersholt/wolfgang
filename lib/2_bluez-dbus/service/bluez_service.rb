@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class BluezService < ServiceAdapter
-  include ObjectPathHelper
+  include ObjectConstants
+  include ObjectHelpers
 
   # Get service root object: '/"
   def root_object
