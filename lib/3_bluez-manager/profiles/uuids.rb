@@ -1,0 +1,15 @@
+# frozen_string_literal: true
+
+module Profiles
+  BASE_UUID_SUFFIX = '1000-8000-00805f9b34fb'
+  BASE_UUID = '00000000-0000-' + BASE_UUID_SUFFIX
+
+  SERVICE_CLASS_IDENTIFIER_MAP = {
+    0x110A => A2DP::SOURCE,
+    0x110B => A2DP::SINK,
+    0x110D => A2DP::PROFILE,
+    0x110E => AVRCP::PROFILE,
+    0x110C => AVRCP::TARGET,
+    0x110F => AVRCP::CONTROLLER
+  }.freeze
+end
