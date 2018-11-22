@@ -5,7 +5,6 @@ class BluezRootListener < BaseSignalListener
 
   # This is a generic interface signal listener
   # it an be overridden; in this case by an object listener
-  include ObjectManagerListener
 
   PROC = 'Root'
 

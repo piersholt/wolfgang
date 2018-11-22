@@ -2,8 +2,8 @@
 
 class BaseSignalListener
   include InterfaceConstants
-  # include ObjectManagerListener
-  # include PropertiesListener
+  include ObjectManagerListener
+  include PropertiesListener
   attr_writer :proc
 
   PROC = 'BaseSignalListener'

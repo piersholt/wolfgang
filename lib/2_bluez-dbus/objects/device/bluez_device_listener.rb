@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class BluezDeviceListener < PropertiesListener
+class BluezDeviceListener < BaseSignalListener
   include Singleton
   PROC = 'Device'
 

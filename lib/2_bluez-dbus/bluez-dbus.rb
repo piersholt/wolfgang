@@ -15,16 +15,17 @@ require "#{dbus_root}/base/object_helpers"
 root =  "#{dbus_root}/interfaces"
 
 require "#{root}/base/base_signal"
+
+require "#{root}/object_manager/signals/object_manager_listener"
+require "#{root}/properties/signals/properties_listener"
 require "#{root}/base/base_signal_listener"
 
 require "#{root}/object_manager/object_manager_signals"
 require "#{root}/object_manager/signals/interfaces_added"
 require "#{root}/object_manager/signals/interfaces_removed"
-require "#{root}/object_manager/signals/object_manager_listener"
 require "#{root}/object_manager/object_manager"
 
 require "#{root}/properties/signals/properties_changed"
-require "#{root}/properties/signals/properties_listener"
 require "#{root}/properties/properties_signals"
 require "#{root}/properties/properties"
 
