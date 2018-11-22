@@ -4,13 +4,11 @@ require 'dbus'
 
 dbus_decorator_root = '1_dbus-decorator'
 
-require "#{dbus_decorator_root}/constants"
+require "#{dbus_decorator_root}/base/dbus_constants"
 
 require "#{dbus_decorator_root}/object/object_adapter.rb"
 require "#{dbus_decorator_root}/object/proxy_object_factory_adapter.rb"
 
-require "#{dbus_decorator_root}/interface/object_manager.rb"
-require "#{dbus_decorator_root}/interface/properties.rb"
 require "#{dbus_decorator_root}/interface/interface_adapter.rb"
 
 require "#{dbus_decorator_root}/service/service_adapter.rb"

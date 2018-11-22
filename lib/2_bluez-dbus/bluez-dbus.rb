@@ -1,65 +1,85 @@
 # frozen_string_literal: true
 
-bluez_dbus_root = '2_bluez-dbus'
+dbus_root = '2_bluez-dbus'
 
-require "#{bluez_dbus_root}/base/constants"
-require "#{bluez_dbus_root}/base/defaults.rb"
-require "#{bluez_dbus_root}/base/bluez_base_listener.rb"
+require "#{dbus_root}/base/defaults"
+
+require "#{dbus_root}/base/interface_constants"
+require "#{dbus_root}/base/signal_constants"
+require "#{dbus_root}/base/object_constants"
+
+require "#{dbus_root}/base/object_helpers"
+
+# INTERFACES ----------------------------------------------------
+
+root =  "#{dbus_root}/interfaces"
+
+require "#{root}/base/base_signal"
+require "#{root}/base/base_signal_listener"
+
+require "#{root}/object_manager/object_manager_signals"
+require "#{root}/object_manager/signals/interfaces_added"
+require "#{root}/object_manager/signals/interfaces_removed"
+require "#{root}/object_manager/signals/object_manager_listener"
+require "#{root}/object_manager/object_manager"
+
+require "#{root}/properties/signals/properties_changed"
+require "#{root}/properties/signals/properties_listener"
+require "#{root}/properties/properties_signals"
+require "#{root}/properties/properties"
+
+require "#{root}/adapter/bluez_adapter"
+require "#{root}/agent_manager/bluez_agent_manager"
+
+require "#{root}/device/bluez_device"
+require "#{root}/device/signals/device_properties_changed"
+
+require "#{root}/gatt_manager/bluez_gatt_manager"
+require "#{root}/health_manager/bluez_health_manager"
+require "#{root}/media/bluez_media"
+require "#{root}/media_control/bluez_media_control"
+require "#{root}/network/bluez_network"
+require "#{root}/network_server/bluez_network_server"
+require "#{root}/profile_manager/bluez_profile_manager"
 
 # OBJECTS ----------------------------------------------------------->
 
-# ROOT
-require "#{bluez_dbus_root}/root/signals.rb"
-require "#{bluez_dbus_root}/root/bluez_root_object.rb"
-require "#{bluez_dbus_root}/root/bluez_root_listener.rb"
+root =  "#{dbus_root}/objects"
 
-# CORE
-require "#{bluez_dbus_root}/core/bluez_agent_manager.rb"
-require "#{bluez_dbus_root}/core/bluez_health_manager.rb"
-require "#{bluez_dbus_root}/core/bluez_profile_manager.rb"
-require "#{bluez_dbus_root}/core/bluez_core_object.rb"
+require "#{root}/device/bluez_device_object"
+require "#{root}/device/bluez_device_listener"
 
-# CONTROLLER (ADAPTER)
-require "#{bluez_dbus_root}/controller/bluez_adapter.rb"
-require "#{bluez_dbus_root}/controller/bluez_gatt_manager.rb"
-require "#{bluez_dbus_root}/controller/bluez_media.rb"
-require "#{bluez_dbus_root}/controller/bluez_network_server.rb"
-require "#{bluez_dbus_root}/controller/bluez_controller_object.rb"
-require "#{bluez_dbus_root}/controller/bluez_controller_listener.rb"
+require "#{root}/controller/bluez_controller_object"
+require "#{root}/controller/bluez_controller_listener"
 
-# DEVICE
-require "#{bluez_dbus_root}/device/bluez_device.rb"
-require "#{bluez_dbus_root}/device/bluez_media_control.rb"
-require "#{bluez_dbus_root}/device/bluez_network.rb"
-require "#{bluez_dbus_root}/device/bluez_device_object.rb"
-require "#{bluez_dbus_root}/device/bluez_device_listener.rb"
+require "#{root}/core/bluez_core_object"
+
+require "#{root}/root/bluez_root_object"
+require "#{root}/root/bluez_root_listener"
 
 # PROFILES ----------------------------------------------------
 
 # MEDIA
-require "#{bluez_dbus_root}/media/interfaces/bluez_media_item.rb"
-require "#{bluez_dbus_root}/media/interfaces/bluez_media_folder.rb"
-require "#{bluez_dbus_root}/media/interfaces/bluez_media_player.rb"
-require "#{bluez_dbus_root}/media/interfaces/bluez_media_transport.rb"
+root =  "#{dbus_root}/media"
 
-require "#{bluez_dbus_root}/media/objects/bluez_player_object.rb"
-require "#{bluez_dbus_root}/media/objects/bluez_media_transport_object.rb"
-require "#{bluez_dbus_root}/media/objects/bluez_browser_object.rb"
+require "#{root}/interfaces/bluez_media_item"
+require "#{root}/interfaces/bluez_media_folder"
+require "#{root}/interfaces/bluez_media_player"
+require "#{root}/interfaces/bluez_media_transport"
 
-require "#{bluez_dbus_root}/media/bluez_player_listener.rb"
+require "#{root}/objects/bluez_player_object"
+require "#{root}/objects/bluez_media_transport_object"
+require "#{root}/objects/bluez_browser_object"
+
+require "#{root}/objects/bluez_media_listener"
 
 # SERVICE ------------------------------------------------------------
 
-require "#{bluez_dbus_root}/service/bluez_service.rb"
-require "#{bluez_dbus_root}/service/bluez_service_listener.rb"
+root =  "#{dbus_root}/service"
 
-require "#{bluez_dbus_root}/bluez_dbus.rb"
+require "#{root}/bluez_service"
+require "#{root}/bluez_service_listener"
 
-# require "#{bluez_dbus_root}/config/bluez_base_listener.rb"
-# require "#{bluez_dbus_root}/config/bluez_base_handler.rb"
-# require "#{bluez_dbus_root}/controller/bluez_controller_listener.rb"
-# require "#{bluez_dbus_root}/controller/bluez_adapter_handler.rb"
-# require "#{bluez_dbus_root}/device/bluez_device_listener.rb"
-# require "#{bluez_dbus_root}/device/bluez_device_handler.rb"
-# require "#{bluez_dbus_root}/device/bluez_media_control_handler.rb"
-# require "#{bluez_dbus_root}/media/bluez_media_player_handler.rb"
+# CONTAINER ------------------------------------------------------------
+
+require "#{dbus_root}/bluez_dbus"
