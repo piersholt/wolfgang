@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class BluezManager
-  include BluezInterface
+  include BluezDBusInterface
   include BluezServiceDefaults
   include BluezClientAPI::Debug
   include BluezClientAPI::Device

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module BluezInterface
+module BluezDBusInterface
   def service
     BluezDBus.service
   end
