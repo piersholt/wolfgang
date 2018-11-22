@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 module ObjectManagerListener
-  def interfaces_added(signal)
-    self.proc = 'InterfaceAdded'
-    # self.proc = signal.object
+  def interfaces_added(signal, proc_name = 'InterfaceAdded')
+    self.proc = proc_name
     LOGGER.info(proc) { "#{signal.object_suffixed}" }
     signal.filtered_interfaces.each do |interface, properties|
       LOGGER.info(proc) { "\t#{interface}" }
@@ -11,8 +10,8 @@ module ObjectManagerListener
     end
   end
 
-  def interfaces_removed(signal)
-    self.proc = 'InterfaceRemoved'
+  def interfaces_removed(signal, proc_name = 'InterfaceAdded')
+    self.proc = proc_name
     LOGGER.info(proc) { "#{signal.object_suffixed}" }
     signal.filtered_interfaces.each do |interface|
       LOGGER.info(proc) { "\t#{interface}" }

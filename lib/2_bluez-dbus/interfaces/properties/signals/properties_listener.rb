@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class PropertiesListener < BaseSignalListener
-  def properties_changed(signal)
-    self.proc = 'PropertiesChanged'
+  def properties_changed(signal, proc_name = 'PropertiesChanged')
+    self.proc = proc_name
 
     LOGGER.info(proc) { "#{signal.path_suffixed}" }
     LOGGER.info(proc) { "\t#{signal.target}" }
