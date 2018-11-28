@@ -42,8 +42,6 @@ module BluezMediaPlayer
 
   # PROPERTIES
 
-
-
   def media_player
     self.default_iface = BLUEZ_MEDIA_PLAYER
     @selected_interface = BLUEZ_MEDIA_PLAYER

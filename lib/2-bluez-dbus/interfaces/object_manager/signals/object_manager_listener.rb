@@ -3,6 +3,7 @@
 module ObjectManagerListener
   def interfaces_added(signal, proc_name = 'InterfaceAdded')
     self.proc = proc_name
+    LOGGER.info(proc) { "#{signal.class}" }
     LOGGER.info(proc) { "#{signal.object_suffixed}" }
     signal.filtered_interfaces.each do |interface, properties|
       LOGGER.info(proc) { "\t#{interface}" }

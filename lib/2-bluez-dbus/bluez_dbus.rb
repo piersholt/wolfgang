@@ -21,9 +21,9 @@ class BluezDBus
     @main_loop ||= DBus::Main.new
   end
 
-  def signals
+  def signals(opts)
     service_listener = BluezServiceListener.instance
-    service_listener.new_service(service)
+    service_listener.new_service(service, opts)
   end
 
   def run
@@ -65,7 +65,7 @@ class BluezDBus
     instance.quit
   end
 
-  def self.signals
-    instance.signals
+  def self.signals(opts)
+    instance.signals(opts)
   end
 end

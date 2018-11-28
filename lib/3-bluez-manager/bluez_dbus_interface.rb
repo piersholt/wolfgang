@@ -13,7 +13,7 @@ module BluezDBusInterface
     BluezDBus.quit
   end
 
-  def signals
-    BluezDBus.signals
+  def signals(opts)
+    BluezDBus.signals(opts)
   end
 end

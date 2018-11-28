@@ -2,7 +2,7 @@
 
 require 'dbus'
 
-dbus_decorator_root = '1_dbus-decorator'
+dbus_decorator_root = '1-dbus-decorator'
 
 require "#{dbus_decorator_root}/base/dbus_constants"
 

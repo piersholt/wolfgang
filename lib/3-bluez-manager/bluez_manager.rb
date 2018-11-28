@@ -7,12 +7,8 @@ class BluezManager
   include BluezClientAPI::Device
   include BluezClientAPI::Controller
 
-  def initialize
-    select(DEFAULT_CONTROLLER_INDEX)
-    target(IPHONE_7)
-    signals
-    run
-
-    binding.pry
+  def initialize(selected: DEFAULT_CONTROLLER_INDEX, targeted: IPHONE_7)
+    select(selected)
+    target(targeted)
   end
 end

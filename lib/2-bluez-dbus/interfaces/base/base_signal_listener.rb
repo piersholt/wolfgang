@@ -44,4 +44,10 @@ class BaseSignalListener
   def proc
     @proc || self.class.name[5..-9]
   end
+
+  def time(milliseconds)
+    seconds = milliseconds / 1000
+    elapsed_time = seconds.divmod(60)
+    elapsed_time.join(':')
+  end
 end

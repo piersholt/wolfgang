@@ -19,9 +19,9 @@ LOGGER = get_logger
 LOGGER.debug('bin') { 'Require local dependencies' }
 
 begin
-  require '1_dbus-decorator/dbus-decorator'
-  require '2_bluez-dbus/bluez-dbus'
-  require '3_bluez-manager/bluez-manager'
+  require '1-dbus-decorator/dbus-decorator'
+  require '2-bluez-dbus/bluez-dbus'
+  require '3-bluez-manager/bluez-manager'
   require 'wolfgang'
 rescue LoadError => e
   LOGGER.error('bin') { 'Dependencies load error!' }

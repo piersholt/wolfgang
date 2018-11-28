@@ -6,6 +6,7 @@ module Properties
     # include InterfaceConstants
     include SignalConstants
 
+    # TODO: move logging out
     def properties_changed(listener, method, klass = PropertiesChanged)
       callback =
         proc do |i, c, r|

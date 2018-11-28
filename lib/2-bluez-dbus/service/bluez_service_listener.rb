@@ -11,9 +11,15 @@ class BluezServiceListener
   # [NEW] Device 70:70:0D:11:CF:29 P7
   # [NEW] Device 4C:8D:79:8C:A0:94 P5
   # [NEW] Controller 00:1A:7D:DA:71:13 raspberrypi
-  def new_service(service)
+  def new_service(service,
+                  root: BluezRootListener,
+                  controller: BluezControllerListener,
+                  device: BluezDeviceListener)
     LOGGER.info(PROC) { 'New Service!' }
-    establish_state(service, minimum_state)
+
+    initialize_root(service, root)
+    initialize_controllers(service, controller)
+    initialize_devices(service, device)
   end
 
   # @desc: called on quiting Bluez
@@ -21,31 +27,25 @@ class BluezServiceListener
 
   private
 
-  def establish_state(service)
-    initialize_root(service)
-    initialize_controllers(service)
-    initialize_devices(service)
-  end
-
-  def initialize_root(service)
-    LOGGER.info(PROC) { 'Initialize Root!' }
+  def initialize_root(service, root_klass)
+    LOGGER.warn(PROC) { "Initialize Root! Listener Klass: #{root_klass}" }
     new_root = service.root_object
-    root_listener = BluezRootListener.instance
+    root_listener = root_klass.instance
     root_listener.new_root(new_root)
   end
 
-  def initialize_controllers(service)
-    LOGGER.info(PROC) { 'Initialize Controllers!' }
-    controller_listener = BluezControllerListener.instance
+  def initialize_controllers(service, controller_klass)
+    LOGGER.warn(PROC) { "Initialize Controllers! Listener Klass: #{controller_klass}" }
+    controller_listener = controller_klass.instance
     service.controller_objects.each do |controller_path|
       new_controller = service.controller(controller_path)
       controller_listener.new_controller(new_controller)
     end
   end
 
-  def initialize_devices(service)
-    LOGGER.info(PROC) { 'Initialize Devices!' }
-    device_listener = BluezDeviceListener.instance
+  def initialize_devices(service, device_klass)
+    LOGGER.warn(PROC) { "Initialize Devices! Listener Klass: #{device_klass}" }
+    device_listener = device_klass.instance
     service.device_objects.each do |device_path|
       new_device = service.device(device_path)
       device_listener.new_device(new_device)
