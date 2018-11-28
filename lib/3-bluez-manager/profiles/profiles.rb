@@ -2,8 +2,8 @@
 
 module Profiles; end
 
-require '3_bluez-manager/profiles/a2dp'
-require '3_bluez-manager/profiles/avrcp'
-require '3_bluez-manager/profiles/other'
+require '3-bluez-manager/profiles/a2dp'
+require '3-bluez-manager/profiles/avrcp'
+require '3-bluez-manager/profiles/other'
 
-require '3_bluez-manager/profiles/uuids'
+require '3-bluez-manager/profiles/uuids'

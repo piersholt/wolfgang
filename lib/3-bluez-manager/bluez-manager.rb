@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-bluez_manager_root = '3_bluez-manager'
+bluez_manager_root = '3-bluez-manager'
 
 require "#{bluez_manager_root}/profiles/profiles"
 require "#{bluez_manager_root}/api/bluez_client_api"

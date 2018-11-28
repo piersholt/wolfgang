@@ -2,10 +2,10 @@
 
 module BluezClientAPI; end
 
-require '3_bluez-manager/api/debug'
-require '3_bluez-manager/api/service'
-require '3_bluez-manager/api/controller'
-require '3_bluez-manager/api/device'
+require '3-bluez-manager/api/debug'
+require '3-bluez-manager/api/service'
+require '3-bluez-manager/api/controller'
+require '3-bluez-manager/api/device'
 
 module BluezClientAPI
   extend Controller
