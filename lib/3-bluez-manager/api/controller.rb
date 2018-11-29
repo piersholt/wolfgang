@@ -27,7 +27,7 @@ module BluezClientAPI::Controller
   end
 
   def selected_controller
-    raise NameError('No default controller!') unless @selected_controller
+    raise(NameError, 'No default controller!') unless @selected_controller
     @selected_controller
   end
 end

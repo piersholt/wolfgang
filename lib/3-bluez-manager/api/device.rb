@@ -24,7 +24,7 @@ module BluezClientAPI::Device
   end
 
   def selected_device
-    raise NameError('No connected device!') unless @selected_device
+    raise(NameError, 'No connected device!') unless @selected_device
     @selected_device
   end
 end

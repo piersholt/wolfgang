@@ -16,7 +16,7 @@ module ObjectManager
     # SIGNALS
 
     def listen(signal, listener, options = {})
-      raise NameError('signal does not exists!') unless
+      raise(NameError, 'signal does not exists!') unless
         OBJECT_MANAGER_SIGNALS.key?(signal)
       send(signal, listener, **options)
     end

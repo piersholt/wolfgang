@@ -16,7 +16,7 @@ class ObjectAdapter < DBus::ProxyObject
   end
 
   def selected_interface
-    raise NameError('interface has not been selected!') unless @selected_interface
+    raise(NameError, 'interface has not been selected!') unless @selected_interface
     @selected_interface
   end
 end
