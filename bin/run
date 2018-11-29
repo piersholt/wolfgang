@@ -28,13 +28,13 @@ rescue LoadError => e
   LOGGER.error('bin') { e }
   e.backtrace.each { |line| LOGGER.error('bin') { line } }
   LOGGER.error('bin') { lib_path }
-  binding.pry
+  quit
 rescue StandardError => e
   LOGGER.error('bin') { 'Dependencies standard error?' }
   LOGGER.error('bin') { e }
   e.backtrace.each { |line| LOGGER.error('bin') { line } }
   LOGGER.error('bin') { lib_path }
-  binding.pry
+  quit
 end
 
 begin
