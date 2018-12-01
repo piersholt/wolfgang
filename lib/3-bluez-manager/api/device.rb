@@ -23,6 +23,16 @@ module BluezClientAPI::Device
     @selected_device = device_address
   end
 
+  def connect(device_address = selected_device)
+    device_object = service.device(device_address)
+    device_object.connect
+  end
+
+  def disconnect(device_address = selected_device)
+    device_object = service.device(device_address)
+    device_object.disconnect
+  end
+
   def selected_device
     raise(NameError, 'No connected device!') unless @selected_device
     @selected_device
