@@ -1,10 +1,37 @@
 module BluezDevice
   include InterfaceConstants
 
+  # METHODS
+
+  def connect
+    device_interface.Connect do |resp|
+      LOGGER.info('Callback') { "result: #{resp}" }
+    end
+  end
+
+  def disconnect
+    device_interface.Disconnect do |resp|
+      LOGGER.info('Callback') { "result: #{resp}" }
+    end
+  end
+
+  # @argument: uuid String
+  def connect_profile(uuid); end
+
+  def disconnect_profile(uuid); end
+
+  def pair; end
+
+  def cancel_pairing; end
+
   # Properties
 
   def connected?
     device_property('Connected')
+  end
+
+  def paired?
+    device_property('Paired')
   end
 
   def name
@@ -46,6 +73,10 @@ module BluezDevice
   end
 
   private
+
+  def device_interface
+    interface(BLUEZ_DEVICE)
+  end
 
   def device_property(property)
     property_get(BLUEZ_DEVICE, property)
