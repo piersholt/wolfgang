@@ -25,32 +25,32 @@ class MediaPlayerInterfaceHandler
   private
 
   def track_change(signal)
-    LOGGER.unknown('Media Not. (Track)') { "#{signal.title} by #{signal.artist}" }
-    n = Notification.new(:track_change, delta: signal.changed)
+    LOGGER.unknown('MediaPlayer Handler') { "#{signal.title} by #{signal.artist}" }
+    n = Notification.new(:media, :track_change, delta: signal.changed)
     mq.push(n)
   end
 
   def position(signal)
-    LOGGER.unknown('Media Not. (Time)') { time(signal.position) }
-    n = Notification.new(:position)
+    LOGGER.unknown('MediaPlayer Handler') { time(signal.position) }
+    n = Notification.new(:media, :position, delta: signal.changed)
     mq.push(n)
   end
 
   def status(signal)
-    LOGGER.unknown('Media Not. (Playback)') { signal.status }
-    n = Notification.new(:status)
+    LOGGER.unknown('MediaPlayer Handler') { signal.status }
+    n = Notification.new(:media, :status, delta: signal.changed)
     mq.push(n)
   end
 
   def repeat(signal)
-    LOGGER.unknown('Media Not. (Repeat)') { signal.repeat }
-    n = Notification.new(:repeat)
+    LOGGER.unknown('MediaPlayer Handler') { signal.repeat }
+    n = Notification.new(:media, :repeat, delta: signal.changed)
     mq.push(n)
   end
 
   def shuffle(signal)
-    LOGGER.unknown('Media Not. (Shuffle)') { signal.shuffle }
-    n = Notification.new(:shuffle)
+    LOGGER.unknown('MediaPlayer Handler') { signal.shuffle }
+    n = Notification.new(:media, :shuffle, delta: signal.changed)
     mq.push(n)
   end
 

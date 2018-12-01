@@ -19,14 +19,14 @@ class DeviceInterfaceHandler
   private
 
   def device_connected
-    LOGGER.unknown('Device Notification') { 'Device connected!' }
-    n = Notification.new(:device_connected)
+    LOGGER.unknown('Device Handler') { 'Device connected!' }
+    n = Notification.new(:device, :device_connected)
     mq.push(n)
   end
 
   def device_disconnected
-    LOGGER.unknown('Device Notification') { 'Device disconnected!' }
-    n = Notification.new(:device_disconnected)
+    LOGGER.unknown('Device Handler') { 'Device disconnected!' }
+    n = Notification.new(:device, :device_disconnected)
     mq.push(n)
   end
 

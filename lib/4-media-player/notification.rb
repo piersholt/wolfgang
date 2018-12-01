@@ -2,10 +2,11 @@
 
 # Comment
 class Notification
-  attr_reader :type, :options
+  attr_reader :type, :name, :options
 
-  def initialize(type, options = {})
+  def initialize(type, name, options = {})
     @type = type
+    @name = name
     @options = options
   end
 

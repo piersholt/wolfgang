@@ -19,14 +19,14 @@ class MediaControlInterfaceHandler
   private
 
   def player_available(signal)
-    LOGGER.unknown('Media Notification') { 'Player available!' }
-    n = Notification.new(:player_added, path: signal.player)
+    LOGGER.unknown('MediaControl Handler') { 'Player available!' }
+    n = Notification.new(:media, :player_added, path: signal.player)
     mq.push(n)
   end
 
   def player_removed(signal)
-    LOGGER.unknown('Media Notification') { 'Player no longer available!' }
-    n = Notification.new(:player_removed)
+    LOGGER.unknown('MediaControl Handler') { 'Player no longer available!' }
+    n = Notification.new(:media, :player_removed)
     mq.push(n)
   end
 

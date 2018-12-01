@@ -14,6 +14,7 @@ end
 # Comment
 class NotificationListener
   include Singleton
+  include ChainDelegator
   include LazyLogger
 
   attr_accessor :handler
@@ -26,8 +27,8 @@ class NotificationListener
         loop do
           LOGGER.debug('Notification') { "#{i}. Wait" }
           notification = mq.pop
-          LOGGER.fatal('Notification') { "#{i}. #{notification}" }
-          handler.oi(notification)
+          LOGGER.debug('Notification') { "#{i}. #{notification}" }
+          shirk(notification)
           i += 1
         end
         LOGGER.warn('Notification') { 'Thread end!' }
