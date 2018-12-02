@@ -33,12 +33,16 @@ module BluezMediaControl
     media_control_property('Player')
   end
 
-  private
-
   def media_control
     self.default_iface = BLUEZ_MEDIA_CONTROL
     @selected_interface = BLUEZ_MEDIA_CONTROL
     self
+  end
+
+  private
+
+  def media_control_interface
+    interface(BLUEZ_MEDIA_CONTROL)
   end
 
   def media_control_property(property)
