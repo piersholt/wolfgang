@@ -1,23 +1,33 @@
+# frozen_string_literal: true
+
+# Comment
 module BluezDevice
   include InterfaceConstants
+
+  # Interface specific callback
+  # def connect_called(listener, method)
+  #   callback = on_call_block(listener, method)
+  #   device.on_call(:connect, callback)
+  # end
 
   # METHODS
 
   def connect
-    device_interface.Connect do |resp|
-      LOGGER.info('Callback') { "result: #{resp}" }
-    end
+    call_callback = fetch_callback(:connect)
+    call_callback.call(BLUEZ_DEVICE, :connect)
+    device_interface.Connect(&default_callback)
   end
 
   def disconnect
-    device_interface.Disconnect do |resp|
-      LOGGER.info('Callback') { "result: #{resp}" }
-    end
+    call_callback = fetch_callback(:disconnect)
+    call_callback.call(BLUEZ_DEVICE, :disconnect)
+    device_interface.Disconnect(&default_callback)
   end
 
   # @argument: uuid String
   def connect_profile(uuid); end
 
+  # @argument: uuid String
   def disconnect_profile(uuid); end
 
   def pair; end

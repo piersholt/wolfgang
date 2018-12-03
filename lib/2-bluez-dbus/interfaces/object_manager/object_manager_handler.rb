@@ -2,26 +2,14 @@
 
 module ObjectManangerHandler
   include InterfaceConstants
-  include ChainOfResponsibility
+  # include SignalDelegate
 
-  attr_accessor :proc
-
-  def handle(signal)
-    if responsible?(signal)
-      take_responsibility(signal)
-    else
-      forward(signal)
-    end
-  end
+  # attr_accessor :proc
 
   private
 
-  def responsibilities
-    raise(NaughtyHandler, self.class.name)
-  end
-
-  def responsible?(signal)
-    responsibilities.any? do |interface|
+  def manages?(signal)
+    responsibility.any? do |interface|
       signal.added_interfaces.include?(interface)
     end
   end

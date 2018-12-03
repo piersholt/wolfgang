@@ -2,25 +2,13 @@
 
 module PropertiesHandler
   include InterfaceConstants
-  include ChainOfResponsibility
+  include SignalDelegate
 
   attr_accessor :proc
 
-  def handle(signal)
-    if responsible?(signal)
-      take_responsibility(signal)
-    else
-      forward(signal)
-    end
-  end
-
   private
 
-  def responsibility
-    raise(NaughtyHandler, self.class.name)
-  end
-
-  def responsible?(signal)
-    signal.this_interface?(responsibility)
+  def relates_to?(object)
+    object.this_interface?(responsibility)
   end
 end

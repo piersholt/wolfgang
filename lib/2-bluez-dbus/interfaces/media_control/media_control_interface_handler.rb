@@ -2,13 +2,11 @@
 
 class MediaControlInterfaceHandler
   include Singleton
-  include PropertiesHandler
+  include SignalDelegate
 
   attr_accessor :mq
 
-  ASSOCIATED_INTERFACE = BLUEZ_MEDIA_CONTROL
-
-  def take_responsibility(signal)
+  def properties_changed(signal)
     if signal.connected? && signal.player?
       player_available(signal)
     elsif signal.disconnected? && signal.no_player?
@@ -19,18 +17,18 @@ class MediaControlInterfaceHandler
   private
 
   def player_available(signal)
-    LOGGER.unknown('MediaControl Handler') { 'Player available!' }
+    LOGGER.unknown(self.class) { 'Player available!' }
     n = Notification.new(:media, :player_added, path: signal.player)
     mq.push(n)
   end
 
   def player_removed(signal)
-    LOGGER.unknown('MediaControl Handler') { 'Player no longer available!' }
+    LOGGER.unknown(self.class) { 'Player no longer available!' }
     n = Notification.new(:media, :player_removed)
     mq.push(n)
   end
 
   def responsibility
-    ASSOCIATED_INTERFACE
+    BLUEZ_MEDIA_CONTROL
   end
 end

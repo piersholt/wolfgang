@@ -2,12 +2,12 @@
 
 class BluezRootListener < BaseSignalListener
   include Singleton
-  include ChainDelegator
+  include SignalDelegator
 
   # @override ObjectManagerListener
   def interfaces_added(signal)
     super(signal, 'Root#InterfacesAdded')
-    shirk(signal)
+    delegate(:interfaces_added, signal)
   rescue IfYouWantSomethingDone
     LOGGER.warn(proc) { 'Chain did not handle!' }
   end

@@ -2,12 +2,19 @@
 
 class BluezDeviceListener < BaseSignalListener
   include Singleton
-  include ChainDelegator
+  include SignalDelegator
+
+  def interface_called(event)
+    # LOGGER.unknown(BluezDeviceListener) { "#{method_name} called!" }
+    delegate(:interface_called, event)
+  rescue IfYouWantSomethingDone
+    LOGGER.warn(proc) { 'Chain did not handle!' }
+  end
 
   # @override PropertiesListener
   def properties_changed(signal)
     super(signal, 'Device#PropertiesChanged')
-    shirk(signal)
+    delegate(:properties_changed, signal)
   rescue IfYouWantSomethingDone
     LOGGER.warn(proc) { 'Chain did not handle!' }
   end
@@ -18,6 +25,12 @@ class BluezDeviceListener < BaseSignalListener
             BluezDeviceListener.instance,
             :properties_changed,
             DevicePropertiesChanged
+          )
+
+    device.device
+          .interface_called(
+            BluezDeviceListener.instance,
+            :interface_called
           )
   end
 end

@@ -3,7 +3,7 @@
 # Comment
 module NotificationHandler
   include InterfaceConstants
-  include ChainOfResponsibility
+  include NotificationDelegate
 
   attr_accessor :proc
 

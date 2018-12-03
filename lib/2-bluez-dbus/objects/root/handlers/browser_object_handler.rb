@@ -3,11 +3,9 @@
 # Handle ObjectMananger signals related to Browser objects
 class BrowserObjectHandler
   include Singleton
-  include ObjectManangerHandler
+  include SignalDelegate
 
-  ASSOCIATED_INTERFACES = [BLUEZ_MEDIA_ITEM].freeze
-
-  def take_responsibility(signal)
+  def interfaces_added(signal)
     LOGGER.unknown(self.class) { "New media item! #{signal.object_suffixed}" }
     browser_object = BluezDBus.service.browser(signal.object_path)
     new_browser(browser_object)
@@ -15,13 +13,16 @@ class BrowserObjectHandler
 
   private
 
-  def responsibilities
-    ASSOCIATED_INTERFACES
+  def responsibility
+    [BLUEZ_MEDIA_ITEM].freeze
   end
 
   def new_browser(browser)
     LOGGER.debug(self.class) { 'Media borwser signal setup...' }
     browser.properties
-         .properties_changed(BluezPlayerListener.instance, :properties_changed)
+           .properties_changed(
+             BluezPlayerListener.instance,
+             :properties_changed
+           )
   end
 end

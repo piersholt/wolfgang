@@ -2,13 +2,11 @@
 
 class MediaPlayerInterfaceHandler
   include Singleton
-  include PropertiesHandler
+  include SignalDelegate
 
   attr_accessor :mq
 
-  ASSOCIATED_INTERFACE = BLUEZ_MEDIA_PLAYER
-
-  def take_responsibility(signal)
+  def properties_changed(signal)
     if signal.only_track?
       track_change(signal)
     elsif signal.only_position?
@@ -25,37 +23,37 @@ class MediaPlayerInterfaceHandler
   private
 
   def track_change(signal)
-    LOGGER.unknown('MediaPlayer Handler') { "#{signal.title} by #{signal.artist}" }
+    LOGGER.unknown(self.class) { "#{signal.title} by #{signal.artist}" }
     n = Notification.new(:media, :track_change, delta: signal.changed)
     mq.push(n)
   end
 
   def position(signal)
-    LOGGER.unknown('MediaPlayer Handler') { time(signal.position) }
+    LOGGER.unknown(self.class) { time(signal.position) }
     n = Notification.new(:media, :position, delta: signal.changed)
     mq.push(n)
   end
 
   def status(signal)
-    LOGGER.unknown('MediaPlayer Handler') { signal.status }
+    LOGGER.unknown(self.class) { signal.status }
     n = Notification.new(:media, :status, delta: signal.changed)
     mq.push(n)
   end
 
   def repeat(signal)
-    LOGGER.unknown('MediaPlayer Handler') { signal.repeat }
+    LOGGER.unknown(self.class) { signal.repeat }
     n = Notification.new(:media, :repeat, delta: signal.changed)
     mq.push(n)
   end
 
   def shuffle(signal)
-    LOGGER.unknown('MediaPlayer Handler') { signal.shuffle }
+    LOGGER.unknown(self.class) { signal.shuffle }
     n = Notification.new(:media, :shuffle, delta: signal.changed)
     mq.push(n)
   end
 
   def responsibility
-    ASSOCIATED_INTERFACE
+    BLUEZ_MEDIA_PLAYER
   end
 
   def time(milliseconds)

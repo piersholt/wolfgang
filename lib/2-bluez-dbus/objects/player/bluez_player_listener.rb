@@ -2,12 +2,12 @@
 
 class BluezPlayerListener < BaseSignalListener
   include Singleton
-  include ChainDelegator
+  include SignalDelegator
 
   # @override PropertiesListener
   def properties_changed(signal)
     super(signal, 'Player#PropertiesChanged')
-    shirk(signal)
+    delegate_signal(signal)
   rescue IfYouWantSomethingDone
     LOGGER.warn(proc) { 'Chain did not handle!' }
   end

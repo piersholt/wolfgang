@@ -1,3 +1,20 @@
+# frozen_string_literal: true
+
+# Comment
+class InterfaceCalled
+  attr_reader :interface, :method
+
+  def initialize(interface_name, method_name)
+    @interface = interface_name
+    @method = method_name
+  end
+
+  def this_interface?(that_interface)
+    interface == that_interface
+  end
+end
+
+# Comment
 class BaseSignal
   include ObjectConstants
   include ObjectHelpers
