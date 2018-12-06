@@ -10,8 +10,7 @@ require "#{dbus_root}/base/object_constants"
 require "#{dbus_root}/base/object_helpers"
 
 require "#{dbus_root}/base/chain_errors"
-require "#{dbus_root}/base/signal_delegate"
-require "#{dbus_root}/base/signal_delegator"
+require "#{dbus_root}/base/delegation/delegation"
 
 # INTERFACES ----------------------------------------------------
 

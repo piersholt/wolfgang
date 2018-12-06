@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
-# TODO: rename Nepotistic!
 module SignalDelegate
   include InterfaceConstants
+  include SignalDelegateValidation
   attr_accessor :successor
-  # alias handle delegate_signal
 
   def handle(method, object)
     if responsible?(method, object)
@@ -15,7 +14,7 @@ module SignalDelegate
   end
 
   def forward(method, object)
-    raise(IfYouWantSomethingDone) unless successor
+    raise(IfYouWantSomethingDone, "No one to handle: #{signal}") unless successor
     successor.handle(method, object)
   end
 
@@ -42,26 +41,5 @@ module SignalDelegate
 
   def relates_to?(signal)
     signal.this_interface?(responsibility)
-  end
-
-  # VALIDATION
-  def properties_changed(_ = nil)
-    raise(NaughtyHandler, self.class.name)
-  end
-
-  def interface_called(_ = nil)
-    raise(NaughtyHandler, self.class.name)
-  end
-
-  def interfaces_added(_ = nil)
-    raise(NaughtyHandler, self.class.name)
-  end
-
-  def interfaces_removed(_ = nil)
-    raise(NaughtyHandler, self.class.name)
-  end
-
-  def responsibility
-    raise(NaughtyHandler, self.class.name)
   end
 end
