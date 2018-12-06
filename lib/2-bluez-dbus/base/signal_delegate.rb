@@ -65,31 +65,3 @@ module SignalDelegate
     raise(NaughtyHandler, self.class.name)
   end
 end
-
-# Comment
-module NotificationDelegate
-  attr_accessor :successor
-  # alias handle delegate_signal
-
-  def handle(notification)
-    if responsible?(notification)
-      take_responsibility(notification)
-    else
-      forward(notification)
-    end
-  end
-
-  def forward(signal)
-    raise(IfYouWantSomethingDone) unless successor
-    successor.handle(signal)
-  end
-
-  # VALIDATION
-  def take_responsibility(signal = nil)
-    raise(NaughtyHandler, self.class.name)
-  end
-
-  def responsibility
-    raise(NaughtyHandler, self.class.name)
-  end
-end
