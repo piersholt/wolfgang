@@ -1,16 +1,15 @@
 # frozen_string_literal: true
 
-# For clients of chains of responsibility
-# Add API for adding chain, and target send to own chain
-module SignalDelegator
+# Comment
+module NotificationDelegator
   attr_reader :primary_delegate
 
-  def delegate(method, object)
+  def delegate(object)
     raise(FuckingAnarchy, 'no head of state!') unless primary_delegate
-    primary_delegate.handle(method, object)
+    primary_delegate.handle(object)
   end
 
-  HANDLERS = [:properties_changed, :interfaces_added].freeze
+  HANDLERS = [:handle].freeze
 
   # add head of estabished chain (instances with successors set)
   def declare_primary_delegate(the_queen)
