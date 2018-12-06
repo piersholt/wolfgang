@@ -9,6 +9,8 @@ if ENV['BUNDLE_GEMFILE']
   root_path = File.dirname(ENV['BUNDLE_GEMFILE'])
   lib_path = root_path + '/lib'
   $LOAD_PATH.unshift(lib_path)
+  ext_path = root_path + '/ext'
+  $LOAD_PATH.unshift(ext_path)
 end
 
 require 'cheap_logger'
@@ -22,6 +24,7 @@ begin
   require '1-dbus-decorator/dbus-decorator'
   require '2-bluez-dbus/bluez-dbus'
   require '3-bluez-manager/bluez-manager'
+  require 'messaging/messaging'
   require 'wolfgang'
 rescue LoadError => e
   LOGGER.error('bin') { 'Dependencies load error!' }
