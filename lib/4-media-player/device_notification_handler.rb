@@ -24,18 +24,22 @@ class DeviceNotificationHandler
 
   def device_connected(notification)
     LOGGER.unknown(self.class) { notification.inspect }
+    publish(notification)
   end
 
   def device_disconnected(notification)
     LOGGER.unknown(self.class) { notification.inspect }
+    publish(notification)
   end
 
   def device_connecting(notification)
     LOGGER.unknown(self.class) { notification.inspect }
+    publish(notification)
   end
 
   def device_disconnecting(notification)
     LOGGER.unknown(self.class) { notification.inspect }
+    publish(notification)
   end
 
   def responsibility

@@ -30,36 +30,43 @@ class MediaNotificationHandler
 
   def player_added(notification)
     LOGGER.fatal(self.class) { notification.inspect }
+    publish(notification)
     Player.add(notification.properties[:path])
   end
 
   def player_removed(notification)
     LOGGER.fatal(self.class) { notification.inspect }
+    publish(notification)
     Player.remove
   end
 
   def track_change(notification)
     LOGGER.fatal(self.class) { notification.inspect }
+    publish(notification)
     Player.update(notification.properties)
   end
 
   def position(notification)
     LOGGER.fatal(self.class) { notification.inspect }
+    publish(notification)
     Player.update(notification.properties)
   end
 
   def status(notification)
     LOGGER.fatal(self.class) { notification.inspect }
+    publish(notification)
     Player.update(notification.properties)
   end
 
   def repeat(notification)
     LOGGER.fatal(self.class) { notification.inspect }
+    publish(notification)
     Player.update(notification.properties)
   end
 
   def shuffle(notification)
     LOGGER.fatal(self.class) { notification.inspect }
+    publish(notification)
     Player.update(notification.properties)
   end
 

@@ -9,6 +9,11 @@ module NotificationHandler
 
   private
 
+  # VALIDATION
+  def publish(notification)
+    Publisher.send(notification.topic, notification.to_yaml)
+  end
+
   def responsibility
     raise(NaughtyHandler, self.class.name)
   end
