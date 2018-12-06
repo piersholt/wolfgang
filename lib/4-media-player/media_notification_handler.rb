@@ -30,7 +30,7 @@ class MediaNotificationHandler
 
   def player_added(notification)
     LOGGER.fatal(self.class) { notification.inspect }
-    Player.add(notification.options[:path])
+    Player.add(notification.properties[:path])
   end
 
   def player_removed(notification)
@@ -40,27 +40,27 @@ class MediaNotificationHandler
 
   def track_change(notification)
     LOGGER.fatal(self.class) { notification.inspect }
-    Player.update(notification.options[:delta])
+    Player.update(notification.properties)
   end
 
   def position(notification)
     LOGGER.fatal(self.class) { notification.inspect }
-    Player.update(notification.options[:delta])
+    Player.update(notification.properties)
   end
 
   def status(notification)
     LOGGER.fatal(self.class) { notification.inspect }
-    Player.update(notification.options[:delta])
+    Player.update(notification.properties)
   end
 
   def repeat(notification)
     LOGGER.fatal(self.class) { notification.inspect }
-    Player.update(notification.options[:delta])
+    Player.update(notification.properties)
   end
 
   def shuffle(notification)
     LOGGER.fatal(self.class) { notification.inspect }
-    Player.update(notification.options[:delta])
+    Player.update(notification.properties)
   end
 
   def responsibility
