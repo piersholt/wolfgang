@@ -9,6 +9,7 @@ class DevicePropertiesChanged < PropertiesChanged
 
   # PROPERTIES
 
+  # Media1 and MediaControl1
   def connected?
     is?('Connected', true)
   end
@@ -17,6 +18,7 @@ class DevicePropertiesChanged < PropertiesChanged
     is?('Connected', false)
   end
 
+  # MediaControl1
   def player?
     has?('Player')
   end
@@ -24,8 +26,6 @@ class DevicePropertiesChanged < PropertiesChanged
   def no_player?
     removed?('Player') && !has?('Player')
   end
-
-  # PROPERTIES
 
   def player
     fetch('Player')
