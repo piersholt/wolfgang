@@ -48,6 +48,10 @@ class MessagingQueue
     @context ||= MessagingContext.context
   end
 
+  def socket?
+    @socket ? true : false
+  end
+
   def socket
     @socket ||= open_socket
   end

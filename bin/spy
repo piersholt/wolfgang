@@ -22,9 +22,7 @@ end
 
 LOGGER.info('bin') { 'Done!' }
 
-
 require 'pry-byebug'
-
 
 LOGGER.info('bin') { 'Require local dependencies' }
 
@@ -51,7 +49,7 @@ LOGGER.info('bin') { 'Start setting up Subscriber...' }
 begin
   LOGGER.info('bin') { 'Configuring subscriber' }
   # Subscriber.pi
-  # Subscriber.wally
+  # Subscriber.local
 
   LOGGER.info('bin') { 'Topic subs..' }
   # Subscriber.subscribe('')

@@ -25,10 +25,12 @@ class Subscriber < MessagingQueue
   end
 
   def self.pi
+    close if socket?
     instance.address = '192.168.1.105'
   end
 
   def self.local
+    close if socket?
     instance.address = 'localhost'
   end
 
