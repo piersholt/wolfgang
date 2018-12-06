@@ -1,0 +1,79 @@
+#!/usr/bin/env ruby
+
+# frozen_string_literal: true
+
+require 'rubygems'
+require 'bundler/setup'
+
+root_path = File.dirname(ENV['BUNDLE_GEMFILE'])
+
+require "#{root_path}/ext/cheap_logger"
+
+LOGGER = get_logger
+
+LOGGER.info('bin') { 'Setup load paths...' }
+
+if ENV['BUNDLE_GEMFILE']
+  load_paths = %w[/lib /ext]
+  load_paths.each do |load_path|
+    $LOAD_PATH.unshift(root_path + load_path)
+  end
+end
+
+LOGGER.info('bin') { 'Done!' }
+
+
+require 'pry-byebug'
+
+
+LOGGER.info('bin') { 'Require local dependencies' }
+
+begin
+  require 'messaging/messaging'
+rescue LoadError => e
+  LOGGER.error('bin') { 'Dependencies load error!' }
+  LOGGER.error('bin') { e }
+  e.backtrace.each { |line| LOGGER.error('bin') { line } }
+  LOGGER.error('bin') { lib_path }
+  exit
+rescue StandardError => e
+  LOGGER.error('bin') { 'Dependencies standard error?' }
+  LOGGER.error('bin') { e }
+  e.backtrace.each { |line| LOGGER.error('bin') { line } }
+  LOGGER.error('bin') { lib_path }
+  exit
+end
+
+LOGGER.info('bin') { 'Done!' }
+
+LOGGER.info('bin') { 'Start setting up Subscriber...' }
+
+begin
+  LOGGER.info('bin') { 'Configuring subscriber' }
+  # Subscriber.pi
+  # Subscriber.wally
+
+  LOGGER.info('bin') { 'Topic subs..' }
+  # Subscriber.subscribe('')
+  # Subscriber.subscribe(:device)
+  # Subscriber.subscribe(:media)
+
+  LOGGER.info('bin') { 'Done!' }
+
+  LOGGER.info('bin') { 'Start' }
+  loop do
+    Subscriber.recv
+  end
+rescue StandardError => e
+  LOGGER.error('bin') { 'Dependencies standard error?' }
+  LOGGER.error('bin') { e }
+  e.backtrace.each { |line| LOGGER.error('bin') { line } }
+  LOGGER.error('bin') { lib_path }
+rescue SignalException
+  Signal.trap(0, proc { puts "Terminating: #{$$}" })
+  return 1
+end
+
+LOGGER.info('bin') { 'Goodbyte!' }
+
+exit
