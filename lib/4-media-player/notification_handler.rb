@@ -7,14 +7,6 @@ module NotificationHandler
 
   attr_accessor :proc
 
-  def handle(notification)
-    if responsible?(notification)
-      take_responsibility(notification)
-    else
-      forward(notification)
-    end
-  end
-
   private
 
   def responsibility
