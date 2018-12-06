@@ -2,6 +2,7 @@
 
 require 'observer'
 
+# Comment
 module Properties
   include InterfaceConstants
   include Properties::Signals
