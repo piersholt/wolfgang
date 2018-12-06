@@ -51,6 +51,10 @@ class PlayerPropertiesChanged < PropertiesChanged
     fetch('Track')['Title']
   end
 
+  def title?
+    fetch('Track')['Title'] ? true : false
+  end
+
   def artist
     fetch('Track')['Artist']
   end

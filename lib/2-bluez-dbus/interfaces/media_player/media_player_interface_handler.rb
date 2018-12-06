@@ -9,7 +9,9 @@ class MediaPlayerInterfaceHandler
 
   # @override SignalDelegate
   def properties_changed(signal)
-    if signal.only_track?
+    if signal.only_track? && signal.title?
+      track_change(signal)
+    elsif signal.only_track?
       track_change(signal)
     elsif signal.only_position?
       position(signal)
@@ -27,6 +29,12 @@ class MediaPlayerInterfaceHandler
   def track_change(signal)
     LOGGER.unknown(self.class) { "#{signal.title} by #{signal.artist}" }
     n = Messaging::Notification.new(topic: :media, name: :track_change, properties: signal.changed)
+    mq.push(n)
+  end
+
+  def track_update(signal)
+    LOGGER.unknown(self.class) { "#{signal.title} by #{signal.artist}" }
+    n = Messaging::Notification.new(topic: :media, name: :track_update, properties: signal.changed)
     mq.push(n)
   end
 
