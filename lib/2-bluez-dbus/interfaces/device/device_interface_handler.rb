@@ -35,26 +35,26 @@ class DeviceInterfaceHandler
   private
 
   def device_connecting
-    LOGGER.unknown(self.class) { 'Device connecting...' }
-    n = Notification.new(:device, :device_connecting)
+    LOGGER.unknown(self.class) { '#connect: Device connecting...' }
+    n = Messaging::Notification.new(topic: :device, name: :device_connecting)
     mq.push(n)
   end
 
   def device_disconnecting
-    LOGGER.unknown(self.class) { 'Device disconnecting...' }
-    n = Notification.new(:device, :device_disconnecting)
+    LOGGER.unknown(self.class) { '#disconnect: Device disconnecting...' }
+    n = Messaging::Notification.new(topic: :device, name: :device_disconnecting)
     mq.push(n)
   end
 
   def device_connected
     LOGGER.unknown(self.class) { 'Device connected!' }
-    n = Notification.new(:device, :device_connected)
+    n = Messaging::Notification.new(topic: :device, name: :device_connected)
     mq.push(n)
   end
 
   def device_disconnected
     LOGGER.unknown(self.class) { 'Device disconnected!' }
-    n = Notification.new(:device, :device_disconnected)
+    n = Messaging::Notification.new(topic: :device, name: :device_disconnected)
     mq.push(n)
   end
 end

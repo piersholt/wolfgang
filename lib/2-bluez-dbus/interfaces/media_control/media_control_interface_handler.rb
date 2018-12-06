@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
+# Comment
 class MediaControlInterfaceHandler
   include Singleton
   include SignalDelegate
 
   attr_accessor :mq
 
+  # @override SignalDelegate
   def properties_changed(signal)
     if signal.connected? && signal.player?
       player_available(signal)
@@ -18,13 +20,13 @@ class MediaControlInterfaceHandler
 
   def player_available(signal)
     LOGGER.unknown(self.class) { 'Player available!' }
-    n = Notification.new(:media, :player_added, path: signal.player)
+    n = Messaging::Notification.new(topic: :media, name: :player_added, properties: { path: signal.player })
     mq.push(n)
   end
 
   def player_removed(signal)
     LOGGER.unknown(self.class) { 'Player no longer available!' }
-    n = Notification.new(:media, :player_removed)
+    n = Messaging::Notification.new(topic: :media, name: :player_removed)
     mq.push(n)
   end
 
