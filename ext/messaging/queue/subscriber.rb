@@ -10,7 +10,7 @@ class Subscriber < MessagingQueue
     role: :SUB,
     protocol: 'tcp',
     address: 'localhost',
-    port: '5557'
+    port: '5556'
   }.freeze
 
   def self.recv
@@ -25,8 +25,11 @@ class Subscriber < MessagingQueue
   end
 
   def self.pi
-    instance.port = '5556'
     instance.address = '192.168.1.105'
+  end
+
+  def self.local
+    instance.address = 'localhost'
   end
 
   # @override
