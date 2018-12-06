@@ -24,11 +24,13 @@ module BluezClientAPI::Device
   end
 
   def connect(device_address = selected_device)
+    LOGGER.info(self.class) { "Device: #{device_address}" }
     device_object = service.device(device_address)
     device_object.connect
   end
 
   def disconnect(device_address = selected_device)
+    LOGGER.info(self.class) { "Device: #{device_address}" }
     device_object = service.device(device_address)
     device_object.disconnect
   end
