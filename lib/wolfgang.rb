@@ -1,6 +1,7 @@
 class WolfgangApplication
   def run
-    BluezManager.new
+    @media_player = MediaPlayer.new
+    @media_player.start
   end
 end
 

@@ -24,6 +24,7 @@ begin
   require '1-dbus-decorator/dbus-decorator'
   require '2-bluez-dbus/bluez-dbus'
   require '3-bluez-manager/bluez-manager'
+  require '4-media-player/media-player'
   require 'messaging/messaging'
   require 'wolfgang'
 rescue LoadError => e
