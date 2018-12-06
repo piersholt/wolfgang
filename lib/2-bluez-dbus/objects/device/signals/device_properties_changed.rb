@@ -7,16 +7,6 @@ class DevicePropertiesChanged < PropertiesChanged
     super
   end
 
-  # INTERFACE
-
-  def device?
-    this_interface?(BLUEZ_DEVICE)
-  end
-
-  def media?
-    this_interface?(BLUEZ_MEDIA_CONTROL)
-  end
-
   # PROPERTIES
 
   def connected?
