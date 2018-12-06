@@ -25,7 +25,7 @@ begin
   require '2-bluez-dbus/bluez-dbus'
   require '3-bluez-manager/bluez-manager'
   require '4-media-player/media-player'
-  require 'messaging/messaging'
+  require 'messaging/yabber'
   require 'wolfgang'
 rescue LoadError => e
   LOGGER.error('bin') { 'Dependencies load error!' }
