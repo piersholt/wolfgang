@@ -13,8 +13,7 @@ module BluezDevice
   # METHODS
 
   def connect
-    call_callback = fetch_callback(:connect)
-    call_callback.call(BLUEZ_DEVICE, :connect)
+    called(BLUEZ_DEVICE, :connect)
     device_interface.Connect(&default_callback)
   end
 

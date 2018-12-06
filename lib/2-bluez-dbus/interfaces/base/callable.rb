@@ -7,6 +7,11 @@ module Callable
     on_calls(callback)
   end
 
+  def called(interface_name, method_name)
+    call_callback = fetch_callback(method_name)
+    call_callback.call(interface_name, method_name)
+  end
+
   private
 
   def fetch_callback(method)
