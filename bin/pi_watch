@@ -1,0 +1,51 @@
+#!/usr/bin/env ruby
+
+# frozen_string_literal: true
+
+require 'rubygems'
+require 'bundler/setup'
+
+if ENV['BUNDLE_GEMFILE']
+  root_path = File.dirname(ENV['BUNDLE_GEMFILE'])
+  lib_path = root_path + '/lib'
+  ext_path = root_path + '/ext'
+  $LOAD_PATH.unshift(lib_path)
+  $LOAD_PATH.unshift(ext_path)
+end
+
+require 'cheap_logger'
+require 'pry-byebug'
+
+LOGGER = get_logger
+
+LOGGER.debug('bin') { 'Require local dependencies' }
+
+begin
+  require '1-dbus-decorator/dbus-decorator'
+  require '2-bluez-dbus/bluez-dbus'
+  require '3-bluez-manager/bluez-manager'
+  require '4-media-player/media-player'
+  require 'messaging/messaging'
+  require 'wolfgang'
+rescue LoadError => e
+  LOGGER.error('bin') { 'Dependencies load error!' }
+  LOGGER.error('bin') { e }
+  e.backtrace.each { |line| LOGGER.error('bin') { line } }
+  LOGGER.error('bin') { lib_path }
+  quit
+rescue StandardError => e
+  LOGGER.error('bin') { 'Dependencies standard error?' }
+  LOGGER.error('bin') { e }
+  e.backtrace.each { |line| LOGGER.error('bin') { line } }
+  LOGGER.error('bin') { lib_path }
+  quit
+end
+
+Subscriber.pi
+Subscriber.subscribe(:device)
+Subscriber.subscribe(:media)
+loop do
+  Subscriber.recv
+end
+
+puts 'Goodbyte!'

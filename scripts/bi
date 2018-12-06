@@ -1,0 +1,98 @@
+#!/usr/bin/env ruby
+
+# frozen_string_literal: true
+
+require 'rubygems'
+require 'bundler/setup'
+
+require 'rbczmq'
+require 'pry-byebug'
+
+WALTER = {
+  bind_port: '5556',
+  connect_port: '5557',
+  socket_talk: :PUB,
+  socket_listen: :SUB
+}.freeze
+
+WILHELM = {
+  bind_port: '5557',
+  connect_port: '5556',
+  socket_talk: :PUB,
+  socket_listen: :SUB
+}.freeze
+
+class App
+  attr_reader :env
+
+  def initialize(env)
+    @env = env
+    @context = ZMQ::Context.new
+    @publisher = talk
+    @subscriber = listen
+  end
+
+  def topics
+    [:media, :tel]
+  end
+
+  def payloads
+    [:play, :pause, :next, :previous, :new]
+  end
+
+  def payload
+    payloads.sample
+  end
+
+  def topic
+    topics.sample
+  end
+
+  def yabber
+    count = 0
+    while count < 10
+      @publisher.sendm(topic.to_s)
+      @publisher.send(payload.to_s)
+      sleep(1)
+      count += 1
+    end
+    true
+  end
+
+  def close
+    thread_status = @subscriber.exit
+    puts "thread: #{thread_status}, #{thread_status.status}"
+    context_status = @context.destroy
+    puts "context: #{context_status}"
+    true
+  end
+
+  private
+
+  def listen
+    Thread.new(@context) do |ctx|
+      subscriber = ctx.connect(env[:socket_listen], "tcp://localhost:#{env[:connect_port]}")
+      subscriber.subscribe(:tel.to_s)
+      begin
+        received = 0
+        while received < 10 do
+          channel =  subscriber.recv
+          command = subscriber.recv
+          puts "#{channel}: #{command}"
+          received += 1
+        end
+      rescue StandardError => e
+        puts "error! #{e}"
+      end
+      puts 'thread ending...'
+    end
+  end
+
+  def talk
+    @context.bind(env[:socket_talk], "tcp://*:#{env[:bind_port]}")
+  end
+end
+
+binding.pry
+
+puts 'Goodbyte!'

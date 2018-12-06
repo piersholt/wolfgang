@@ -1,0 +1,38 @@
+#!/usr/bin/env ruby
+
+# frozen_string_literal: true
+
+require 'rubygems'
+require 'bundler/setup'
+
+require 'rbczmq'
+require 'pry-byebug'
+
+# Think of REQ and DEALER sockets as "clients" and REP and ROUTER sockets as
+# "servers". Mostly, you'll want to bind REP and ROUTER sockets, and connect
+# REQ and DEALER sockets to them. It's not always going to be this simple, but
+# it is a clean and memorable place to start.
+
+ctx = ZMQ::Context.new
+# router = ctx.bind(:ROUTER, "inproc://routing-flow.test")
+server = ctx.bind(:DEALER, "tcp://*:5556")
+# client = ctx.socket(:DEALER)
+# client.identity = "xyz"
+# client.connect("tcp://localhost:5556")
+# dealer.identity = "xyz"
+
+# server.bind('tcp://*:5556')
+# client.connect('tcp://localhost:5556')
+
+binding.pry
+
+# client.sendm("xyz")
+# client.send("request")
+# puts server.recv # "xyz"
+
+# server.send("reply")
+# puts client.recv # "xyz"
+# puts client.recv # "reply"
+
+
+ctx.destroy
