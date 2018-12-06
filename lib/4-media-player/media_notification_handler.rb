@@ -5,7 +5,7 @@ class MediaNotificationHandler
   include Singleton
   include NotificationHandler
 
-  ASSOCIATED_TYPE = :media
+  ASSOCIATED_TOPIC = :media
 
   def take_responsibility(notification)
     case notification.name
@@ -64,6 +64,6 @@ class MediaNotificationHandler
   end
 
   def responsibility
-    ASSOCIATED_TYPE
+    ASSOCIATED_TOPIC
   end
 end

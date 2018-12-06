@@ -5,7 +5,7 @@ class DeviceNotificationHandler
   include Singleton
   include NotificationHandler
 
-  ASSOCIATED_TYPE = :device
+  ASSOCIATED_TOPIC = :device
 
   def take_responsibility(notification)
     case notification.name
@@ -39,6 +39,6 @@ class DeviceNotificationHandler
   end
 
   def responsibility
-    ASSOCIATED_TYPE
+    ASSOCIATED_TOPIC
   end
 end

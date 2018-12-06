@@ -22,6 +22,6 @@ module NotificationHandler
   end
 
   def responsible?(notification)
-    notification.type == responsibility
+    notification.topic == responsibility
   end
 end
