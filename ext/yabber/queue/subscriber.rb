@@ -28,15 +28,18 @@ class Subscriber < MessagingQueue
   def self.pi
     # instance.close if instance.socket?
     instance.address = '192.168.1.105'
+    subscribe(:media)
   end
 
   def self.local
     # close if socket?
     instance.address = 'localhost'
+    subscribe('')
   end
 
   def self.mbp
     instance.address = '192.168.1.102'
+    subscribe(:media)
   end
 
   # @override

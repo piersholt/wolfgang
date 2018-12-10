@@ -27,18 +27,18 @@ require 'pry-byebug'
 LOGGER.info('bin') { 'Require local dependencies' }
 
 begin
-  require 'messaging/messaging'
+  require 'yabber/yabber'
 rescue LoadError => e
   LOGGER.error('bin') { 'Dependencies load error!' }
   LOGGER.error('bin') { e }
   e.backtrace.each { |line| LOGGER.error('bin') { line } }
-  LOGGER.error('bin') { lib_path }
+  # LOGGER.error('bin') { lib_path }
   exit
 rescue StandardError => e
   LOGGER.error('bin') { 'Dependencies standard error?' }
   LOGGER.error('bin') { e }
   e.backtrace.each { |line| LOGGER.error('bin') { line } }
-  LOGGER.error('bin') { lib_path }
+  # LOGGER.error('bin') { lib_path }
   exit
 end
 
@@ -46,18 +46,10 @@ LOGGER.info('bin') { 'Done!' }
 
 LOGGER.info('bin') { 'Start setting up Subscriber...' }
 
+target = ARGV.shift
+raise ArgumentError, 'unknown target' unless Subscriber.respond_to?(target.to_sym)
+
 begin
-  LOGGER.info('bin') { 'Configuring subscriber' }
-  # Subscriber.pi
-  # Subscriber.local
-
-  LOGGER.info('bin') { 'Topic subs..' }
-  # Subscriber.subscribe('')
-  # Subscriber.subscribe(:device)
-  # Subscriber.subscribe(:media)
-
-  LOGGER.info('bin') { 'Done!' }
-
   LOGGER.info('bin') { 'Start' }
   loop do
     Subscriber.recv
@@ -66,7 +58,7 @@ rescue StandardError => e
   LOGGER.error('bin') { 'Dependencies standard error?' }
   LOGGER.error('bin') { e }
   e.backtrace.each { |line| LOGGER.error('bin') { line } }
-  LOGGER.error('bin') { lib_path }
+  # LOGGER.error('bin') { lib_path }
 rescue SignalException
   Signal.trap(0, proc { puts "Terminating: #{$$}" })
   return 1
