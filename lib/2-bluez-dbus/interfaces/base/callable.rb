@@ -73,7 +73,6 @@ module Callable
       begin
         LOGGER.debug('Interface') { "Thread: #{Thread.current}: #{Thread.current[:name]}" }
         LOGGER.debug('Interface') { "Object: #{self}" }
-        LOGGER.debug('Interface') { "Response: #{response}" }
         call = klass.new(called_interface, called_method)
         listener.public_send(method, call)
       rescue StandardError => e
