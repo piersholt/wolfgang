@@ -3,6 +3,10 @@
 class BluezPlayerObject < ObjectAdapter
   include Properties
 
-  include BluezMediaPlayer
   include BluezMediaFolder
+  include BluezMediaPlayer
+
+  def inspect
+    self.class
+  end
 end
