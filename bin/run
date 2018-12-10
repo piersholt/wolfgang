@@ -24,9 +24,9 @@ begin
   require '1-dbus-decorator/dbus-decorator'
   require '2-bluez-dbus/bluez-dbus'
   require '3-bluez-manager/bluez-manager'
-  require '4-media-player/media-player'
-  require 'wolfgang'
+  require '3-bluetooth-profiles/bluetooth-profiles'
   require 'yabber/yabber'
+  require '6-virtual-car-kit/virtual-car-kit'
 rescue LoadError => e
   LOGGER.error('bin') { 'Dependencies load error!' }
   LOGGER.error('bin') { e }
@@ -44,7 +44,7 @@ end
 begin
   t = Thread.current
   t[:name] = 'Main Thread'
-  WolfgangApplication.new.run
+  VirtualCarKit.new.run
 rescue StandardError => e
   LOGGER.error('bin') { 'Error starting app' }
   LOGGER.error('bin') { e }
