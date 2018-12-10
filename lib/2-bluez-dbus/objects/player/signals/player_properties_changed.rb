@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Comment
 class PlayerPropertiesChanged < PropertiesChanged
   include InterfaceConstants
 
@@ -44,19 +45,7 @@ class PlayerPropertiesChanged < PropertiesChanged
   end
 
   def track
-    fetch('Track')
-  end
-
-  def title
-    fetch('Track')['Title']
-  end
-
-  def title?
-    fetch('Track')['Title'] ? true : false
-  end
-
-  def artist
-    fetch('Track')['Artist']
+    fetch('Track') || {}
   end
 
   def position
@@ -79,5 +68,31 @@ class PlayerPropertiesChanged < PropertiesChanged
   # alltracks, off
   def shuffle
     fetch('shuffle')
+  end
+
+  # TRACK
+
+  def title?
+    track['Title'] ? true : false
+  end
+
+  def number_of_tracks?
+    track['NumberOfTracks'] ? true : false
+  end
+
+  def track_number?
+    track['TrackNumber'] ? true : false
+  end
+
+  def duration?
+    track['Duration'] ? true : false
+  end
+
+  def title
+    track['Title']
+  end
+
+  def artist
+    track['Artist']
   end
 end
