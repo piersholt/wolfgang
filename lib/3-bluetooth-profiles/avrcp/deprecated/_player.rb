@@ -40,15 +40,15 @@ class Player
     state!(delta)
   end
 
-  def remove
-    @player_object = nil
-    @state = {}
-  end
+  # def remove
+  #   @player_object = nil
+  #   @state = {}
+  # end
 
-  def add_player(player_path)
-    self.player_object = BluezDBus.service.player(player_path)
-    # synchronise
-  end
+  # def add_player(player_path)
+  #   self.player_object = BluezDBus.service.player(player_path)
+  #   # synchronise
+  # end
 
   def synchronise
     current = player_object.media_player.property_get_all
@@ -75,15 +75,15 @@ class Player
 
   # Class Methods
 
-  def self.add(player_path)
-    instance.add_player(player_path)
-  end
+  # def self.add(player_path)
+  #   instance.add_player(player_path)
+  # end
+  #
+  # def self.remove
+  #   instance.remove
+  # end
 
   def self.update(delta)
     instance.update(delta)
-  end
-
-  def self.remove
-    instance.remove
   end
 end

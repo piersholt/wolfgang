@@ -3,6 +3,7 @@
 # Comment
 class DeviceNotificationHandler
   include Singleton
+  include NotificationDelegate
   include NotificationHandler
 
   ASSOCIATED_TOPIC = :device

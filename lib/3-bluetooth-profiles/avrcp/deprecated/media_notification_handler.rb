@@ -3,6 +3,7 @@
 # Comment
 class MediaNotificationHandler
   include Singleton
+  include NotificationDelegate
   include NotificationHandler
 
   ASSOCIATED_TOPIC = :media
