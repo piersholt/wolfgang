@@ -3,6 +3,7 @@
 # Comment
 class InterfaceCalled
   attr_reader :interface, :method
+  alias target interface
 
   def initialize(interface_name, method_name)
     @interface = interface_name
