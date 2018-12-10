@@ -33,4 +33,4 @@ require "#{target}/notifications"
 require "#{target}/signal_handling"
 require "#{target}/target"
 
-require "#{avrcp_root}/service"
+require "#{avrcp_root}/target_role"

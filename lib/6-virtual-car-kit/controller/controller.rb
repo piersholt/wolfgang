@@ -2,17 +2,18 @@
 
 class VirtualCarKit
   # Comment
-  class MediaController
+  class Controller
     attr_reader :target
+
     def initialize
-      @service = AVRCPServices.new
+      @target_role = AVRCP::TargetRole.new
       setup_notification_handlers
       setup_command_handlers
-      @service.notifications_queue = notifications_queue
+      @target_role.notifications_queue = notifications_queue
     end
 
     def start
-      @target = @service.start
+      @target = @target_role.start
       CommandHandler.instance.target = @target
       binding.pry
     end

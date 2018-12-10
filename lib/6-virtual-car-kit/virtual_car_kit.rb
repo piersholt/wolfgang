@@ -2,19 +2,13 @@
 
 # Comment
 class VirtualCarKit
-  attr_reader :media_controller
+  attr_reader :controller
 
   def initialize
-    @media_controller = MediaController.new
-    # notify
+    @controller = Controller.new
   end
 
-  # def notify
-  #   n = Messaging::Notification.new(topic: :meta, name: :publisher_start)
-  #   Publisher.send(n.topic, n.to_yaml)
-  # end
-
   def run
-    @media_controller.start
+    controller.start
   end
 end
