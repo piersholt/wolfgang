@@ -1,20 +1,24 @@
 # frozen_string_literal: true
 
+# Comment
 module SignalDelegate
   include InterfaceConstants
   include SignalDelegateValidation
   attr_accessor :successor
 
   def handle(method, object)
+    LOGGER.debug(self.class) { "#handle(#{method}, #{object})" }
     if responsible?(method, object)
+      LOGGER.debug(self.class) { "I am responsible!" }
       public_send(method, object)
     else
+      LOGGER.debug(self.class) { "Not me! Forwarding!" }
       forward(method, object)
     end
   end
 
   def forward(method, object)
-    raise(IfYouWantSomethingDone, "No one to handle: #{signal}") unless successor
+    raise(IfYouWantSomethingDone, "No one to handle: #{method}, #{object}") unless successor
     successor.handle(method, object)
   end
 
@@ -33,13 +37,16 @@ module SignalDelegate
     end
   end
 
-  def affected_by?(signal)
+  def affected_by?(object)
     responsibility.any? do |interface|
-      signal.added_interfaces.include?(interface)
+      object.added_interfaces.include?(interface)
     end
   end
 
-  def relates_to?(signal)
-    signal.this_interface?(responsibility)
+  def relates_to?(object)
+    LOGGER.debug(self.class) { "#relates_to?(#{object.class}/#{object.target})" }
+    result = object.this_interface?(responsibility)
+    LOGGER.debug(self.class) { "#{object.target} == #{responsibility} => #{result}" }
+    result
   end
 end
