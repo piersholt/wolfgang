@@ -21,5 +21,9 @@ module Messaging
       me = hashified
       base.merge(me)
     end
+
+    def to_s
+      "#{self.class}: Topic: #{topic}, Name: #{name}, Properties: #{properties}"
+    end
   end
 end

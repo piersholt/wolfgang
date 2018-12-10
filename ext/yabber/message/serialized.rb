@@ -22,8 +22,21 @@ module Messaging
       @deserialized_object[:topic]
     end
 
+    # GhettoAF
+    def name
+      @deserialized_object[type][:name]
+    end
+
+    # GhettoAF
+    def properties
+      @deserialized_object[type][:properties]
+    end
+
     def parse
-      klass.new(topic: topic)
+      LOGGER.unknown(self.class) { "topic #{topic}" }
+      LOGGER.unknown(self.class) { "name #{name}" }
+      LOGGER.unknown(self.class) { "properties #{properties}" }
+      klass.new(topic: topic, name: name, properties: properties)
     end
 
     def klass

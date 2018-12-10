@@ -22,7 +22,7 @@ module Messaging
     end
 
     def to_s
-      "#{self.class}: #{topic} / #{name} / #{properties}"
+      "#{self.class}: Topic: #{topic}, Name: #{name}, Properties: #{properties}"
     end
   end
 end

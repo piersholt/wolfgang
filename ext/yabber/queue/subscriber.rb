@@ -16,7 +16,8 @@ class Subscriber < MessagingQueue
   def self.recv
     _ = instance.recv
     message = instance.recv
-    puts "#{message}"
+    puts Time.now.strftime("%T")
+    puts "#{message}\n"
     message
   end
 
@@ -25,13 +26,17 @@ class Subscriber < MessagingQueue
   end
 
   def self.pi
-    close if socket?
+    # instance.close if instance.socket?
     instance.address = '192.168.1.105'
   end
 
   def self.local
-    close if socket?
+    # close if socket?
     instance.address = 'localhost'
+  end
+
+  def self.mbp
+    instance.address = '192.168.1.102'
   end
 
   # @override

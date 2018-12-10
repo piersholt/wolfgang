@@ -14,6 +14,7 @@ class Publisher < MessagingQueue
   }.freeze
 
   def self.send(topic, payload)
+    LOGGER.unknown(Publisher.class) { "Send: #{topic}, #{payload}" }
     topic = instance.sanitize(topic)
     payload = instance.sanitize(payload)
     instance.sendm(topic)
