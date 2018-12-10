@@ -32,13 +32,11 @@ rescue LoadError => e
   LOGGER.error('bin') { 'Dependencies load error!' }
   LOGGER.error('bin') { e }
   e.backtrace.each { |line| LOGGER.error('bin') { line } }
-  # LOGGER.error('bin') { lib_path }
   exit
 rescue StandardError => e
   LOGGER.error('bin') { 'Dependencies standard error?' }
   LOGGER.error('bin') { e }
   e.backtrace.each { |line| LOGGER.error('bin') { line } }
-  # LOGGER.error('bin') { lib_path }
   exit
 end
 
@@ -58,7 +56,6 @@ rescue StandardError => e
   LOGGER.error('bin') { 'Dependencies standard error?' }
   LOGGER.error('bin') { e }
   e.backtrace.each { |line| LOGGER.error('bin') { line } }
-  # LOGGER.error('bin') { lib_path }
 rescue SignalException
   Signal.trap(0, proc { puts "Terminating: #{$$}" })
   return 1
