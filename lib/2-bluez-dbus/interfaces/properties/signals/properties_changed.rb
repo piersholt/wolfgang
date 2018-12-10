@@ -51,6 +51,11 @@ class PropertiesChanged < BaseSignal
     changed[property] == value
   end
 
+  def less?(property, value)
+    return false unless changed.key?(property)
+    changed[property] < value
+  end
+
   def removed?(property_name)
     removed.include?(property_name)
   end
