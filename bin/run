@@ -2,21 +2,46 @@
 
 # frozen_string_literal: true
 
-require 'rubygems'
-require 'bundler/setup'
+begin
+  require 'rubygems'
+  require 'bundler/setup'
 
-if ENV['BUNDLE_GEMFILE']
-  root_path = File.dirname(ENV['BUNDLE_GEMFILE'])
-  lib_path = root_path + '/lib'
-  $LOAD_PATH.unshift(lib_path)
-  ext_path = root_path + '/ext'
-  $LOAD_PATH.unshift(ext_path)
+  require 'pry-byebug'
+
+  if ENV['BUNDLE_GEMFILE']
+    root_path = File.dirname(ENV['BUNDLE_GEMFILE'])
+    lib_path = root_path + '/lib'
+    $LOAD_PATH.unshift(lib_path)
+    ext_path = root_path + '/ext'
+    $LOAD_PATH.unshift(ext_path)
+  end
+
+  require 'cheap_logger'
+  LOGGER = CheapLogger.get_to_the_logger!(:default)
+
+  # binding.pry
+  #
+  # puts 'delay!'
+
+rescue LoadError => e
+  LOGGER.error('bin') { 'Dependencies load error!' }
+  LOGGER.error('bin') { e }
+  e.backtrace.each { |line| LOGGER.error('bin') { line } }
+  LOGGER.error('bin') { lib_path }
+rescue StandardError => e
+  LOGGER.error('bin') { 'Dependencies standard error?' }
+  LOGGER.error('bin') { e }
+  e.backtrace.each { |line| LOGGER.error('bin') { line } }
+  LOGGER.error('bin') { lib_path }
+rescue Interrupt
+  Signal.trap(0, proc { puts "Terminating: #{$$}" })
+  # LOGGER.close
+  exit
+# ensure
+#   exit
 end
 
-require 'cheap_logger'
-require 'pry-byebug'
-
-LOGGER = get_logger
+# LOGGER = get_logger
 
 LOGGER.debug('bin') { 'Require local dependencies' }
 
