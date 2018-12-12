@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CheapLogger
+class LogActually
   # Comment
   class  Forrest
     include Singleton
@@ -16,13 +16,15 @@ class CheapLogger
     end
 
     def remove(id)
-      loggers.remove(id)
+      removed = loggers.remove(id)
+      removed.close
+      true
     end
 
     private
 
     def create_method(id)
-      CheapLogger.class.send(:define_method, id) do
+      LogActually.class.send(:define_method, id) do
         Forrest.instance.loggers[id]
       end
     end

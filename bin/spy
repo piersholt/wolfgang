@@ -7,7 +7,7 @@ require 'bundler/setup'
 
 root_path = File.dirname(ENV['BUNDLE_GEMFILE'])
 
-require "#{root_path}/ext/cheap_logger"
+require "#{root_path}/ext/log_actually"
 
 LOGGER = get_logger
 

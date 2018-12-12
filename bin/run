@@ -15,14 +15,9 @@ begin
     ext_path = root_path + '/ext'
     $LOAD_PATH.unshift(ext_path)
   end
-
-  require 'cheap_logger'
-  LOGGER = CheapLogger.get_to_the_logger!(:default)
-
-  # binding.pry
-  #
-  # puts 'delay!'
-
+  
+  require 'log_actually'
+  LOGGER = LogActually.is_all_around(:default)
 rescue LoadError => e
   LOGGER.error('bin') { 'Dependencies load error!' }
   LOGGER.error('bin') { e }

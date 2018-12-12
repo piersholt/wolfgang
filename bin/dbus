@@ -11,7 +11,7 @@ if ENV['BUNDLE_GEMFILE']
   $LOAD_PATH.unshift(lib_path)
 end
 
-require 'cheap_logger'
+require 'log_actually'
 require 'pry-byebug'
 
 LOGGER = get_logger

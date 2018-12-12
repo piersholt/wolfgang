@@ -2,9 +2,9 @@
 
 require 'logger'
 
-class CheapLogger
+class LogActually
   # Comment
-  class LogActually
+  class Log
     include Formatter
     extend Forwardable
     include Constants

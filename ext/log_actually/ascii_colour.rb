@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CheapLogger
+class LogActually
   module ASCIIColour
     include Constants
 

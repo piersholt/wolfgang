@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CheapLogger
+class LogActually
   module Constants
     RESET = '0'
     LIGHT_GRAY = '37'

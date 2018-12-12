@@ -1,6 +1,6 @@
 # frozen_string_literal: false
 
-class CheapLogger
+class LogActually
   module Formatter
     include ASCIIColour
 
