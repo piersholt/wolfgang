@@ -13,7 +13,7 @@ class LogActually
 
     attr_accessor :logger
 
-    def initialize(stream = STDOUT)
+    def initialize(stream = STDERR)
       @logger = Logger.new(stream)
       logger.formatter = default_formatter
       logger.sev_threshold = DEFAULT_LEVEL
