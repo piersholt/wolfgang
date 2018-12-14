@@ -16,9 +16,7 @@ class LogActually
     end
 
     def remove(id)
-      removed = loggers.remove(id)
-      removed.close
-      true
+      loggers.delete(id)
     end
 
     private
