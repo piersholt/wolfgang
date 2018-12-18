@@ -6,15 +6,15 @@ module Messaging
     include Constants
 
     def validate_topic(topic)
-      raise ArgumentError, 'Invalid Topic' unless valid_topic?(topic)
+      raise ArgumentError, "Invalid Topic: #{topic}. (#{TOPICS})" unless valid_topic?(topic)
     end
 
     def validate_type(type)
-      raise ArgumentError, 'Invalid Type' unless valid_type?(type)
+      raise ArgumentError, "Invalid Type: #{type}. (#{TYPES})" unless valid_type?(type)
     end
 
     def validate_version(version)
-      raise ArgumentError, 'Invalid Version' unless valid_version?(version)
+      raise ArgumentError, "Invalid Version: #{version}." unless valid_version?(version)
     end
 
     private

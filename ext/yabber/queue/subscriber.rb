@@ -14,32 +14,38 @@ class Subscriber < MessagingQueue
   }.freeze
 
   def self.recv
-    _ = instance.recv
+    topic = instance.recv
     message = instance.recv
-    puts Time.now.strftime("%T")
-    puts "#{message}\n"
+    # puts "#{message}\n"
     message
+  rescue ZMQ::Socket => e
+    LOGGER.error(self) { "#{e}" }
+    e.backtrace.each { |l| LOGGER.error(l) }
+    # binding.pry
   end
 
   def self.subscribe(topic = :broadcast)
-    instance.subscribe(topic.to_s)
+    topic_string = topic.to_s
+    topic_human = topic_string.empty? ? 'All Topics' : topic_string
+    LOGGER.info(self) { "Subscribe: #{topic_human}" }
+    instance.subscribe(topic_string)
   end
 
   def self.pi
     # instance.close if instance.socket?
     instance.address = '192.168.1.105'
-    subscribe(:media)
+    subscribe('')
   end
 
   def self.local
     # close if socket?
     instance.address = 'localhost'
-    subscribe('')
+    subscribe(:media)
   end
 
   def self.mbp
     instance.address = '192.168.1.102'
-    subscribe(:media)
+    subscribe('')
   end
 
   # @override
@@ -53,6 +59,7 @@ class Subscriber < MessagingQueue
 
   # @override
   def open_socket
+    LOGGER.info(self.class) { "Open Socket." }
     context.connect(role, uri)
   end
 

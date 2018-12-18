@@ -4,14 +4,9 @@
 
 require 'rubygems'
 require 'bundler/setup'
+require 'pry-byebug'
 
 root_path = File.dirname(ENV['BUNDLE_GEMFILE'])
-
-require "#{root_path}/ext/log_actually"
-
-LOGGER = get_logger
-
-LOGGER.info('bin') { 'Setup load paths...' }
 
 if ENV['BUNDLE_GEMFILE']
   load_paths = %w[/lib /ext]
@@ -20,13 +15,8 @@ if ENV['BUNDLE_GEMFILE']
   end
 end
 
-LOGGER.info('bin') { 'Done!' }
-
-require 'pry-byebug'
-
-LOGGER.info('bin') { 'Require local dependencies' }
-
 begin
+  require 'log_actually'
   require 'yabber/yabber'
 rescue LoadError => e
   LOGGER.error('bin') { 'Dependencies load error!' }
@@ -40,17 +30,22 @@ rescue StandardError => e
   exit
 end
 
-LOGGER.info('bin') { 'Done!' }
+LOGGER = LogActually.is_all_around(:default)
+LOGGER.i
+
 
 LOGGER.info('bin') { 'Start setting up Subscriber...' }
 
 target = ARGV.shift
 raise ArgumentError, 'unknown target' unless Subscriber.respond_to?(target.to_sym)
+Subscriber.public_send(target.to_sym)
 
 begin
   LOGGER.info('bin') { 'Start' }
   loop do
-    Subscriber.recv
+    message = Subscriber.recv
+    print Time.now.strftime("%T")
+    puts message
   end
 rescue StandardError => e
   LOGGER.error('bin') { 'Dependencies standard error?' }

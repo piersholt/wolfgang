@@ -6,12 +6,19 @@ require 'rbczmq'
 class MessagingContext
   include Singleton
 
+  # attr_accessor :counter
+
   def self.context
     instance.context
   end
 
   def context
-    @context ||= ZMQ::Context.new
+    @context ||= create_context
+  end
+
+  def create_context
+    LOGGER.info(self.class) { 'Create Context.' }
+    ZMQ::Context.new
   end
 end
 
@@ -19,6 +26,7 @@ end
 class MessagingQueue
   include Singleton
   attr_writer :role, :protocol, :address, :port
+  # attr_accessor :counter
 
   def destroy
     context.destroy
