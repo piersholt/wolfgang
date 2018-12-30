@@ -18,7 +18,7 @@ module Callable
 
   def fetch_callback(method)
     if method_callback?(method)
-      method_callback
+      method_callback(method)
     elsif interface_callback?
       interface_callback
     else
