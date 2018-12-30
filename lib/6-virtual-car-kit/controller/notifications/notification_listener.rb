@@ -8,11 +8,6 @@ class NotificationListener
 
   attr_accessor :handler
 
-  def ready
-    n = Messaging::Notification.new(topic: :meta, name: :publisher_start)
-    Publisher.send(n.topic, n.to_yaml)
-  end
-
   def pop_and_delegate(i, nq)
     LOGGER.debug('Notification') { "#{i}. Wait" }
     notification = nq.pop
@@ -25,7 +20,7 @@ class NotificationListener
   def listen(notifications_queue)
     Thread.new(notifications_queue) do |nq|
       Thread.current[:name] = 'NotificationListener'
-      ready
+      Publisher.ready
       begin
         LOGGER.warn('Notification') { 'Thread start!' }
         i = 1
