@@ -1,0 +1,152 @@
+Install Raspbian
+2018-10-09-raspbian-stretch
+
+$ sudo raspi-config
+8. update to latest version
+2. network options
+- set hostname to 'pi'
+- add wifi
+5. interface options
+- enable SSH
+force audio to
+3 boot options
+- disbale graphic
+
+$ sudo apt-get update
+
+- enable SSH key
+
+ssh pi@pi (enter password
+$ pbpaste >> ~/.ssh/authorized_keys
+$ sudo nano /etc/ssh/sshd_config
+# PasswordAuthentication no
+# PubkeyAuthentication yes
+$ sudo service ssd restart
+test ssh pi@pi = WIN
+
+pi@pi:~ $ sudo apt-get install byobu
+
+
+remove the existing bluetooth lxpanel plugin
+
+disable inbuilt bluetooth controller
+
+[bluetooth]# list
+  Controller B8:27:EB:E2:79:E7 pi #2
+  Controller 00:1A:7D:DA:71:13 pi [default]
+[bluetooth]# select B8:27:EB:E2:79:E7
+  Controller B8:27:EB:E2:79:E7 pi #2 [default]
+[bluetooth]# power off
+
+
+sudo apt-get install blueman
+
+set alias for onboard bluetooth to make it easier....
+i did this via bluetooth panel
+
+BLUEZ
+i had it installed, but get v5.0+
+
+get the pulseaudio plugins
+sudo apt-get install pavucontrol
+sudo apt-get install pulseaudio-module-bluetooth
+
+that's seemingly everything...!
+
+test?
+
+[bluetooth]# select B8:27:EB:E2:79:E7
+[bluetooth]# agent on
+Agent registered
+[bluetooth]# default-agent
+Default agent request successful
+[bluetooth]# discoverable on
+Changing discoverable on succeeded
+[CHG] Controller B8:27:EB:E2:79:E7 Discoverable: yes
+[NEW] Device E0:F5:C6:07:55:B3 Piers's iPad
+[CHG] Device E0:F5:C6:07:55:B3 Connected: no
+[DEL] Device E0:F5:C6:07:55:B3 Piers's iPad
+[NEW] Device E0:F5:C6:07:55:B3 Piers's iPad
+Request confirmation
+[agent] Confirm passkey 630333 (yes/no): yes
+[Piers's iPad]# trust
+[CHG] Device E0:F5:C6:07:55:B3 Trusted: yes
+Changing  trust succeeded
+[Piers's iPad]#
+
+okay, pairing good...
+but no audio servie
+i'm rebooting as unsure if modules good
+yep, how we're good!
+
+
+RUBY!
+
+sudo apt-get install rbenv
+sudo apt-get install ruby-build
+
+that worked
+i should note.. rbenv was v1.0.0
+and ruby-build had MRI latest of... 2.4.0! :O
+i think debian 10 is around the corner...
+
+rbenv install 2.4.0
+
+worked
+
+don;t forget setting up rbenv with shell
+$rbenv init
+
+check ruby version is good
+
+gem install bundle
+will need this....
+
+sudo apt-get libtool
+still not liking it
+i've restarted
+nope!
+
+https://github.com/methodmissing/rbczmq/issues/36
+trying
+sudo apt-get install autogen....
+nope
+
+ohh.. FFS!
+https://askubuntu.com/questions/625523/libtool-installed-but-not-on-path-after-installation
+sudo apt-get install libtool-bin
+
+argh.. another build failure
+sudo apt-get install autoconf automake
+
+oaky, now i'm back at the classic error
+
+gem instll rbczmq
+build will fail
+edit GEM_PATH/ext/rbczmq/extconf.rb
+remove -Wall, and -Wextra to avoid deprecation warnings
+
+you need to compile locally as gem install will downloa and re-unpack the soruce
+gem install make-compiler
+cd GEM_ROOT
+$ rake
+
+
+fuck.... that shit is all over the place
+i'm just:
+$ grep '\-W' *
+and deleting everything i can find
+
+ruby extconf.rb
+make
+https://guides.rubygems.org/command-reference/#gem-install
+gem spec cache > specification
+
+----
+
+useful commands:
+
+sudo service bluetooth status|stop
+sudo bluetoothctl
+
+$ alias ll="ls -lah"
