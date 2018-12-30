@@ -14,9 +14,9 @@ class CommandHandler
     LOGGER.info(self.class) { "Deserialized: #{command}" }
     LOGGER.info(self.class) { "name: #{command.name} (#{command.name.class})" }
     case command.name
-    when :seek_next_execute
+    when :seek_forward
       seek_next(command)
-    when :seek_previous_execute
+    when :seek_back
       seek_previous(command)
     when :scan_next_commence
       not_handled(command)
