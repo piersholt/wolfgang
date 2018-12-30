@@ -25,10 +25,13 @@ class PlayerObjectHandler
   end
 
   def new_player(player)
-    player.properties
-          .properties_changed(BluezPlayerListener.instance,
-                              :properties_changed,
-                              PlayerPropertiesChanged)
     LogActually.player.debug(name) { 'Media player signal setup... properties_changed' }
+    player
+      .properties
+      .listen(
+        :properties_changed,
+        BluezPlayerListener.instance,
+        klass: PlayerPropertiesChanged
+      )
   end
 end

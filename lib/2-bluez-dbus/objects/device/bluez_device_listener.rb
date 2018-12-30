@@ -27,10 +27,11 @@ class BluezDeviceListener < BaseSignalListener
   def new_device(device)
     logger.info(PROC) { 'New Device!' }
     device.properties
-          .properties_changed(
-            BluezDeviceListener.instance,
+          .listen(
             :properties_changed,
-            DevicePropertiesChanged
+            BluezDeviceListener.instance,
+            method: :properties_changed,
+            klass: DevicePropertiesChanged
           )
 
     device.device

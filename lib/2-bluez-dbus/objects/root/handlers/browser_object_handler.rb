@@ -24,11 +24,7 @@ class BrowserObjectHandler
   end
 
   def new_browser(browser)
-    browser.properties
-           .properties_changed(
-             BluezPlayerListener.instance,
-             :properties_changed
-           )
     LogActually.media_browser.debug(name) { 'Media borwser signal setup... :properties_changed' }
+    browser.properties.listen(:properties_changed, BluezPlayerListener.instance)
   end
 end

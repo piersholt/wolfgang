@@ -25,7 +25,7 @@ class TransportObjectHandler
   end
 
   def new_media_transport(media_transport)
-    media_transport.properties.properties_changed(BluezPlayerListener.instance, :properties_changed)
     LogActually.media_transport.debug(name) { 'Media media_transport signal setup...' }
+    media_transport.properties.listen(:properties_changed, BluezPlayerListener.instance)
   end
 end
