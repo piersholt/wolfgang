@@ -18,13 +18,11 @@ class VirtualCarKit
       binding.pry
     end
 
-    def m
-      manager
-    end
-
     def manager
       @manager ||= BluezManager.new
     end
+
+    alias m manager
 
     private
 

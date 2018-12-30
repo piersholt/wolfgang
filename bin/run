@@ -86,7 +86,8 @@ end
 begin
   t = Thread.current
   t[:name] = 'Main Thread'
-  VirtualCarKit.new.run
+  virtual_car_kit = VirtualCarKit.new
+  virtual_car_kit.run
 rescue StandardError => e
   LOGGER.error('bin') { 'Error starting app' }
   LOGGER.error('bin') { e }

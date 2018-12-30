@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
+# Comment
 class BluezDeviceObject < ObjectAdapter
-  include InterfaceConstants
   include Properties
 
   include Callable
@@ -10,4 +10,8 @@ class BluezDeviceObject < ObjectAdapter
   include BluezDevice
   include BluezMediaControl
   include BluezNetwork
+
+  def inspect
+    self.class
+  end
 end
