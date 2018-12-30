@@ -20,7 +20,7 @@ module AVRCP
       end
 
       def track_changed!
-        LOGGER.unknown("#{self.class}#notify") { "Track changed!" }
+        LogActually.target.info("#{self.class}#notify") { "Track changed!" }
         n = Messaging::Notification.new(topic: :player, name: :track_change, properties: track)
         notifications_queue.push(n)
         # changed!
@@ -28,37 +28,37 @@ module AVRCP
 
       def track_started!
         # track_changed! unless changed?
-        LOGGER.unknown("#{self.class}#notify") { "Track started!" }
+        LogActually.target.info("#{self.class}#notify") { "Track started!" }
         n = Messaging::Notification.new(topic: :player, name: :track_start)
         notifications_queue.push(n)
       end
 
       def track_ended!
-        LOGGER.unknown("#{self.class}#notify") { "Track ended!" }
+        LogActually.target.info("#{self.class}#notify") { "Track ended!" }
         n = Messaging::Notification.new(topic: :player, name: :track_end)
         notifications_queue.push(n)
       end
 
       def position!
-        LOGGER.unknown("#{self.class}#notify") { "Position Update" }
+        LogActually.target.info("#{self.class}#notify") { "Position Update" }
         n = Messaging::Notification.new(topic: :player, name: :position, properties: position)
         notifications_queue.push(n)
       end
 
       def status!
-        LOGGER.unknown("#{self.class}#notify") { "Playback Status Changed" }
+        LogActually.target.info("#{self.class}#notify") { "Playback Status Changed" }
         n = Messaging::Notification.new(topic: :player, name: :status, properties: status)
         notifications_queue.push(n)
       end
 
       def repeat!
-        LOGGER.unknown("#{self.class}#notify") { "Repeat Method Changed" }
+        LogActually.target.info("#{self.class}#notify") { "Repeat Method Changed" }
         n = Messaging::Notification.new(topic: :player, name: :repeat, properties: repeat)
         notifications_queue.push(n)
       end
 
       def shuffle!
-        LOGGER.unknown("#{self.class}#notify") { "Shuffle Method Changed" }
+        LogActually.target.info("#{self.class}#notify") { "Shuffle Method Changed" }
         n = Messaging::Notification.new(topic: :player, name: :shuffle, properties: shuffle)
         notifications_queue.push(n)
       end

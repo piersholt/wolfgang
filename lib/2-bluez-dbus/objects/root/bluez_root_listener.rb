@@ -4,6 +4,10 @@ class BluezRootListener < BaseSignalListener
   include Singleton
   include SignalDelegator
 
+  def logger
+    LogActually.root
+  end
+
   # @override ObjectManagerListener
   def interfaces_added(signal)
     super(signal, 'Root#InterfacesAdded')

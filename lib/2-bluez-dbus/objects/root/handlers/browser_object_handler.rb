@@ -5,8 +5,14 @@ class BrowserObjectHandler
   include Singleton
   include SignalDelegate
 
+
+    def name
+      'Media Browser'
+    end
+
   def interfaces_added(signal)
-    LOGGER.unknown(self.class) { "New media item! #{signal.object_suffixed}" }
+    LogActually.media_browser.info(name) { "New media item! #{signal.object_suffixed}." }
+    LogActually.media_browser.debug(name) { "#{signal.object_suffixed} includes #{responsibility} interface(s)." }
     browser_object = BluezDBus.service.browser(signal.object_path)
     new_browser(browser_object)
   end
@@ -18,11 +24,11 @@ class BrowserObjectHandler
   end
 
   def new_browser(browser)
-    LOGGER.debug(self.class) { 'Media borwser signal setup...' }
     browser.properties
            .properties_changed(
              BluezPlayerListener.instance,
              :properties_changed
            )
+    LogActually.media_browser.debug(name) { 'Media borwser signal setup... :properties_changed' }
   end
 end

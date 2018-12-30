@@ -9,6 +9,10 @@ class BluezPlayerListener < BaseSignalListener
     super(signal, 'Player#PropertiesChanged')
     delegate(:properties_changed, signal)
   rescue IfYouWantSomethingDone
-    LOGGER.warn(proc) { 'Chain did not handle!' }
+    logger.warn(proc) { 'Chain did not handle!' }
+  end
+
+  def logger
+    LogActually.player
   end
 end

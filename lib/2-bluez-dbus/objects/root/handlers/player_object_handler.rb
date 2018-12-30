@@ -5,9 +5,15 @@
 class PlayerObjectHandler
   include Singleton
   include SignalDelegate
-  
+
+
+    def name
+      'Player'
+    end
+
   def interfaces_added(signal)
-    LOGGER.unknown(self.class) { "New media player! #{signal.object_suffixed} includes #{BLUEZ_MEDIA_PLAYER} interface." }
+    LogActually.player.info(name) { "New media player! #{signal.object_suffixed}." }
+    LogActually.player.debug(name) { "#{signal.object_suffixed} includes #{responsibility} interface(s)." }
     player_object = BluezDBus.service.player(signal.object_path)
     new_player(player_object)
   end
@@ -19,10 +25,10 @@ class PlayerObjectHandler
   end
 
   def new_player(player)
-    LOGGER.debug(self.class) { 'Media player signal setup...' }
     player.properties
           .properties_changed(BluezPlayerListener.instance,
                               :properties_changed,
                               PlayerPropertiesChanged)
+    LogActually.player.debug(name) { 'Media player signal setup... properties_changed' }
   end
 end

@@ -33,9 +33,9 @@ module Messaging
     end
 
     def parse
-      LOGGER.unknown(self.class) { "topic #{topic}" }
-      LOGGER.unknown(self.class) { "name #{name}" }
-      LOGGER.unknown(self.class) { "properties #{properties}" }
+      LogActually.messaging.debug(self.class) { "topic #{topic}" }
+      LogActually.messaging.debug(self.class) { "name #{name}" }
+      LogActually.messaging.debug(self.class) { "properties #{properties}" }
       klass.new(topic: topic, name: name, properties: properties)
     end
 

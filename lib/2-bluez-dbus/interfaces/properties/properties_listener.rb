@@ -4,13 +4,13 @@ module PropertiesListener
   def properties_changed(signal, proc_name = 'PropertiesChanged')
     self.proc = proc_name
 
-    LOGGER.info(proc) { "#{signal.path_suffixed}" }
-    LOGGER.info(proc) { "\t#{signal.target}" }
+    LogActually.properties.debug(proc) { "#{signal.path_suffixed}" }
+    LogActually.properties.debug(proc) { "\t#{signal.target}" }
 
     parse_properties(signal.changed)
 
     signal.removed.each do |property|
-      LOGGER.info(proc) { "-#{property}: nil" }
+      LogActually.properties.debug(proc) { "-#{property}: nil" }
     end
   end
 end

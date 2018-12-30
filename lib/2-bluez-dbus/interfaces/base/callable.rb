@@ -8,7 +8,9 @@ module Callable
   end
 
   def called(interface_name, method_name)
+    LOGGER.debug(self.class) { '#on_call_default_block' }
     call_callback = fetch_callback(method_name)
+    LOGGER.debug(self.class) { "callback: #{call_callback}" }
     call_callback.call(interface_name, method_name)
   end
 
@@ -100,6 +102,7 @@ module Callable
     proc do |response|
       begin
         # LOGGER.any(self.class) { "result inspect: #{response.inspect}" }
+        LOGGER.unknown(self.class) { '#on_call_default_block' }
         LOGGER.unknown(self.class) { "result: #{response}" }
       rescue StandardError => e
         LOGGER.error(self.class) { e }

@@ -10,8 +10,8 @@ module AVRCP
           begin
             control_properties_changed(signal)
           rescue StandardError => e
-            LOGGER.error('Properties') { e }
-            e.backtrace.each { |line| LOGGER.error(line) }
+            LogActually.target.error('Properties') { e }
+            e.backtrace.each { |line| LogActually.target.error(line) }
           end
         end
       end
@@ -21,8 +21,8 @@ module AVRCP
           begin
             device_properties_changed(signal)
           rescue StandardError => e
-            LOGGER.error('Properties') { e }
-            e.backtrace.each { |line| LOGGER.error(line) }
+            LogActually.target.error('Properties') { e }
+            e.backtrace.each { |line| LogActually.target.error(line) }
           end
         end
       end
@@ -32,8 +32,8 @@ module AVRCP
           begin
             interface_called(signal)
           rescue StandardError => e
-            LOGGER.error('Properties') { e }
-            e.backtrace.each { |line| LOGGER.error(line) }
+            LogActually.target.error('Properties') { e }
+            e.backtrace.each { |line| LogActually.target.error(line) }
           end
         end
       end
@@ -43,8 +43,8 @@ module AVRCP
           begin
             addressed_player.properties_changed(signal)
           rescue StandardError => e
-            LOGGER.error('Properties') { e }
-            e.backtrace.each { |line| LOGGER.error(line) }
+            LogActually.target.error('Properties') { e }
+            e.backtrace.each { |line| LogActually.target.error(line) }
           end
         end
       end
@@ -77,40 +77,40 @@ module AVRCP
 
       def player_added(signal)
         add_player(signal.player)
-        LOGGER.unknown(self.class) { 'Player available!' }
+        LogActually.target.unknown(self.class) { 'Player available!' }
         player_added!
         # player.track_changed!
       end
 
       def player_changed(signal)
         add_player(signal.player)
-        LOGGER.unknown(self.class) { 'Player available!' }
+        LogActually.target.unknown(self.class) { 'Player changed!' }
         player_changed!
       end
 
       def player_removed
-        LOGGER.unknown(self.class) { 'Player no longer available!' }
+        LogActually.target.unknown(self.class) { 'Player removed!' }
         remove_player
         player_removed!
       end
 
       def device_connecting
-        LOGGER.unknown(self.class) { '#connect: Device connecting...' }
+        LogActually.target.unknown(self.class) { '#connect: Device connecting...' }
         device_connecting!
       end
 
       def device_disconnecting
-        LOGGER.unknown(self.class) { '#disconnect: Device disconnecting...' }
+        LogActually.target.unknown(self.class) { '#disconnect: Device disconnecting...' }
         device_disconnecting!
       end
 
       def device_connected
-        LOGGER.unknown(self.class) { 'Device connected!' }
+        LogActually.target.unknown(self.class) { 'Device connected!' }
         device_connected!
       end
 
       def device_disconnected
-        LOGGER.unknown(self.class) { 'Device disconnected!' }
+        LogActually.target.unknown(self.class) { 'Device disconnected!' }
         device_disconnected!
       end
     end

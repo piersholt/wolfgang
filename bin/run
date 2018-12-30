@@ -17,7 +17,29 @@ begin
   end
   
   require 'log_actually'
+
+  # Bluez
+  LogActually.is_all_around(:root)
+  LogActually.root.i
+  LogActually.is_all_around(:properties)
+  LogActually.properties.i
+  LogActually.is_all_around(:device)
+  LogActually.device.i
+  LogActually.is_all_around(:player)
+  LogActually.player.i
+  LogActually.is_all_around(:media_transport)
+  LogActually.media_transport.i
+  LogActually.is_all_around(:media_browser)
+  LogActually.media_browser.i
+  LogActually.is_all_around(:controller)
+  LogActually.controller.i
+
+  # Bluetooth Profiles
+  LogActually.is_all_around(:target)
+  LogActually.target.i
+
   LOGGER = LogActually.is_all_around(:default)
+  LogActually.default.i
 rescue LoadError => e
   LOGGER.error('bin') { 'Dependencies load error!' }
   LOGGER.error('bin') { e }
