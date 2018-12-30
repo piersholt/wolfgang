@@ -37,16 +37,20 @@ require "#{root}/object_manager/signals/interfaces_removed"
 require "#{root}/properties/signals/properties_changed"
 
 # Mixins to provide signal subscription interfaces
-require "#{root}/object_manager/object_manager_signals"
-require "#{root}/properties/properties_signals"
+require "#{root}/object_manager/signals"
+require "#{root}/properties/signals"
 
-# D-Bus Interfaces
+# D-Bus Standard Interfaces
+require "#{root}/object_manager/methods"
 require "#{root}/object_manager/object_manager"
+require "#{root}/properties/methods"
 require "#{root}/properties/properties"
 
+# Bluez Interfaces
 require "#{root}/adapter/bluez_adapter"
 require "#{root}/agent_manager/bluez_agent_manager"
 require "#{root}/device/device_interface_handler"
+require "#{root}/device/methods"
 require "#{root}/device/bluez_device"
 require "#{root}/gatt_manager/bluez_gatt_manager"
 require "#{root}/health_manager/bluez_health_manager"

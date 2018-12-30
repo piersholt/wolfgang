@@ -13,8 +13,6 @@ module ObjectManager
     NEW_LINE = "\n"
     include SignalConstants
 
-    # SIGNALS
-
     def listen(signal, listener, options = {})
       raise(NameError, 'signal does not exists!') unless
         OBJECT_MANAGER_SIGNALS.key?(signal)
@@ -24,20 +22,22 @@ module ObjectManager
     private
 
     def interfaces_added(listener,
-                         klass: InterfacesAdded,
-                         method: :interfaces_added)
+                         method: :interfaces_added,
+                         klass: InterfacesAdded)
       signal = OBJECT_MANAGER_SIGNALS[:interfaces_added]
-      object_manager.on_signal(signal, &callback(klass, listener, method))
+      callback = on_signal_callback(klass, listener, method)
+      object_manager.on_signal(signal, &callback)
     end
 
     def interfaces_removed(listener,
                            klass: InterfacesRemoved,
                            method: :interfaces_removed)
       signal = OBJECT_MANAGER_SIGNALS[:interfaces_removed]
-      object_manager.on_signal(signal, &callback(klass, listener, method))
+      callback = on_signal_callback(klass, listener, method)
+      object_manager.on_signal(signal, &callback)
     end
 
-    def callback(klass, listener, method)
+    def on_signal_callback(klass, listener, method)
       proc do |object, changes|
         begin
           log_signal(object, changes)

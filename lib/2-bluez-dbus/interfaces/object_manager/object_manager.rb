@@ -10,7 +10,8 @@
 # their interfaces, or both.
 module ObjectManager
   include InterfaceConstants
-  include ObjectManager::Signals
+  include Methods
+  include Signals
 
   def object_manager
     self.default_iface = OBJECT_MANAGER
@@ -18,50 +19,9 @@ module ObjectManager
     self
   end
 
-  def managed_objects
-    object_manager_interface.GetManagedObjects
-  end
+  private
 
   def object_manager_interface
     interface(OBJECT_MANAGER)
   end
-
-  alias get_managed_objects managed_objects
-
-  # begin
-  #   signal = InterfacesAdded.new(object, changes)
-  #
-  #   LOGGER.debug('InterfacesAdded') { "Thread: #{Thread.current}: #{Thread.current[:name]}" }
-  #   LOGGER.debug('InterfacesAdded') { "Object: #{self}" }
-  #   LOGGER.debug('InterfacesAdded') { signal.interface }
-  #   LOGGER.debug('InterfacesAdded') { signal.member }
-  #   LOGGER.debug('InterfacesAdded') { "Object: #{signal.object_path}" }
-  #   # LOGGER.debug('InterfacesAdded') { "Interfaces Added: #{signal.changes}" }
-  #   LOGGER.debug('InterfacesAdded') { "Interfaces Added (filtered): #{signal.filtered_interfaces}" }
-  #
-  #   listener.interfaces_added(signal)
-  # rescue StandardError => e
-  #   LOGGER.error('ObjectManager') { e }
-  #   e.backtrace.each { |line| LOGGER.error(line) }
-  # end
-
-  # def interfaces_added(listener)
-  #   object_manager.on_signal('InterfacesAdded') do |object, changes|
-  #   begin
-  #     signal = InterfacesAdded.new(object, changes)
-  #
-  #     LOGGER.debug('InterfacesAdded') { "Thread: #{Thread.current}: #{Thread.current[:name]}" }
-  #     LOGGER.debug('InterfacesAdded') { "Object: #{self}" }
-  #     LOGGER.debug('InterfacesAdded') { signal.interface }
-  #     LOGGER.debug('InterfacesAdded') { signal.member }
-  #     LOGGER.debug('InterfacesAdded') { "Object: #{signal.object_path}" }
-  #     # LOGGER.debug('InterfacesAdded') { "Interfaces Added: #{signal.changes}" }
-  #     LOGGER.debug('InterfacesAdded') { "Interfaces Added (filtered): #{signal.filtered_interfaces}" }
-  #
-  #     listener.interfaces_added(signal)
-  #   rescue StandardError => e
-  #     LOGGER.error('ObjectManager') { e }
-  #     e.backtrace.each { |line| LOGGER.error(line) }
-  #   end
-  # end
 end

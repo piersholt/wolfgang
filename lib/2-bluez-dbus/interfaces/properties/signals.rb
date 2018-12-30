@@ -3,16 +3,31 @@
 require 'observer'
 module Properties
   module Signals
-    # include InterfaceConstants
     include SignalConstants
 
-    # TODO: move logging out
-    def properties_changed(listener, method, klass = PropertiesChanged)
-      callback = on_signal_block(listener, method, klass)
-      properties.on_signal('PropertiesChanged', &callback)
+    def listen(signal, listener, options = {})
+      raise(NameError, 'signal does not exists!') unless
+        PROPERTIES_SIGNALS.key?(signal)
+      send(signal, listener, **options)
     end
 
-    def on_signal_block(listener, method, klass)
+    private
+
+    def properties_changed(listener,
+                           method: :properties_changed,
+                           klass: PropertiesChanged)
+      signal = PROPERTIES_SIGNALS[:properties_changed]
+      callback = on_signal_callback(klass, listener, method)
+      properties.on_signal(signal, &callback)
+    end
+
+    # def properties_changed(listener, method, klass: PropertiesChanged, method: :properties_changed)
+    #   signal = PROPERTIES_SIGNALS[:properties_changed]
+    #   callback = on_signal_callback(listener, method, klass)
+    #   properties.on_signal(signal, &callback)
+    # end
+
+    def on_signal_callback(klass, listener, method)
       proc do |i, c, r|
         begin
           LOGGER.debug('Properties') { "Thread: #{Thread.current}: #{Thread.current[:name]}" }
