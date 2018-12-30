@@ -31,6 +31,9 @@ rescue StandardError => e
 end
 
 LOGGER = LogActually.is_all_around(:default)
+LogActually.is_all_around(:messaging)
+LogActually.messaging.i
+LOGGER = LogActually.is_all_around(:default)
 LOGGER.i
 
 
@@ -44,7 +47,7 @@ begin
   LOGGER.info('bin') { 'Start' }
   loop do
     message = Subscriber.recv
-    print Time.now.strftime("%T")
+    puts Time.now.strftime("%T")
     puts message
   end
 rescue StandardError => e
