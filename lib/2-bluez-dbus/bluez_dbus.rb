@@ -5,12 +5,21 @@ class BluezDBus
   include Singleton
   include BluezDBusConfig
 
+  def logger
+    LogActually.service
+  end
+
   def system_bus
     @system_bus ||= DBusAdapter.send(BUS_TYPE)
   end
 
   def service
-    @service ||= system_bus.service(SERVICE_NAME, BluezService)
+    @service ||= create_service
+  end
+
+  def create_service
+    logger.debug(name) { 'Creating Bluez DBus Service...' }
+    system_bus.service(SERVICE_NAME, BluezService)
   end
 
   def root_object
@@ -18,29 +27,41 @@ class BluezDBus
   end
 
   def main_loop
-    @main_loop ||= DBus::Main.new
+    @main_loop ||= create_main_loop
+  end
+
+  def create_main_loop
+    logger.debug(name) { 'Creating main loop...' }
+    DBus::Main.new
+  end
+
+  def name
+    'BluezDBus'
   end
 
   def signals(opts)
+    logger.debug(name) { "#signals(#{opts})" }
     service_listener = BluezServiceListener.instance
     service_listener.new_service(service, opts)
   end
 
   def run
+    logger.debug(name) { '#run' }
     Thread.new(system_bus, main_loop) do |bus, main|
       begin
         Thread.current[:name] = 'DBus Loop'
-        LOGGER.warn(self.class) { 'DBus main loop starting.' }
+        logger.warn(name) { 'DBus main loop starting.' }
         main << bus
         main.run
       rescue StandardError => e
-        LOGGER.error(self.class) { e }
+        logger.error(name) { e }
       end
-      LOGGER.warn(self.class) { 'DBus main loop ending.' }
+      logger.warn(name) { 'DBus main loop ending.' }
     end
   end
 
   def quit
+    logger.debug(name) { '#quit' }
     return false unless @main_loop
     loop = main_loop
     @main_loop = nil

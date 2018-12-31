@@ -8,31 +8,35 @@ class NotificationListener
 
   attr_accessor :handler
 
+  def logger
+    LogActually.messaging
+  end
+
   def pop_and_delegate(i, nq)
-    LOGGER.debug('Notification') { "#{i}. Wait" }
+    logger.debug('Notification') { "#{i}. Wait" }
     notification = nq.pop
-    LOGGER.debug('Notification') { "#{i}. #{notification}" }
+    logger.debug('Notification') { "#{i}. #{notification}" }
     delegate(notification)
   rescue IfYouWantSomethingDone
-    LOGGER.warn(self.class) { 'Chain did not handle!' }
+    logger.warn(self.class) { 'Chain did not handle!' }
   end
 
   def listen(notifications_queue)
     Thread.new(notifications_queue) do |nq|
       Thread.current[:name] = 'NotificationListener'
-      Publisher.ready
+      # Publisher.ready
       begin
-        LOGGER.warn('Notification') { 'Thread start!' }
+        logger.warn('NotificationListener') { 'Thread start!' }
         i = 1
         loop do
           pop_and_delegate(i, nq)
           i += 1
         end
-        LOGGER.warn('Notification') { 'Thread end!' }
+        logger.warn('NotificationListener') { 'Thread end!' }
       rescue StandardError => e
-        LOGGER.error(self.class) { e }
+        logger.error(self.class) { e }
         e.backtrace.each do |line|
-          LOGGER.error(self.class) { line }
+          logger.error(self.class) { line }
         end
       end
     end

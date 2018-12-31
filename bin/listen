@@ -32,7 +32,7 @@ end
 
 LOGGER = LogActually.is_all_around(:default)
 LogActually.is_all_around(:messaging)
-LogActually.messaging.i
+LogActually.messaging.d
 LOGGER = LogActually.is_all_around(:default)
 LOGGER.i
 

@@ -42,7 +42,7 @@ class Publisher < MessagingQueue
   end
 
   def create_queue
-    LogActually.messaging.info(self.class) { 'Create Queue' }
+    LogActually.messaging.debug(self.class) { 'Create Queue' }
     new_queue = SizedQueue.new(QUEUE_SIZE)
     create_worker(new_queue)
     new_queue
@@ -58,7 +58,7 @@ class Publisher < MessagingQueue
     logger.debug(self.class) { "Worker waiting (Next: Message ID: #{i})" }
     popped_messsage = thread_queue.pop
     popped_messsage.id = i
-    popped_messsage.session = Time.now.strftime("%j_%H_%m")
+    popped_messsage.session = Time.now.strftime("%j_%H_%M")
     message_hash = { topic: topic(popped_messsage),
                      payload: payload(popped_messsage) }
 
@@ -78,13 +78,13 @@ class Publisher < MessagingQueue
 
   def create_worker(existing_queue = nil)
     return false if fuck_off?
-    LogActually.messaging.info(self.class) { 'Create Worker' }
+    LogActually.messaging.debug(self.class) { 'Create Worker' }
     q = existing_queue ? existing_queue : queue
     Thread.new(q) do |thread_queue|
       LogActually.messaging.debug(self.class) { "Worker: #{Thread.current}" }
       Thread.current[:name] = 'Publisher Worker'
       # Publisher.announce
-      Kernel.sleep(3)
+      # Kernel.sleep(3)
       begin
         logger.debug(self.class) { 'Worker starting...' }
         i = 1
@@ -92,7 +92,7 @@ class Publisher < MessagingQueue
           message_hash = pop(i, thread_queue)
           forward_to_zeromq(message_hash[:topic], message_hash[:payload])
           i += 1
-          Kernel.sleep(3)
+          # Kernel.sleep(3)
         end
         logger.warn(self.class) { 'Worker ended...!' }
       rescue StandardError => e
@@ -140,37 +140,33 @@ class Publisher < MessagingQueue
     # self.counter = counter + 1
   end
 
-  def online
-    logger.debug('Announce') { "Spawn Thread" }
-    Thread.new do
-      logger.debug('Announce') { "Thead new" }
+  def online(who_am_i)
+    # logger.debug('Announce') { "Spawn Thread" }
+    Thread.new(who_am_i) do |who_am_i|
+      # logger.debug('Announce') { "Thead new" }
       begin
-        logger.debug('Announce') { "Start" }
-        3.times do |i|
-          online_publish
-          Kernel.sleep(3)
-          logger.debug('Announce') { "announce #{i}" }
+        # logger.debug('Announce') { "Start" }
+        2.times do |i|
+          online_publish(who_am_i)
+          Kernel.sleep(0.5)
+          # logger.debug('Announce') { "announce #{i}" }
         end
-        logger.debug('Announce') { 'Finish' }
+        # logger.debug('Announce') { 'Finish' }
       rescue StandardError => e
         with_backtrace(logger, e)
       end
-      logger.debug('Announce') { "Thead end" }
+      # logger.debug('Announce') { "Thead end" }
     end
-    logger.debug('Announce') { "Spawned Thread" }
+    # logger.debug('Announce') { "Spawned Thread" }
   end
 
-  def self.online
-    instance.online
+  def self.online(who_am_i)
+    instance.online(who_am_i)
   end
 
-  def online_message
-    Messaging::Notification.new(topic: :system, name: :online)
-  end
-
-  def online_publish
-    n = online_message
-    LogActually.messaging.info(self.class) { "Publisher Ready Send." }
+  def online_publish(who_am_i)
+    n = Messaging::Notification.new(topic: who_am_i, name: :online)
+    LogActually.messaging.debug(self.class) { "Publisher Ready Send." }
     # Publisher.send(n.topic, n)
     Publisher.send!(n)
   end
@@ -179,7 +175,7 @@ class Publisher < MessagingQueue
 
   # @pverride
   def open_socket
-    LogActually.messaging.info(self.class) { "Open Socket." }
+    LogActually.messaging.debug(self.class) { "Open Socket." }
     LogActually.messaging.debug(self.class) { "Socket: #{Thread.current}" }
     LogActually.messaging.debug(self.class) { "Role: #{role}" }
     LogActually.messaging.debug(self.class) { "URI: #{uri}" }

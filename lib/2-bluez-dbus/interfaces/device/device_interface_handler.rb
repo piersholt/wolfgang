@@ -14,6 +14,8 @@ class DeviceInterfaceHandler
 
   # @override SignalDelegate
   def properties_changed(signal)
+    # binding.pry
+    LogActually.device.debug('DeviceInterfaceHandler') { '#properties_changed' }
     signal_callback.call(signal)
   end
 
@@ -28,6 +30,7 @@ class DeviceInterfaceHandler
 
   # @override SignalDelegate
   def interface_called(event)
+    LogActually.device.debug('DeviceInterfaceHandler') { '#interface_called' }
     call_callback.call(event)
   end
 

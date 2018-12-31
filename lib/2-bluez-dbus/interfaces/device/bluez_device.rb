@@ -3,8 +3,8 @@
 # Comment
 module BluezDevice
   include InterfaceConstants
-  include Methods
   include Properties
+  include Methods
 
   def device
     self.default_iface = BLUEZ_DEVICE
@@ -19,6 +19,7 @@ module BluezDevice
   end
 
   def device_property(property)
+    logger.debug(name) { "#device_property(#{property})" }
     property_get(BLUEZ_DEVICE, property)
   end
 end

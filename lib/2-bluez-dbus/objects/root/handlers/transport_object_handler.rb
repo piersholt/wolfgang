@@ -1,11 +1,9 @@
 # frozen_string_literal: true
 
-# Handle ObjectMananger signals related to Media Trasport objects
+# Handle ObjectManager signals related to Media Trasport objects
 class TransportObjectHandler
   include Singleton
   include SignalDelegate
-
-  ASSOCIATED_INTERFACES = [BLUEZ_MEDIA_TRANSPORT].freeze
 
   def name
     'Media Transport'
@@ -21,7 +19,7 @@ class TransportObjectHandler
   private
 
   def responsibility
-    ASSOCIATED_INTERFACES
+    [BLUEZ_MEDIA_TRANSPORT].freeze
   end
 
   def new_media_transport(media_transport)

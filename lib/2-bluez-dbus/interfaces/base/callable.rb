@@ -8,9 +8,9 @@ module Callable
   end
 
   def called(interface_name, method_name)
-    LOGGER.debug(self.class) { '#on_call_default_block' }
+    logger.debug(self.class) { '#on_call_default_block' }
     call_callback = fetch_callback(method_name)
-    LOGGER.debug(self.class) { "callback: #{call_callback}" }
+    # logger.debug(self.class) { "callback: #{call_callback}" }
     call_callback.call(interface_name, method_name)
   end
 
@@ -73,13 +73,13 @@ module Callable
   def on_call_block(listener, method, klass)
     proc do |called_interface, called_method|
       begin
-        LOGGER.debug('Interface') { "Thread: #{Thread.current}: #{Thread.current[:name]}" }
-        LOGGER.debug('Interface') { "Object: #{self}" }
+        logger.debug('Interface') { "Thread: #{Thread.current}: #{Thread.current[:name]}" }
+        logger.debug('Interface') { "Object: #{self}" }
         call = klass.new(called_interface, called_method)
         listener.public_send(method, call)
       rescue StandardError => e
-        LOGGER.error('Interface') { e }
-        e.backtrace.each { |line| LOGGER.error(line) }
+        logger.error('Interface') { e }
+        e.backtrace.each { |line| logger.error(line) }
       end
     end
   end
@@ -87,13 +87,13 @@ module Callable
   # def on_response_block(listener, method)
   #   proc do |response|
   #     begin
-  #       LOGGER.debug('Interface') { "Thread: #{Thread.current}: #{Thread.current[:name]}" }
-  #       LOGGER.debug('Interface') { "Object: #{self}" }
-  #       LOGGER.debug('Interface') { "Response: #{response}" }
+  #       logger.debug('Interface') { "Thread: #{Thread.current}: #{Thread.current[:name]}" }
+  #       logger.debug('Interface') { "Object: #{self}" }
+  #       logger.debug('Interface') { "Response: #{response}" }
   #       listener.public_send(method, response)
   #     rescue StandardError => e
-  #       LOGGER.error('Interface') { e }
-  #       e.backtrace.each { |line| LOGGER.error(line) }
+  #       logger.error('Interface') { e }
+  #       e.backtrace.each { |line| logger.error(line) }
   #     end
   #   end
   # end
@@ -101,12 +101,12 @@ module Callable
   def on_call_default_block
     proc do |response|
       begin
-        # LOGGER.any(self.class) { "result inspect: #{response.inspect}" }
-        LOGGER.unknown(self.class) { '#on_call_default_block' }
-        LOGGER.unknown(self.class) { "result: #{response}" }
+        # logger.any(self.class) { "result inspect: #{response.inspect}" }
+        logger.debug(self.class) { '#on_call_default_block' }
+        # logger.debug(self.class) { "result: #{response}" }
       rescue StandardError => e
-        LOGGER.error(self.class) { e }
-        e.backtrace.each { |line| LOGGER.error(line) }
+        logger.error(self.class) { e }
+        e.backtrace.each { |line| logger.error(line) }
       end
     end
   end

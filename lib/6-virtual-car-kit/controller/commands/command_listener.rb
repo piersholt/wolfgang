@@ -7,16 +7,20 @@ class CommandListener
 
   attr_accessor :handler
 
+  def logger
+    LogActually.messaging
+  end
+
   def pop_and_delegate(i)
-    LOGGER.debug('Command') { "#{i}. Wait" }
+    logger.debug('Command') { "#{i}. Wait" }
     command = Subscriber.recv
-    LOGGER.debug('Command') { "#{i}. #{command}" }
+    logger.debug('Command') { "#{i}. #{command}" }
     handler.thy_will_be_done!(command)
   rescue IfYouWantSomethingDone
-    LOGGER.warn(self.class) { 'Chain did not handle!' }
+    logger.warn(self.class) { 'Chain did not handle!' }
   rescue StandardError => e
-    LOGGER.error(PROC) { e }
-    e.backtrace.each { |l| LOGGER.error(l) }
+    logger.error(PROC) { e }
+    e.backtrace.each { |l| logger.error(l) }
   end
 
   def listen
@@ -25,17 +29,17 @@ class CommandListener
       Subscriber.mbp
       Subscriber.subscribe(:media)
       begin
-        LOGGER.warn('Command') { 'Thread start!' }
+        logger.warn('CommandListener') { 'Thread start!' }
         i = 1
         loop do
           pop_and_delegate(i)
           i += 1
         end
-        LOGGER.warn('Command') { 'Thread end!' }
+        logger.warn('CommandListener') { 'Thread end!' }
       rescue StandardError => e
-        LOGGER.error(self.class) { e }
+        logger.error(self.class) { e }
         e.backtrace.each do |line|
-          LOGGER.error(self.class) { line }
+          logger.error(self.class) { line }
         end
       end
     end

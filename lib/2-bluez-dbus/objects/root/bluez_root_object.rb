@@ -11,4 +11,8 @@ class BluezRootObject < ObjectAdapter
   def inspect
     self.class
   end
+
+  def logger
+    LogActually.root
+  end
 end

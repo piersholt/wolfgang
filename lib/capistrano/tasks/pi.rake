@@ -44,7 +44,8 @@ namespace :source do
       file_arg = list.join(' ')
       # puts file_arg
       # puts "scp -B -C -r #{file_arg} #{username}@#{hostname}:#{fetch :deploy_to}"
-      puts %x`scp -C -r #{file_arg} #{username}@#{hostname}:#{fetch :deploy_to}`
+      %x`scp -r #{file_arg} #{username}@#{hostname}:#{fetch :deploy_to}`
+      puts Time.now
     end
   end
 

@@ -8,7 +8,7 @@ module Properties
     include InterfaceConstants
 
     def property_get(interface_name = selected_interface, property_name)
-      LOGGER.warn('Properties') { "#property_get(#{interface_name}, #{property_name})" }
+      logger.debug(respond_to?(:name) ? name : 'Properties') { "#property_get(#{interface_name}, #{property_name})" }
       properties_interface.Get(interface_name, property_name)
     end
 
@@ -20,7 +20,10 @@ module Properties
 
     # @return: a dictionary of string property names to variant values.
     def property_get_all(interface_name = selected_interface)
+      logger.debug(respond_to?(:name) ? name : 'Properties') { "#property_get_all(#{interface_name})" }
       properties_interface.GetAll(interface_name)
     end
+
+    # alias properties property_get_all
   end
 end

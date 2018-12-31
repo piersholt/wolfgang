@@ -17,7 +17,13 @@ module SignalDelegator
     raise(NaughtyHandler, 'not nepotistic?') unless HANDLERS.any? do |handler|
       the_queen.respond_to?(handler)
     end
+    logger.debug(self.class) { "Declaring primary delegate: #{the_queen}" }
     @primary_delegate = the_queen
+  end
+
+  def append_successor(successor)
+    logger.debug(self.class) { "Appending successor to primary delegate: #{primary_delegate}" }
+    primary_delegate.successor = successor
   end
 
   # allows clients to give a list of klasses without setting up the liniage

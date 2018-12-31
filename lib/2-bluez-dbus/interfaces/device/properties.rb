@@ -3,11 +3,11 @@
 module BluezDevice
   # Properties of Bluez Interface: org.bluez.Device1
   module Properties
-    def connected?
+    def connected
       device_property('Connected')
     end
 
-    def paired?
+    def paired
       device_property('Paired')
     end
 
@@ -27,11 +27,11 @@ module BluezDevice
       device_property('UUIDs')
     end
 
-    def trusted?
+    def trusted
       device_property('Trusted')
     end
 
-    def blocked?
+    def blocked
       device_property('Blocked')
     end
 
@@ -42,5 +42,14 @@ module BluezDevice
     def adapter
       device_property('Adapter')
     end
+
+    def icon
+      device_property('Idapter')
+    end
+
+    alias connected? connected
+    alias paired? paired
+    alias trusted? trusted
+    alias blocked? blocked
   end
 end

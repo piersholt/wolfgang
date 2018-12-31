@@ -46,6 +46,7 @@ module AVRCP
     end
 
     def add_player(player_path)
+      LogActually.target.debug("#{self.class}!") { "#add_player(#{player_path})" }
       new_player = Player.new(player_path)
       new_player.notifications_queue = notifications_queue
       @addressed_player = new_player

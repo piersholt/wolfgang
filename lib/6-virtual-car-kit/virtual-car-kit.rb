@@ -16,6 +16,7 @@ require "#{controller_root}/controller"
 
 # Manager
 require "#{manager_root}/notifications/manager_notification_handler"
+require "#{manager_root}/manager"
 
 # Cat Kit
 require "#{car_kit_root}/virtual_car_kit"

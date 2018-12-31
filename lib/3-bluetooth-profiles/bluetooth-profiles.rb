@@ -3,3 +3,4 @@
 bluetooth_root = '3-bluetooth-profiles'
 
 require "#{bluetooth_root}/avrcp/avrcp"
+require "#{bluetooth_root}/core/core"

@@ -12,7 +12,7 @@ module Messaging
     attr_reader :version, :topic, :type
     attr_accessor :id, :session
 
-    def initialize(version: VERSION, topic:, type:, session: MESSAGE_ID, id: MESSAGE_ID)
+    def initialize(version: VERSION, topic:, type:, session: SESSION_ID, id: MESSAGE_ID)
       validate_arguments(version: version, topic: topic, type: type)
       @id = id
       @session = session

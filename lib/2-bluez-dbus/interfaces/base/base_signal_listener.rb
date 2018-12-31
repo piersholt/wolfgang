@@ -2,6 +2,7 @@
 
 class BaseSignalListener
   include InterfaceConstants
+  include ObjectHelpers
   include ObjectManagerListener
   include PropertiesListener
   attr_writer :proc
@@ -13,8 +14,14 @@ class BaseSignalListener
 
   private
 
-  def logger
+  def logger?
+    return logger if respond_to?(:logger)
     LOGGER
+  end
+
+  def name?
+    return name if respond_to?(:name)
+    proc
   end
 
   def indent(depth)
@@ -29,20 +36,20 @@ class BaseSignalListener
   def parse_properties(properties, depth = DEFAULT_INDENT_DEPTH)
     properties.each do |property, value|
       if value.instance_of?(Hash)
-        logger.debug(proc) { "#{indent(depth)}#{property} =" }
+        logger?.debug(name?) { "#{indent(depth)}#{property} =" }
         parse_properties(value, 3)
       else
-        logger.debug(proc) { "#{indent(depth)}#{property} = #{value}" }
+        logger?.debug(name?) { "#{indent(depth)}#{property} = #{value}" }
       end
     end
   rescue StandardError => e
-    logger.error(proc) { e }
-    e.backtrace.each { |line| logger.error(proc) { line } }
+    logger?.error(name?) { e }
+    e.backtrace.each { |line| logger?.error(name?) { line } }
   end
 
   def instance_info
-    logger.debug(proc) { "Thread: #{Thread.current}: #{Thread.current[:name]}" }
-    logger.debug(proc) { "Object: #{self}" }
+    logger?.debug(name?) { "Thread: #{Thread.current}: #{Thread.current[:name]}" }
+    logger?.debug(name?) { "Object: #{self}" }
   end
 
   def proc

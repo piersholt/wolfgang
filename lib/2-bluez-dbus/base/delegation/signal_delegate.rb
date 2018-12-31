@@ -6,13 +6,23 @@ module SignalDelegate
   include SignalDelegateValidation
   attr_accessor :successor
 
+  def logger?
+    return logger if respond_to?(:logger)
+    LOGGER
+  end
+
+  def name?
+    return name if respond_to?(:name)
+    self.class.name
+  end
+
   def handle(method, object)
-    LOGGER.debug(self.class) { "#handle(#{method}, #{object})" }
+    logger?.debug(self.class) { "#handle(#{method}, #{object})" }
     if responsible?(method, object)
-      LOGGER.debug(self.class) { "I am responsible!" }
+      logger?.debug(self.class) { "I am responsible!" }
       public_send(method, object)
     else
-      LOGGER.debug(self.class) { "Not me! Forwarding!" }
+      logger?.debug(self.class) { "Not me! Forwarding!" }
       forward(method, object)
     end
   end
@@ -23,6 +33,7 @@ module SignalDelegate
   end
 
   def responsible?(method, object)
+    logger?.debug(name?) { method }
     case method
     when :properties_changed
       respond_to?(:properties_changed) && relates_to?(object)

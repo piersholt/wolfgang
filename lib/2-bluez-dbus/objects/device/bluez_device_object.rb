@@ -14,4 +14,12 @@ class BluezDeviceObject < ObjectAdapter
   def inspect
     self.class
   end
+
+  def logger
+    LogActually.device
+  end
+
+  def name
+    'DeviceObject'
+  end
 end

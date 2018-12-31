@@ -9,4 +9,12 @@ class BluezPlayerObject < ObjectAdapter
   def inspect
     self.class
   end
+
+  def name
+    'BluezPlayerObject'
+  end
+
+  def logger
+    LogActually.player
+  end
 end

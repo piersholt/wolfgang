@@ -15,10 +15,15 @@ begin
     ext_path = root_path + '/ext'
     $LOAD_PATH.unshift(ext_path)
   end
-  
+
   require 'log_actually'
 
+  LogActually.is_all_around(:messaging)
+  LogActually.messaging.i
+
   # Bluez
+  LogActually.is_all_around(:service)
+  LogActually.service.i
   LogActually.is_all_around(:root)
   LogActually.root.i
   LogActually.is_all_around(:properties)
@@ -37,6 +42,9 @@ begin
   # Bluetooth Profiles
   LogActually.is_all_around(:target)
   LogActually.target.i
+
+  LogActually.is_all_around(:core)
+  LogActually.core.i
 
   LOGGER = LogActually.is_all_around(:default)
   LogActually.default.i
@@ -87,7 +95,7 @@ begin
   t = Thread.current
   t[:name] = 'Main Thread'
   virtual_car_kit = VirtualCarKit.new
-  virtual_car_kit.run
+  virtual_car_kit.start
 rescue StandardError => e
   LOGGER.error('bin') { 'Error starting app' }
   LOGGER.error('bin') { e }

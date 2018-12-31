@@ -1,21 +1,21 @@
 # frozen_string_literal: true
 
-# Handle ObjectMananger signals related to Player objects
+# Handle ObjectManager signals related to Player objects
 # TODO: maybe subclass this for Player and BrowseablePlayer?
 class PlayerObjectHandler
   include Singleton
   include SignalDelegate
 
-
-    def name
-      'Player'
-    end
+  def name
+    'Player'
+  end
 
   def interfaces_added(signal)
     LogActually.player.info(name) { "New media player! #{signal.object_suffixed}." }
     LogActually.player.debug(name) { "#{signal.object_suffixed} includes #{responsibility} interface(s)." }
     player_object = BluezDBus.service.player(signal.object_path)
-    new_player(player_object)
+    # new_player(player_object)
+    BluezPlayerListener.instance.new_player(player_object)
   end
 
   private

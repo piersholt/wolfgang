@@ -17,7 +17,7 @@ class MessagingContext
   end
 
   def create_context
-    LogActually.messaging.info(self.class) { 'Create Context.' }
+    LogActually.messaging.debug(self.class) { 'Create Context.' }
     LogActually.messaging.debug(self.class) { "Context: #{Thread.current}" }
     ZMQ::Context.new
   end

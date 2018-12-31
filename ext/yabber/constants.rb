@@ -9,19 +9,17 @@ module Messaging
     TYPES = %i[action notification].freeze
 
     # Message Topics/Channels
-    # YABBER = :system
 
     MEDIA = :media
     TEL = :tel
 
-    # META = :meta
-
-    SYSTEM = :system
+    WOLFGANG = :wolfgang
+    WALTER = :walter
 
     DEVICE = :device
     TARGET = :target
     PLAYER = :player
 
-    TOPICS = [SYSTEM, MEDIA, TEL, DEVICE, TARGET, PLAYER].freeze
+    TOPICS = [WOLFGANG, WALTER, MEDIA, TEL, DEVICE, TARGET, PLAYER].freeze
   end
 end

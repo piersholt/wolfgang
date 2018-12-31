@@ -80,6 +80,10 @@ class BluezService < ServiceAdapter
     filter_objects(DEVICE_OBJECT_PATTERN)
   end
 
+  def device_objects!(filter_callback)
+    filter_objects_callback(DEVICE_OBJECT_PATTERN, filter_callback)
+  end
+
   def media_transport_objects
     filter_objects(MEDIA_TRANSPORT_OBJECT_PATTERN)
   end
@@ -89,23 +93,31 @@ class BluezService < ServiceAdapter
   end
 
   def filter_objects(pattern)
-    begin
-      LOGGER.debug(self.class) { "Filtering objects: #{pattern}" }
-      objects = root_object.get_managed_objects
+    LOGGER.debug(self.class) { "Filtering objects: #{pattern}" }
+    objects = root_object.get_managed_objects
 
-      LOGGER.debug(self.class) { "Object paths: #{objects.keys}" }
-      result = objects.find_all do |path, _|
-        matches = path.scan(pattern)
-        result = matches.length.positive?
-        LOGGER.debug(self.class) { "Checking #{path}... => #{result}" }
-        result
-      end
-
-      return [] if result.empty?
-      result.to_h.keys
-    rescue StandardError => e
-      LOGGER.error(self.class) { e }
-      e.backtrace.each { |l| LOGGER.error(self.class) { l } }
+    # LOGGER.debug(self.class) { "Objects: #{objects}" }
+    LOGGER.debug(self.class) { "Object paths: #{objects.keys}" }
+    result = objects.find_all do |path, _|
+      matches = path.scan(pattern)
+      result = matches.length.positive?
+      LOGGER.debug(self.class) { "Checking #{path}... => #{result}" }
+      result
     end
+
+    return [] if result.empty?
+    LOGGER.debug(self.class) { result }
+    result.to_h.keys
+  rescue StandardError => e
+    LOGGER.error(self.class) { e }
+    e.backtrace.each { |l| LOGGER.error(self.class) { l } }
+  end
+
+  def filter_objects_callback(pattern, filter_callback)
+    LOGGER.debug(self.class) { "Filtering objects: #{pattern}" }
+    root_object.get_managed_objects(filter_callback)
+  rescue StandardError => e
+    LOGGER.error(self.class) { e }
+    e.backtrace.each { |l| LOGGER.error(self.class) { l } }
   end
 end

@@ -28,5 +28,17 @@ class LogActually
     def i
       logger.sev_threshold = Logger::INFO
     end
+
+    def w
+      logger.sev_threshold = Logger::WARN
+    end
+
+    def e
+      logger.sev_threshold = Logger::ERROR
+    end
+
+    def f
+      logger.sev_threshold = Logger::FATAL
+    end
   end
 end

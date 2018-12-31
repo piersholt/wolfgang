@@ -3,23 +3,22 @@
 module AVRCP
   # Comment
   class TargetRole
-    include BluezDBusInterface
+    # include BluezDBusInterface
 
     attr_accessor :notifications_queue, :commands_queue
 
-    def start
+    def initialize(outgoing_notifications_queue)
+      self.notifications_queue = outgoing_notifications_queue
       setup_object_handlers
       setup_device_handlers
       setup_player_handlers
-      # setup_notification_handlers
-      signals({})
-      run
-      target
     end
 
-    def t
-      target
+    def target
+      @target ||= create_target
     end
+
+    alias t target
 
     private
 
@@ -51,22 +50,20 @@ module AVRCP
     end
 
     def configure_device_delegates
-      device_handler        = DeviceInterfaceHandler.instance
+      # device_handler        = DeviceInterfaceHandler.instance
       media_control_handler = MediaControlInterfaceHandler.instance
 
       # device_handler.callback = target.target_callback
       media_control_handler.callback = target.target_control_callback
-      device_handler.signal_callback = target.target_device_callback
-      device_handler.call_callback = target.target_device_call_callback
+      # device_handler.signal_callback = target.target_device_callback
+      # device_handler.call_callback = target.target_device_call_callback
 
       # device_handler.mq        = mq
       # media_control_handler.mq = mq
       # device_handler.target = target
       # media_control_handler.target = target
 
-      device_handler.successor = media_control_handler
-
-      device_handler
+      media_control_handler
     end
 
     # -------------------------- PLAYER --------------------------
@@ -87,36 +84,15 @@ module AVRCP
       media_player_handler
     end
 
-    # -------------------------- NOTIFICATIONS --------------------------
-
-    # def setup_notification_handlers
-    #   primary = configure_notification_delegates
-    #   notification_listener = NotificationListener.instance
-    #   notification_listener.declare_primary_delegate(primary)
-    #   notification_listener.listen(mq)
-    # end
-    #
-    # def configure_notification_delegates
-    #   target_handler = TargetNotificationHandler.instance
-    #   player_handler = PlayerNotificationHandler.instance
-    #
-    #   target_handler.target = target
-    #   player_handler.target = target
-    #
-    #   target_handler.successor = player_handler
-    #
-    #   target_handler
-    # end
-
-    def target
-      @target ||= create_target
-    end
-
     def create_target
+      LogActually.target.debug(self.class) { "Create Target." }
       new_target = AVRCP::Target.new
+      LogActually.target.debug(self.class) { "@new_target => #{new_target.__id__}" }
       new_target.notifications_queue = notifications_queue
+      LogActually.target.debug(self.class) { "@new_target.notifications_queue => #{new_target.notifications_queue}" }
       # new_target.commands_queue = commands_queue
       new_target
+
     end
   end
 end

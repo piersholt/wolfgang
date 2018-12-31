@@ -15,6 +15,7 @@ class MediaControlInterfaceHandler
 
   # @override SignalDelegate
   def properties_changed(signal)
+    LogActually.device.debug('MediaControlInterfaceHandler') { '#properties_changed' }
     callback.call(signal)
     # if signal.connected? && signal.player?
     #   player_added(signal)

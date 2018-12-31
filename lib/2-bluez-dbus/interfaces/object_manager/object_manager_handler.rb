@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module ObjectManangerHandler
+module ObjectManagerHandler
   include InterfaceConstants
   # include SignalDelegate
 

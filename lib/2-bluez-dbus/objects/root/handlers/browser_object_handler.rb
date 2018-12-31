@@ -1,14 +1,13 @@
 # frozen_string_literal: true
 
-# Handle ObjectMananger signals related to Browser objects
+# Handle ObjectManager signals related to Browser objects
 class BrowserObjectHandler
   include Singleton
   include SignalDelegate
 
-
-    def name
-      'Media Browser'
-    end
+  def name
+    'Media Browser'
+  end
 
   def interfaces_added(signal)
     LogActually.media_browser.info(name) { "New media item! #{signal.object_suffixed}." }

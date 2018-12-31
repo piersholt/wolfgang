@@ -5,10 +5,17 @@ class BluezControllerListener < BaseSignalListener
 
   def new_controller(controller)
     logger.debug(PROC) { 'New Controller!' }
-    # controller.properties.properties_changed(self, :properties_changed)
+    properties_changed_signal_registration(controller)
+  end
+
+  def properties_changed_signal_registration(controller)
+    LogActually.service.debug(name) { 'properties_changed signal registration.' }
     controller.properties.listen(:properties_changed, self)
   end
 
+  def name
+    'ControllerListener'
+  end
 
   def logger
     LogActually.controller
