@@ -19,15 +19,15 @@ class Subscriber < MessagingQueue
     # puts "#{message}\n"
     message
   rescue ZMQ::Socket => e
-    LOGGER.error(self) { "#{e}" }
-    e.backtrace.each { |l| LOGGER.error(l) }
+    LogActually.messaging.error(self) { "#{e}" }
+    e.backtrace.each { |l| LogActually.messaging.error(l) }
     # binding.pry
   end
 
   def self.subscribe(topic = :broadcast)
     topic_string = topic.to_s
     topic_human = topic_string.empty? ? 'All Topics' : topic_string
-    LOGGER.info(self) { "Subscribe: #{topic_human}" }
+    LogActually.messaging.info(self) { "Subscribe: #{topic_human}" }
     instance.subscribe(topic_string)
   end
 
@@ -40,7 +40,7 @@ class Subscriber < MessagingQueue
   def self.local
     # close if socket?
     instance.address = 'localhost'
-    subscribe(:media)
+    subscribe('')
   end
 
   def self.mbp
@@ -59,7 +59,10 @@ class Subscriber < MessagingQueue
 
   # @override
   def open_socket
-    LOGGER.info(self.class) { "Open Socket." }
+    LogActually.messaging.info(self.class) { "Open Socket." }
+    LogActually.messaging.debug(self.class) { "Open Socket: #{Thread.current}" }
+    LogActually.messaging.debug(self.class) { "Role: #{role}" }
+    LogActually.messaging.debug(self.class) { "URI: #{uri}" }
     context.connect(role, uri)
   end
 

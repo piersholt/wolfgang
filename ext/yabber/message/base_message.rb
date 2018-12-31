@@ -10,18 +10,23 @@ module Messaging
     include Defaults
 
     attr_reader :version, :topic, :type
+    attr_accessor :id, :session
 
-    def initialize(version: VERSION, topic:, type:)
+    def initialize(version: VERSION, topic:, type:, session: MESSAGE_ID, id: MESSAGE_ID)
       validate_arguments(version: version, topic: topic, type: type)
+      @id = id
+      @session = session
       @version = version
       @topic = topic
       @type = type
     end
 
     def to_h
-      { version: version,
+      { id: id,
+        session: session,
+        version: version,
         topic: topic,
-        type: type }
+        type: type}
     end
 
     def to_json

@@ -17,7 +17,8 @@ class MessagingContext
   end
 
   def create_context
-    LOGGER.info(self.class) { 'Create Context.' }
+    LogActually.messaging.info(self.class) { 'Create Context.' }
+    LogActually.messaging.debug(self.class) { "Context: #{Thread.current}" }
     ZMQ::Context.new
   end
 end
@@ -25,11 +26,16 @@ end
 # Comment
 class MessagingQueue
   include Singleton
+  include LogActually::ErrorOutput
   attr_writer :role, :protocol, :address, :port
   # attr_accessor :counter
 
   def destroy
     context.destroy
+  end
+
+  def logger
+    LogActually.messaging
   end
 
   def close
@@ -46,14 +52,18 @@ class MessagingQueue
     instance
   end
 
-  def setup
-    socket
-  end
+  # def setup
+  #   3.times { |i| announce }
+  # end
 
   private
 
   def context
-    @context ||= MessagingContext.context
+    @context ||= create_context
+  end
+
+  def create_context
+    MessagingContext.context
   end
 
   def socket?
