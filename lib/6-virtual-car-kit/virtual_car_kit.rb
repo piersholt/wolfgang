@@ -32,14 +32,28 @@ class VirtualCarKit
     manager.manager.device(nickname)
   end
 
+  # Commands
+
   def setup_incoming_command_handlers
+    primary = setup_incoming_notification_handlers
     command_listener = CommandListener.instance
-    command_handler = CommandHandler.instance
-
-    command_handler.target = controller.target
-    command_listener.handler = command_handler
-
+    command_listener.declare_primary_delegate(primary)
     command_listener.listen
+  end
+
+  def setup_incoming_notification_handlers
+    device_handler = DeviceHandler.instance
+    device_handler.manager = manager.manager
+
+    media_handler = MediaHandler.instance
+    media_handler.target = controller.target
+
+    wilhelm_handler = WilhelmHandler.instance
+
+    media_handler.successor = device_handler
+    device_handler.successor = wilhelm_handler
+
+    media_handler
   end
 
   def setup_outgoing_notification_handlers

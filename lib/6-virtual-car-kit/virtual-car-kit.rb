@@ -10,7 +10,9 @@ require "#{controller_root}/notifications/target_notification_handler"
 require "#{controller_root}/notifications/notification_listener"
 
 require "#{controller_root}/commands/command_listener"
-require "#{controller_root}/commands/command_handler"
+require "#{controller_root}/commands/media_handler"
+require "#{controller_root}/commands/device_handler"
+require "#{controller_root}/commands/wilhelm_handler"
 
 require "#{controller_root}/controller"
 

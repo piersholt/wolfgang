@@ -3,50 +3,75 @@
 # Comment
 class CommandListener
   include Singleton
-  # include NotificationDelegator
+  include NotificationDelegator
 
-  attr_accessor :handler
+  attr_reader :listener_thread
 
   def logger
     LogActually.messaging
   end
 
-  def pop_and_delegate(i)
-    logger.debug('Command') { "#{i}. Wait" }
-    command = Subscriber.recv
-    logger.debug('Command') { "#{i}. #{command}" }
-    handler.thy_will_be_done!(command)
-  rescue IfYouWantSomethingDone
-    logger.warn(self.class) { 'Chain did not handle!' }
-  rescue StandardError => e
-    logger.error(PROC) { e }
-    e.backtrace.each { |l| logger.error(l) }
+  def deserialize(serialized_object)
+    command = Messaging::Serialized.new(serialized_object).parse
+    logger.info(self.class) { "Deserialized: #{command}" }
+    logger.info(self.class) { "name: #{command.name} (#{command.name.class})" }
+    command
   end
 
-  def listen
-    Thread.new do
-      Thread.current[:name] = 'CommandListener'
-      Subscriber.mbp
-      Subscriber.subscribe(:media)
-      begin
-        logger.warn('CommandListener') { 'Thread start!' }
-        i = 1
-        loop do
-          pop_and_delegate(i)
-          i += 1
-        end
-        logger.warn('CommandListener') { 'Thread end!' }
-      rescue StandardError => e
-        logger.error(self.class) { e }
-        e.backtrace.each do |line|
-          logger.error(self.class) { line }
-        end
-      end
+  def pop_and_delegate(i)
+    logger.debug(self.class) { "#{i}. Wait" }
+    serialized_object = Subscriber.recv
+    command = deserialize(serialized_object)
+    delegate(command)
+  rescue IfYouWantSomethingDone
+    logger.warn(self.class) { "Chain did not handle! (#{command})" }
+  rescue StandardError => e
+    logger.error(self.class) { e }
+    e.backtrace.each { |line| logger.error(self.class) { line } }
+  end
+
+  def listen_loop
+    i = 1
+    loop do
+      pop_and_delegate(i)
+      i += 1
+    end
+  rescue StandardError => e
+    logger.error(self.class) { e }
+    e.backtrace.each do |line|
+      logger.error(self.class) { line }
     end
   end
 
-  def self.listen(commands_queue)
-    instance.listen(commands_queue)
+  def listen
+    @listener_thread =
+      Thread.new do
+        Thread.current[:name] = 'CommandListener'
+        Subscriber.mbp
+        Subscriber.subscribe('')
+        begin
+          logger.debug('CommandListener') { 'Thread listen start!' }
+          listen_loop
+          logger.debug('CommandListener') { 'Thread listen end!' }
+        rescue StandardError => e
+          logger.error(self.class) { e }
+          e.backtrace.each do |line|
+            logger.error(self.class) { line }
+          end
+        end
+      end
+  end
+
+  def ignore
+    @listener_thread.stop.join
+  end
+
+  def self.ignore
+    instance.ignore
+  end
+
+  def self.listen
+    instance.listen
   end
 
   def self.handler(handler)

@@ -15,6 +15,10 @@ module NotificationDelegate
     end
   end
 
+  def logger
+    LogActually.messaging
+  end
+
   def forward(notification)
     raise(IfYouWantSomethingDone, "No one to handle: #{notification}") unless successor
     successor.handle(notification)
@@ -24,5 +28,9 @@ module NotificationDelegate
     result = notification.topic == responsibility
     LOGGER.debug(self.class) { "#{notification.topic} == #{responsibility} => #{result}" }
     result
+  end
+
+  def not_handled(command)
+    logger.info(self.class) { "#{command.name}: Currently not implemented." }
   end
 end
