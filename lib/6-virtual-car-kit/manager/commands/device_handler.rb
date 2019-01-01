@@ -23,6 +23,10 @@ class DeviceHandler
     e.backtrace.each { |l| logger.error(l) }
   end
 
+  def logger
+    LogActually.commands
+  end
+
   def connect
     logger.info(self.class) { CONNECT }
     # manager.connect

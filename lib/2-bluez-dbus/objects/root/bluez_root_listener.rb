@@ -5,7 +5,7 @@ class BluezRootListener < BaseSignalListener
   include SignalDelegator
 
   def logger
-    LogActually.root
+    LogActually.object_manager
   end
 
   # @override ObjectManagerListener

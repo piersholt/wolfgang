@@ -10,6 +10,10 @@ class ManagerNotificationHandler
     :device
   end
 
+  def logger
+    LogActually.core
+  end
+
   def take_responsibility(notification)
     relay(notification)
     # case notification.name

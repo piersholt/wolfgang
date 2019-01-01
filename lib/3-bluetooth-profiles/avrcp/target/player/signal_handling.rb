@@ -20,7 +20,7 @@ module AVRCP
     # Comment
     module SignalHandling
       def properties_changed(signal)
-        LogActually.target.debug(self.class.name) { 'player_properties_changed!' }
+        LogActually.avrcp.debug(self.class.name) { 'player_properties_changed!' }
         attributes!(signal.changed)
         if signal.only_track? && signal.title?
           track_change(signal)
@@ -43,33 +43,33 @@ module AVRCP
       end
 
       def track_change(signal)
-        LogActually.target.debug("#{self.class}#attributes!") { 'Track change!' }
+        LogActually.avrcp.debug("#{self.class}#attributes!") { 'Track change!' }
         # attributes!(signal.changed)
         track_changed!
       end
 
       def track_duration(signal)
-        LogActually.target.debug("#{self.class}#attributes!") { "Duration: #{signal.changed}" }
+        LogActually.avrcp.debug("#{self.class}#attributes!") { "Duration: #{signal.changed}" }
         # attributes!(signal.changed)
       end
 
       def track_start(signal)
-        LogActually.target.debug("#{self.class}#attributes!") { 'Track start!' }
+        LogActually.avrcp.debug("#{self.class}#attributes!") { 'Track start!' }
         # attributes!(signal.changed)
         track_started!
       end
 
       def track_end(signal)
-        LogActually.target.debug("#{self.class}#attributes!") { 'Track end!' }
+        LogActually.avrcp.debug("#{self.class}#attributes!") { 'Track end!' }
         # attributes!(signal.changed)
         track_ended!
       end
 
       def track_end?(signal)
         delta = signal.position - duration
-        LogActually.target.debug("#{self.class}#attributes!") { "#{time signal.position} - #{time duration} => #{delta}" }
+        LogActually.avrcp.debug("#{self.class}#attributes!") { "#{time signal.position} - #{time duration} => #{delta}" }
         result = delta >= 0
-        LogActually.target.debug("#{self.class}#attributes!") { "delta >= 0 => #{result}" }
+        LogActually.avrcp.debug("#{self.class}#attributes!") { "delta >= 0 => #{result}" }
         result
       end
 
@@ -80,25 +80,25 @@ module AVRCP
       def track_position(signal)
         return track_start(signal) if track_start?(signal)
         return track_end(signal) if track_end?(signal)
-        LogActually.target.debug("#{self.class}#attributes!") { "Position: #{time signal.position}" }
+        LogActually.avrcp.debug("#{self.class}#attributes!") { "Position: #{time signal.position}" }
         # attributes!(signal.changed)
         position!
       end
 
       def player_status(signal)
-        LogActually.target.debug("#{self.class}#attributes!") { signal.status }
+        LogActually.avrcp.debug("#{self.class}#attributes!") { signal.status }
         # attributes!(signal.changed)
         status!
       end
 
       def player_repeat(signal)
-        LogActually.target.debug("#{self.class}#attributes!") { signal.repeat }
+        LogActually.avrcp.debug("#{self.class}#attributes!") { signal.repeat }
         # attributes!(signal.changed)
         repeat!
       end
 
       def player_shuffle(signal)
-        LogActually.target.debug("#{self.class}#attributes!") { signal.shuffle }
+        LogActually.avrcp.debug("#{self.class}#attributes!") { signal.shuffle }
         # attributes!(signal.changed)
         shuffle!
       end

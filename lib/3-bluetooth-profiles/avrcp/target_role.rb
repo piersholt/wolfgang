@@ -85,11 +85,11 @@ module AVRCP
     end
 
     def create_target
-      LogActually.target.debug(self.class) { "Create Target." }
+      LogActually.avrcp.debug(self.class) { "Create Target." }
       new_target = AVRCP::Target.new
-      LogActually.target.debug(self.class) { "@new_target => #{new_target.__id__}" }
+      LogActually.avrcp.debug(self.class) { "@new_target => #{new_target.__id__}" }
       new_target.notifications_queue = notifications_queue
-      LogActually.target.debug(self.class) { "@new_target.notifications_queue => #{new_target.notifications_queue}" }
+      LogActually.avrcp.debug(self.class) { "@new_target.notifications_queue => #{new_target.notifications_queue}" }
       # new_target.commands_queue = commands_queue
       new_target
 

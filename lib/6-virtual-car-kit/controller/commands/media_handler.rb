@@ -36,6 +36,10 @@ class MediaHandler
     e.backtrace.each { |l| logger.error(l) }
   end
 
+  def logger
+    LogActually.commands
+  end
+
   def responsibility
     MEDIA
   end

@@ -10,6 +10,10 @@ class TargetNotificationHandler
     :target
   end
 
+  def logger
+    LogActually.avrcp
+  end
+
   def take_responsibility(notification)
     relay(notification)
   end

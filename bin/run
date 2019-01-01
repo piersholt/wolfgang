@@ -19,32 +19,40 @@ begin
   require 'log_actually'
 
   LogActually.is_all_around(:messaging)
-  LogActually.messaging.i
+  LogActually.messaging.d
 
   # Bluez
   LogActually.is_all_around(:service)
   LogActually.service.i
-  LogActually.is_all_around(:root)
-  LogActually.root.i
+
+  LogActually.is_all_around(:object_manager)
+  LogActually.object_manager.i
   LogActually.is_all_around(:properties)
   LogActually.properties.i
-  LogActually.is_all_around(:device)
-  LogActually.device.i
-  LogActually.is_all_around(:player)
-  LogActually.player.i
-  LogActually.is_all_around(:media_transport)
-  LogActually.media_transport.i
-  LogActually.is_all_around(:media_browser)
-  LogActually.media_browser.i
+
   LogActually.is_all_around(:controller)
   LogActually.controller.i
+  LogActually.is_all_around(:device)
+  LogActually.device.i
+
+  LogActually.is_all_around(:media_transport)
+  LogActually.media_transport.i
+  LogActually.is_all_around(:media_player)
+  LogActually.media_player.i
+  LogActually.is_all_around(:media_browser)
+  LogActually.media_browser.i
 
   # Bluetooth Profiles
-  LogActually.is_all_around(:target)
-  LogActually.target.i
-
   LogActually.is_all_around(:core)
   LogActually.core.i
+  LogActually.is_all_around(:avrcp)
+  LogActually.avrcp.i
+
+  # Car Kit
+  LogActually.is_all_around(:notifications)
+  LogActually.notifications.i
+  LogActually.is_all_around(:commands)
+  LogActually.commands.i
 
   LOGGER = LogActually.is_all_around(:default)
   LogActually.default.i

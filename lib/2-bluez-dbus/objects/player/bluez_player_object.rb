@@ -15,6 +15,6 @@ class BluezPlayerObject < ObjectAdapter
   end
 
   def logger
-    LogActually.player
+    LogActually.media_player
   end
 end

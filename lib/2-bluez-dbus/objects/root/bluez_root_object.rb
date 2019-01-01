@@ -13,6 +13,6 @@ class BluezRootObject < ObjectAdapter
   end
 
   def logger
-    LogActually.root
+    LogActually.object_manager
   end
 end

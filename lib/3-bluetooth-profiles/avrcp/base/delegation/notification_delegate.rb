@@ -16,7 +16,8 @@ module NotificationDelegate
   end
 
   def logger
-    LogActually.messaging
+    LogActually.notifications
+    raise(StandardError, 'do not use NotificationDelegate logger as is shared...')
   end
 
   def forward(notification)

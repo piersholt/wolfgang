@@ -10,6 +10,10 @@ class PlayerNotificationHandler
     :player
   end
 
+  def logger
+    LogActually.media_player
+  end
+
   def take_responsibility(notification)
     relay(notification)
   end

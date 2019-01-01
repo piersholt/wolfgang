@@ -17,7 +17,7 @@ class BluezPlayerListener < BaseSignalListener
   end
 
   def logger
-    LogActually.player
+    LogActually.media_player
   end
 
   def fetch_current_state(player)

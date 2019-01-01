@@ -8,7 +8,7 @@ class NotificationListener
   attr_accessor :handler
 
   def logger
-    LogActually.messaging
+    LogActually.notifications
   end
 
   def pop_and_delegate(i, nq)

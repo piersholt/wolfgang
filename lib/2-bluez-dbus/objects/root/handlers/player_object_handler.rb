@@ -11,8 +11,8 @@ class PlayerObjectHandler
   end
 
   def interfaces_added(signal)
-    LogActually.player.info(name) { "New media player! #{signal.object_suffixed}." }
-    LogActually.player.debug(name) { "#{signal.object_suffixed} includes #{responsibility} interface(s)." }
+    LogActually.media_player.info(name) { "New media player! #{signal.object_suffixed}." }
+    LogActually.media_player.debug(name) { "#{signal.object_suffixed} includes #{responsibility} interface(s)." }
     player_object = BluezDBus.service.player(signal.object_path)
     # new_player(player_object)
     BluezPlayerListener.instance.new_player(player_object)
@@ -25,7 +25,7 @@ class PlayerObjectHandler
   end
 
   def new_player(player)
-    LogActually.player.debug(name) { 'Media player signal setup... properties_changed' }
+    LogActually.media_player.debug(name) { 'Media player signal setup... properties_changed' }
     player
       .properties
       .listen(

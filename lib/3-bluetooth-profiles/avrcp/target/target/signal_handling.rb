@@ -10,8 +10,8 @@ module AVRCP
           begin
             control_properties_changed(signal)
           rescue StandardError => e
-            LogActually.target.error('Properties') { e }
-            e.backtrace.each { |line| LogActually.target.error(line) }
+            LogActually.avrcp.error('Properties') { e }
+            e.backtrace.each { |line| LogActually.avrcp.error(line) }
           end
         end
       end
@@ -21,8 +21,8 @@ module AVRCP
           begin
             addressed_player.properties_changed(signal)
           rescue StandardError => e
-            LogActually.target.error('Properties') { e }
-            e.backtrace.each { |line| LogActually.target.error(line) }
+            LogActually.avrcp.error('Properties') { e }
+            e.backtrace.each { |line| LogActually.avrcp.error(line) }
           end
         end
       end
@@ -30,7 +30,7 @@ module AVRCP
       # --------------------------------------------------------------------- #
 
       # def device_properties_changed(signal)
-      #   LogActually.target.debug(self.class.name) { 'device_properties_changed!' }
+      #   LogActually.avrcp.debug(self.class.name) { 'device_properties_changed!' }
       #   if signal.only?('Connected') && signal.connected?
       #     device_connected
       #   elsif signal.only?('Connected') && signal.disconnected?
@@ -45,7 +45,7 @@ module AVRCP
       # end
 
       def control_properties_changed(signal)
-        LogActually.target.debug(self.class.name) { 'media_control_properties_changed!' }
+        LogActually.avrcp.debug(self.class.name) { 'media_control_properties_changed!' }
         if signal.connected? && signal.player?
           player_added(signal)
         elsif signal.player?
@@ -56,7 +56,7 @@ module AVRCP
       end
 
       # def interface_called(event)
-      #   LogActually.target.debug(self.class.name) { 'interface_called!' }
+      #   LogActually.avrcp.debug(self.class.name) { 'interface_called!' }
       #   if event.method == :connect
       #     device_connecting
       #   elsif event.method == :disconnect
@@ -65,41 +65,41 @@ module AVRCP
       # end
 
       def player_added(signal)
-        LogActually.target.debug(self.class) { 'Player available!' }
+        LogActually.avrcp.debug(self.class) { 'Player available!' }
         add_player(signal.player)
         player_added!
         # player.track_changed!
       end
 
       def player_changed(signal)
-        LogActually.target.debug(self.class) { 'Player changed!' }
+        LogActually.avrcp.debug(self.class) { 'Player changed!' }
         add_player(signal.player)
         player_changed!
       end
 
       def player_removed
-        LogActually.target.debug(self.class) { 'Player removed!' }
+        LogActually.avrcp.debug(self.class) { 'Player removed!' }
         remove_player
         player_removed!
       end
 
       # def device_connecting
-      #   LogActually.target.debug(self.class) { '#connect: Device connecting...' }
+      #   LogActually.avrcp.debug(self.class) { '#connect: Device connecting...' }
       #   device_connecting!
       # end
       #
       # def device_disconnecting
-      #   LogActually.target.debug(self.class) { '#disconnect: Device disconnecting...' }
+      #   LogActually.avrcp.debug(self.class) { '#disconnect: Device disconnecting...' }
       #   device_disconnecting!
       # end
       #
       # def device_connected
-      #   LogActually.target.debug(self.class) { 'Device connected!' }
+      #   LogActually.avrcp.debug(self.class) { 'Device connected!' }
       #   device_connected!
       # end
       #
       # def device_disconnected
-      #   LogActually.target.debug(self.class) { 'Device disconnected!' }
+      #   LogActually.avrcp.debug(self.class) { 'Device disconnected!' }
       #   device_disconnected!
       # end
     end

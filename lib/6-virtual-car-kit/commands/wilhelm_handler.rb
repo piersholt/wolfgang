@@ -20,6 +20,10 @@ class WilhelmHandler
     e.backtrace.each { |l| logger.error(l) }
   end
 
+  def logger
+    LogActually.commands
+  end
+
   def responsibility
     WILHELM
   end
