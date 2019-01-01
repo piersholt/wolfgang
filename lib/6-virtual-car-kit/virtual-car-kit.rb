@@ -7,18 +7,22 @@ manager_root = car_kit_root + '/manager'
 # Controller
 require "#{controller_root}/notifications/player_notification_handler"
 require "#{controller_root}/notifications/target_notification_handler"
-require "#{controller_root}/notifications/notification_listener"
 
-require "#{controller_root}/commands/command_listener"
 require "#{controller_root}/commands/media_handler"
-require "#{controller_root}/commands/device_handler"
-require "#{controller_root}/commands/wilhelm_handler"
 
 require "#{controller_root}/controller"
 
 # Manager
 require "#{manager_root}/notifications/manager_notification_handler"
+
+require "#{manager_root}/commands/device_handler"
+
 require "#{manager_root}/manager"
 
 # Cat Kit
+require "#{car_kit_root}/notifications/notification_listener"
+
+require "#{car_kit_root}/commands/wilhelm_handler"
+require "#{car_kit_root}/commands/command_listener"
+
 require "#{car_kit_root}/virtual_car_kit"
