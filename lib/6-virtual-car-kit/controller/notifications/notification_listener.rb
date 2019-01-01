@@ -4,7 +4,6 @@
 class NotificationListener
   include Singleton
   include NotificationDelegator
-  # include LazyLogger
 
   attr_accessor :handler
 
@@ -13,9 +12,9 @@ class NotificationListener
   end
 
   def pop_and_delegate(i, nq)
-    logger.debug('Notification') { "#{i}. Wait" }
+    logger.debug(self.class) { "#{i}. Wait" }
     notification = nq.pop
-    logger.debug('Notification') { "#{i}. #{notification}" }
+    logger.debug(self.class) { "#{i}. #{notification}" }
     delegate(notification)
   rescue IfYouWantSomethingDone
     logger.warn(self.class) { 'Chain did not handle!' }
@@ -26,13 +25,13 @@ class NotificationListener
       Thread.current[:name] = 'NotificationListener'
       # Publisher.ready
       begin
-        logger.warn('NotificationListener') { 'Thread start!' }
+        logger.warn(self.class) { 'Thread start!' }
         i = 1
         loop do
           pop_and_delegate(i, nq)
           i += 1
         end
-        logger.warn('NotificationListener') { 'Thread end!' }
+        logger.warn(self.class) { 'Thread end!' }
       rescue StandardError => e
         logger.error(self.class) { e }
         e.backtrace.each do |line|

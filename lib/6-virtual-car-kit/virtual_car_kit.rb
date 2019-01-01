@@ -56,6 +56,8 @@ class VirtualCarKit
     media_handler
   end
 
+  # Notifications
+
   def setup_outgoing_notification_handlers
     primary = configure_outgoing_notification_delegates
     notification_listener = NotificationListener.instance
