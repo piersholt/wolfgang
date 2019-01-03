@@ -1,30 +1,39 @@
 class MessagingQueue
   module Announce
-    def online(who_am_i)
+    include ManageableThreads
+    def announcement(announcer)
       # logger.debug('Announce') { "Spawn Thread" }
-      Thread.new(who_am_i) do |who_am_i|
+      @announce = Thread.new(announcer) do |announcer|
         # logger.debug('Announce') { "Thead new" }
         begin
           # logger.debug('Announce') { "Start" }
-          2.times do |i|
-            online_publish(who_am_i)
-            Kernel.sleep(0.5)
+          3.times do
+            announce(announcer)
+            Kernel.sleep(1)
             # logger.debug('Announce') { "announce #{i}" }
           end
           # logger.debug('Announce') { 'Finish' }
         rescue StandardError => e
           with_backtrace(logger, e)
         end
-        # logger.debug('Announce') { "Thead end" }
+        logger.debug(self.class) { "Annoucement complete!" }
       end
       # logger.debug('Announce') { "Spawned Thread" }
+      add_thread(@announce)
     end
 
-    def online_publish(who_am_i)
-      n = Messaging::Notification.new(topic: who_am_i, name: :online)
+    def announce(announcer)
+      n = Messaging::Notification.new(topic: announcer, name: :announcement)
       LogActually.messaging.debug(self.class) { "Publisher Ready Send." }
-      # Publisher.send(n.topic, n)
       Publisher.send!(n)
+    end
+
+    def self.announce
+      instance.announce(announcer)
+    end
+
+    def self.announement
+      instance.announement(announcer)
     end
   end
 end

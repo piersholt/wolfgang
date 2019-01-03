@@ -17,7 +17,7 @@ require 'yabber/serialization'
 require 'yabber/message/serialized'
 
 require 'yabber/queue/thread_safe'
-require 'yabber/queue/online'
+require 'yabber/queue/announce'
 require 'yabber/queue/messaging_queue'
 require 'yabber/queue/publisher'
 require 'yabber/queue/subscriber'

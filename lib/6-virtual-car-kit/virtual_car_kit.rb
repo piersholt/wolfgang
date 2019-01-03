@@ -7,7 +7,7 @@ class VirtualCarKit
   attr_reader :manager
 
   def initialize
-    Publisher.online(:wolfgang)
+    Publisher.announcement(:wolfgang)
     @controller = Controller.new(outgoing_notifications_queue)
     @manager = Manager.new(outgoing_notifications_queue)
     setup_outgoing_notification_handlers
