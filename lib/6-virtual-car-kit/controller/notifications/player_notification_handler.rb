@@ -5,6 +5,7 @@ class PlayerNotificationHandler
   include Singleton
   include NotificationDelegate
   include NotificationsRelay
+  include Messaging::Constants
 
   def responsibility
     :player
@@ -15,6 +16,7 @@ class PlayerNotificationHandler
   end
 
   def take_responsibility(notification)
+    notification.topic = CONTROLLER
     relay(notification)
   end
 end

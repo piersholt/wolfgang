@@ -5,6 +5,7 @@ class ManagerNotificationHandler
   include Singleton
   include NotificationDelegate
   include NotificationsRelay
+  include Messaging::Constants
 
   def responsibility
     :device
@@ -15,6 +16,7 @@ class ManagerNotificationHandler
   end
 
   def take_responsibility(notification)
+    notification.topic = MANAGER
     relay(notification)
     # case notification.name
     # when :player_added

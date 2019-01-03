@@ -9,8 +9,8 @@ module Messaging
     include Validation
     include Defaults
 
-    attr_reader :version, :topic, :type
-    attr_accessor :id, :session
+    attr_reader :version, :type
+    attr_accessor :id, :session, :topic
 
     def initialize(version: VERSION, topic:, type:, session: SESSION_ID, id: MESSAGE_ID)
       validate_arguments(version: version, topic: topic, type: type)

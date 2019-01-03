@@ -12,19 +12,23 @@ module Messaging
 
     # Message Topics/Channels
     module Topics
+      DEBUG = :debug
+
       WILHELM = :wilhelm
       WOLFGANG = :wolfgang
       WALTER = :walter
 
-      MEDIA = :media
+      MANAGER = :manager
+      CONTROLLER = :controller
       TEL = :tel
 
+      # TODO: make a new type for internal notifications
       DEVICE = :device
       TARGET = :target
       PLAYER = :player
       TRACK = :track
 
-      TOPICS = [WILHELM, WOLFGANG, WALTER, MEDIA, TEL, DEVICE, TARGET, PLAYER, TRACK].freeze
+      TOPICS = [DEBUG, WILHELM, WOLFGANG, WALTER, MANAGER, CONTROLLER, TEL, DEVICE, TARGET, PLAYER].freeze
     end
 
     # Notification Types
