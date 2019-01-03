@@ -5,6 +5,7 @@ class VirtualCarKit
   include BluezDBusInterface
   attr_reader :controller
   attr_reader :manager
+  include Messaging::API
 
   def initialize
     Publisher.announcement(:wolfgang)

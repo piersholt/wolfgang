@@ -24,7 +24,10 @@ require 'yabber/queue/subscriber'
 require 'yabber/queue/server'
 require 'yabber/queue/client'
 
-require 'yabber/notifier'
+require 'yabber/api/debug'
+require 'yabber/api/manager'
+require 'yabber/api/controller'
+require 'yabber/api/api'
 
 require 'yabber/delegation/chain_errors'
 require 'yabber/delegation/delegate_validation'
