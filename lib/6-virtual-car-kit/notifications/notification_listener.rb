@@ -9,7 +9,7 @@ class NotificationListener
   attr_accessor :handler
 
   def logger
-    LogActually.notifications
+    LOGGER
   end
 
   def pop_and_delegate(i, nq)
@@ -24,7 +24,6 @@ class NotificationListener
   def listen(notifications_queue)
     @bluez_notification_listener = Thread.new(notifications_queue) do |nq|
       Thread.current[:name] = 'NotificationListener'
-      # Publisher.ready
       begin
         logger.warn(self.class) { 'Thread start!' }
         i = 1

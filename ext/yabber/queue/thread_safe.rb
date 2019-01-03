@@ -3,11 +3,6 @@ class MessagingQueue
     include ManageableThreads
     QUEUE_SIZE = 32
 
-    # def self.queue
-    #   instance.queue
-    # end
-
-
     def queue_message(message)
       logger.debug(self.class) { "Queue Message" }
       logger.debug(self.class) { "Queued Message: #{message}" }
@@ -60,8 +55,6 @@ class MessagingQueue
       @worker = Thread.new(q) do |thread_queue|
         LogActually.messaging.debug(self.class) { "Worker: #{Thread.current}" }
         Thread.current[:name] = 'Publisher Worker'
-        # Publisher.announce
-        # Kernel.sleep(3)
         begin
           logger.debug(self.class) { 'Worker starting...' }
           worker_process(thread_queue)
