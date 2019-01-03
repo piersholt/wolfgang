@@ -32,11 +32,9 @@ rescue StandardError => e
 end
 
 LOGGER = LogActually.is_all_around(:default)
+LOGGER.i
 LogActually.is_all_around(:messaging)
 LogActually.messaging.d
-LOGGER = LogActually.is_all_around(:default)
-LOGGER.i
-
 
 LOGGER.info('bin') { 'Start setting up Subscriber...' }
 
