@@ -27,7 +27,7 @@ module NotificationDelegate
 
   def responsible?(notification)
     result = notification.topic == responsibility
-    LOGGER.debug(self.class) { "#{notification.topic} == #{responsibility} => #{result}" }
+    logger.debug(self.class) { "#{notification.topic} == #{responsibility} => #{result}" }
     result
   end
 

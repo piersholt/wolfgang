@@ -25,3 +25,10 @@ require 'yabber/queue/server'
 require 'yabber/queue/client'
 
 require 'yabber/notifier'
+
+require 'yabber/delegation/chain_errors'
+require 'yabber/delegation/delegate_validation'
+require 'yabber/delegation/notification_delegate_validation'
+require 'yabber/delegation/notification_delegate'
+require 'yabber/delegation/notification_delegator'
+require 'yabber/delegation/notification_handler'

@@ -3,15 +3,10 @@
 avrcp_root = '3-bluetooth-profiles/avrcp'
 target_root = avrcp_root + '/target'
 
-base = avrcp_root + '/base'
 player = target_root + '/player'
 target = target_root + '/target'
 
 # BASE
-require "#{base}/delegation/notification_delegate_validation"
-require "#{base}/delegation/notification_delegate"
-require "#{base}/delegation/notification_delegator"
-require "#{base}/delegation/notification_handler"
 # require "#{base}/notification_listener"
 
 # PLAYER
