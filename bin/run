@@ -79,6 +79,7 @@ end
 LOGGER.debug('bin') { 'Require local dependencies' }
 
 begin
+  require 'helpers/manageable_threads'
   require 'yabber/yabber'
   require '1-dbus-decorator/dbus-decorator'
   require '2-bluez-dbus/bluez-dbus'

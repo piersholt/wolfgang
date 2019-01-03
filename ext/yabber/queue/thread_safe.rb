@@ -1,5 +1,6 @@
 class MessagingQueue
   module ThreadSafe
+    include ManageableThreads
     QUEUE_SIZE = 32
 
     # def self.queue
@@ -56,7 +57,7 @@ class MessagingQueue
       return false if fuck_off?
       LogActually.messaging.debug(self.class) { 'Create Worker' }
       q = existing_queue ? existing_queue : queue
-      Thread.new(q) do |thread_queue|
+      @worker = Thread.new(q) do |thread_queue|
         LogActually.messaging.debug(self.class) { "Worker: #{Thread.current}" }
         Thread.current[:name] = 'Publisher Worker'
         # Publisher.announce
@@ -72,6 +73,7 @@ class MessagingQueue
           end
         end
       end
+      add_thread(@worker)
       fuck_off!
     end
 

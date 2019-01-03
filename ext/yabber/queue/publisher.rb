@@ -3,8 +3,10 @@
 # Comment
 class Publisher < MessagingQueue
   extend Forwardable
+  include ManageableThreads
   include ThreadSafe
   include Announce
+  extend Announce
 
   def_delegators :socket, :send, :sendm
 

@@ -4,6 +4,7 @@
 class NotificationListener
   include Singleton
   include NotificationDelegator
+  include ManageableThreads
 
   attr_accessor :handler
 
@@ -21,7 +22,7 @@ class NotificationListener
   end
 
   def listen(notifications_queue)
-    Thread.new(notifications_queue) do |nq|
+    @bluez_notification_listener = Thread.new(notifications_queue) do |nq|
       Thread.current[:name] = 'NotificationListener'
       # Publisher.ready
       begin
@@ -38,6 +39,7 @@ class NotificationListener
           logger.error(self.class) { line }
         end
       end
+      add_thread(@bluez_notification_listener)
     end
   end
 

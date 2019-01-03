@@ -17,16 +17,17 @@ end
 
 begin
   require 'log_actually'
+  require 'helpers/manageable_threads'
   require 'yabber/yabber'
 rescue LoadError => e
-  LOGGER.error('bin') { 'Dependencies load error!' }
-  LOGGER.error('bin') { e }
-  e.backtrace.each { |line| LOGGER.error('bin') { line } }
+  puts 'Dependencies load error!'
+  puts e
+  e.backtrace.each { |line| puts line }
   exit
 rescue StandardError => e
-  LOGGER.error('bin') { 'Dependencies standard error?' }
-  LOGGER.error('bin') { e }
-  e.backtrace.each { |line| LOGGER.error('bin') { line } }
+  puts 'Dependencies standard error?'
+  puts e
+  e.backtrace.each { |line| puts line }
   exit
 end
 

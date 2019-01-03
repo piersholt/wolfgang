@@ -4,6 +4,7 @@
 class CommandListener
   include Singleton
   include NotificationDelegator
+  include ManageableThreads
 
   attr_reader :listener_thread
 
@@ -60,6 +61,7 @@ class CommandListener
           end
         end
       end
+    add_thread(@listener_thread)
   end
 
   def ignore
