@@ -6,6 +6,7 @@ class Server < MessagingQueue
   # include ThreadSafe
 
   def_delegators :socket, :recv, :send
+  attr_reader :thread
 
   DEFAULTS = {
     role: :REP,
@@ -22,17 +23,21 @@ class Server < MessagingQueue
   #   queue_message(message)
   # end
 
-  def test
-    logger.unknown(self.class) { "#test" }
-    Thread.new do
+  def self.start
+    instance.start
+  end
+
+  def start
+    logger.debug(self.class) { "#test" }
+    @thread = Thread.new do
       begin
         i = 0
-        logger.unknown(self.class) { "enter loop..." }
-        while i < 10
+        logger.debug(self.class) { "enter loop..." }
+        while i < 50
           message = recv
-          logger.unknown(self.class) { "recv => #{message}" }
+          logger.debug(self.class) { "recv => #{message}" }
           result = send('pong')
-          logger.unknown(self.class) { "send('pong') => #{result}" }
+          logger.debug(self.class) { "send('pong') => #{result}" }
           i += 1
         end
       rescue StandardError => e

@@ -9,6 +9,7 @@ class VirtualCarKit
 
   def initialize
     Publisher.announcement(:wolfgang)
+    Server.start
     @controller = Controller.new(outgoing_notifications_queue)
     @manager = Manager.new(outgoing_notifications_queue)
     setup_outgoing_notification_handlers

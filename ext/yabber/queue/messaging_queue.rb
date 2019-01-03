@@ -39,7 +39,9 @@ class MessagingQueue
   end
 
   def close
-    socket.close
+    LogActually.messaging.warn(self.class) { '#close' }
+    result = socket.close
+    LogActually.messaging.warn(self.class) { "socket.close => #{result}" }
     @socket = nil
   end
 
