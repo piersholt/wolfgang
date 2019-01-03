@@ -3,7 +3,7 @@
 # Defines a single server with a list of roles and multiple properties.
 # You can define all roles on a single server, or split them:
 
-server 'pi', user: 'pi', roles: %w{development}
+server '192.168.1.110', user: 'pi', roles: %w{development}
 
 # role-based syntax
 # ==================
