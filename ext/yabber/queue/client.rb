@@ -16,8 +16,8 @@ class Client < MessagingQueue
 
   # @override ThreadSafe#queue_message
   def queue_message(string, callback)
-    logger.debug(self.class) { 'Queue Message' }
-    logger.debug(self.class) { "Queued Message: #{string}" }
+    logger.debug('Client#queue_message') { 'Queue Message' }
+    logger.debug('Client#queue_message') { "Queued Message: #{string}" }
     queue.push(string: string, callback: callback)
     true
   rescue StandardError => e

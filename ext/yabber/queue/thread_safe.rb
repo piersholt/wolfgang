@@ -4,8 +4,8 @@ class MessagingQueue
     QUEUE_SIZE = 32
 
     def queue_message(message)
-      logger.debug(self.class) { "Queue Message" }
-      logger.debug(self.class) { "Queued Message: #{message}" }
+      logger.debug('ThreadSafe#queue_message') { "Queue Message" }
+      logger.debug('ThreadSafe#queue_message') { "Queued Message: #{message}" }
       queue.push(message)
       true
     rescue StandardError => e
