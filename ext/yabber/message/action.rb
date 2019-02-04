@@ -13,7 +13,7 @@ module Messaging
     end
 
     def hashified
-      { action: { name: name } }
+      { action: { name: name, properties: properties } }
     end
 
     def to_h

@@ -16,15 +16,7 @@ class VirtualCarKit
     setup_incoming_command_handlers
   end
 
-  def start
-    signals({})
-    run
-    binding.pry
-  end
-
-  def outgoing_notifications_queue
-    @outgoing_notifications_queue ||= Queue.new
-  end
+  # Dirty Shortcuts
 
   def devices
     manager.manager.devices
@@ -32,6 +24,14 @@ class VirtualCarKit
 
   def device(nickname)
     manager.manager.device(nickname)
+  end
+
+  # private
+
+  def start
+    signals({})
+    run
+    binding.pry
   end
 
   # Commands
@@ -59,6 +59,10 @@ class VirtualCarKit
   end
 
   # Notifications
+
+  def outgoing_notifications_queue
+    @outgoing_notifications_queue ||= Queue.new
+  end
 
   def setup_outgoing_notification_handlers
     primary = configure_outgoing_notification_delegates

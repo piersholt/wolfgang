@@ -32,6 +32,7 @@ module NotificationDelegate
   end
 
   def not_handled(command)
-    logger.info(self.class) { "#{command.name}: Currently not implemented." }
+    # logger.info(self.class) { "#{command.name}: Currently not implemented." }
+    logger.warn(self.class) { "#{command.name}: Currently not implemented. (#{command.properties})" }
   end
 end

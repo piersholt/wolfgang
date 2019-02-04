@@ -29,7 +29,20 @@ class Publisher < MessagingQueue
     instance.online(who_am_i)
   end
 
+  def self.disconnect
+    instance.worker.raise(GoHomeNow, 'Disconnect called!')
+  end
+
+  def self.destroy
+    instance.destroy
+  end
+
   private
+
+  # @override
+  def logger
+    LogActually.publisher
+  end
 
   # @pverride
   def open_socket
@@ -40,6 +53,13 @@ class Publisher < MessagingQueue
     context
     worker
     context.bind(role, uri)
+  end
+
+  def disconnect
+    logger.debug(self.class) { '#disconnect' }
+    result = socket.disconnect(uri)
+    logger.debug(self.class) { "socket.disconnect => #{result}" }
+    result
   end
 
   def default_role

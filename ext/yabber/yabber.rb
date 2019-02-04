@@ -11,6 +11,7 @@ require 'yabber/object_validation'
 require 'yabber/message/base_message'
 require 'yabber/message/action'
 require 'yabber/message/notification'
+require 'yabber/message/request'
 
 require 'yabber/klasses'
 require 'yabber/serialization'

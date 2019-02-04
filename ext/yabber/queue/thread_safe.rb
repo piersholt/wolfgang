@@ -14,11 +14,15 @@ class MessagingQueue
     end
 
     def queue
-      @queue ||= create_queue
+      Mutex.new.synchronize do
+        @queue ||= create_queue
+      end
     end
 
     def worker
-      @worker ||= create_worker
+      Mutex.new.synchronize do
+        @worker ||= create_worker
+      end
     end
 
     def fuck_off?
@@ -37,6 +41,12 @@ class MessagingQueue
         i += 1
         # Kernel.sleep(3)
       end
+    rescue MessagingQueue::Errors::GoHomeNow => e
+      logger.debug(self.class) { "#{e.class}: #{e.message}" }
+      result = disconnect
+      logger.debug(self.class) { "#disconnect => #{result}" }
+      # with_backtrace(logger, e)
+      # logger.fatal(self.class) { 'Okay byyyeeeee!' }
     end
 
     def create_queue
@@ -58,7 +68,7 @@ class MessagingQueue
         begin
           logger.debug(self.class) { 'Worker starting...' }
           worker_process(thread_queue)
-          logger.warn(self.class) { 'Worker ended...!' }
+          logger.debug(self.class) { 'Worker ended...!' }
         rescue StandardError => e
           logger.error(self.class) { e }
           e.backtrace.each do |line|

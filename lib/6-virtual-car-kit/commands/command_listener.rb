@@ -47,10 +47,11 @@ class CommandListener
   def listen
     @listener_thread =
       Thread.new do
-        Thread.current[:name] = 'CommandListener'
-        Subscriber.mbp
-        Subscriber.subscribe('')
         begin
+          Thread.current[:name] = 'CommandListener'
+          Kernel.sleep(5)
+          Subscriber.mbp
+
           logger.debug('CommandListener') { 'Thread listen start!' }
           listen_loop
           logger.debug('CommandListener') { 'Thread listen end!' }
@@ -60,6 +61,7 @@ class CommandListener
             logger.error(self.class) { line }
           end
         end
+        logger.warn('CommandListener') { 'Listening thread is ending?' }
       end
     add_thread(@listener_thread)
   end

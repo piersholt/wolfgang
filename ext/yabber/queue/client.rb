@@ -14,29 +14,49 @@ class Client < MessagingQueue
     port: '5557'
   }.freeze
 
+  def self.pi
+    instance.address = '192.168.1.107'
+  end
+
+  def self.disconnect
+    instance.worker.raise(GoHomeNow, 'Disconnect called!')
+  end
+
+  def self.destroy
+    instance.destroy
+  end
+
   # @override ThreadSafe#queue_message
-  def queue_message(string, callback)
+  def queue_message(request, callback)
     logger.debug('Client#queue_message') { 'Queue Message' }
-    logger.debug('Client#queue_message') { "Queued Message: #{string}" }
-    queue.push(string: string, callback: callback)
+    logger.debug('Client#queue_message') { "Queued Message: #{request}" }
+    queue.push(request: request, callback: callback)
     true
   rescue StandardError => e
     with_backtrace(logger, e)
     false
   end
 
-  def self.pi
-    instance.address = '192.168.1.107'
-  end
-
   private
+
+  # @override
+  def logger
+    LogActually.client
+  end
 
   # @override ThreadSafe#pop
   def pop(i, thread_queue)
     logger.debug(self.class) { "Worker waiting (Next: Message ID: #{i})" }
-    popped_messsage = thread_queue.pop
-    logger.debug(self.class) { "Message ID: #{i} => #{popped_messsage}" }
-    popped_messsage
+    popped_request = thread_queue.pop
+
+    req = popped_request[:request]
+    popped_request[:request] = req.to_yaml
+
+    logger.debug(self.class) { "Message ID: #{i} => #{popped_request}" }
+    popped_request
+
+    # logger.debug(self.class) { "Message ID: #{i} => #{popped_messsage}" }
+    # popped_messsage
   rescue StandardError => e
     logger.error(self.class) { e }
   end
@@ -46,10 +66,23 @@ class Client < MessagingQueue
     i = 1
     loop do
       string_hash = pop(i, thread_queue)
-      forward_to_zeromq(string_hash[:string], &string_hash[:callback])
+      forward_to_zeromq(string_hash[:request], &string_hash[:callback])
       i += 1
       # Kernel.sleep(3)
     end
+  rescue GoHomeNow => e
+    logger.debug(self.class) { "#{e.class}: #{e.message}" }
+    result = disconnect
+    logger.debug(self.class) { "#disconnect => #{result}" }
+    # with_backtrace(logger, e)
+    # logger.fatal(self.class) { 'Okay byyyeeeee!' }
+  end
+
+  def deserialize(serialized_object)
+    command = Messaging::Serialized.new(serialized_object).parse
+    logger.info(self.class) { "Deserialized: #{command}" }
+    logger.info(self.class) { "name: #{command.name} (#{command.name.class})" }
+    command
   end
 
   # @override ThreadSafe#forward_to_zeromq
@@ -63,7 +96,9 @@ class Client < MessagingQueue
 
       LogActually.messaging.debug(self.class) { "#select([socket], nil, nil, #{timeout})" }
       if select([socket], nil, nil, timeout)
-        reply = socket.recv
+        serialized_reply = socket.recv
+        LogActually.messaging.debug(self.class) { "serialized_reply => #{serialized_reply}" }
+        reply = deserialize(serialized_reply)
         LogActually.messaging.debug(self.class) { "reply => #{reply}" }
         yield(reply, nil)
         return true
@@ -86,6 +121,7 @@ class Client < MessagingQueue
     # self.counter = counter + 1
   end
 
+  # @override ZMQ.select due to what I think is odd IO.select behaviour
   def select(read = [], write = [], error = [], timeout = nil)
     poller = ZMQ::Poller.new
     read&.each { |s| poller.register_readable(s) }
@@ -101,7 +137,7 @@ class Client < MessagingQueue
     end
   end
 
-  # @pverride
+  # @pverride MessagingQueue#open_socket
   def open_socket
     LogActually.messaging.info(self.class) { 'Open Socket.' }
     LogActually.messaging.debug(self.class) { "Socket: #{Thread.current}" }
@@ -111,7 +147,21 @@ class Client < MessagingQueue
     # binding.pry
     queue
     # worker
-    context.connect(role, uri)
+    connect
+  end
+
+  def connect
+    LogActually.messaging.warn(self.class) { '#connect' }
+    result = context.connect(role, uri)
+    LogActually.messaging.warn(self.class) { "socket.connect => #{result}" }
+    result
+  end
+
+  def disconnect
+    logger.debug(self.class) { '#disconnect' }
+    result = socket.disconnect(uri)
+    logger.debug(self.class) { "socket.disconnect => #{result}" }
+    result
   end
 
   def default_role

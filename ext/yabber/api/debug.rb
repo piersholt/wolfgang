@@ -9,6 +9,10 @@ module Messaging
       def hello
         thy_will_be_done!(DEBUG, HELLO)
       end
+
+      def ping!(callback)
+        so?(WOLFGANG, PING, {}, callback)
+      end
     end
   end
 end

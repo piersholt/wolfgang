@@ -7,7 +7,9 @@ module Messaging
 
     TYPE_CLASS_MAP = {
       ACTION => Action,
-      NOTIFICATION => Notification
+      NOTIFICATION => Notification,
+      REQUEST => Request,
+      REPLY => Reply
     }.freeze
   end
 end

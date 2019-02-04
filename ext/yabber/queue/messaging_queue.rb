@@ -13,7 +13,9 @@ class MessagingContext
   end
 
   def context
-    @context ||= create_context
+    Mutex.new.synchronize do
+      @context ||= create_context
+    end
   end
 
   def create_context
@@ -25,13 +27,25 @@ end
 
 # Comment
 class MessagingQueue
+  module Errors
+    class GoHomeNow < StandardError
+    end
+  end
+end
+
+# Comment
+class MessagingQueue
   include Singleton
   include LogActually::ErrorOutput
+  include Errors
   attr_writer :role, :protocol, :address, :port
   # attr_accessor :counter
 
   def destroy
-    context.destroy
+    logger.debug(self.class) { '#destroy' }
+    result = context.destroy
+    logger.debug(self.class) { "context.destroy => #{result}" }
+    result
   end
 
   def logger
@@ -44,6 +58,10 @@ class MessagingQueue
     LogActually.messaging.warn(self.class) { "socket.close => #{result}" }
     @socket = nil
   end
+
+  # def self.disconnect
+  #   instance.disconnect
+  # end
 
   def sanitize(string)
     string.to_s
@@ -61,7 +79,9 @@ class MessagingQueue
   private
 
   def context
-    @context ||= create_context
+    Mutex.new.synchronize do
+      @context ||= create_context
+    end
   end
 
   def create_context

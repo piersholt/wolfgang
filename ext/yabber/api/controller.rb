@@ -6,6 +6,18 @@ module Messaging
     module Controller
       include Constants
 
+      def send_me_everyone
+        everyone?
+      end
+
+      def everyone?
+        evvveeerrrryyyyoooonnnneeee!
+      end
+
+      def evvveeerrrryyyyoooonnnneeee!
+        thy_will_be_done!(CONTROLLER, EVERYONE)
+      end
+
       def play!
         thy_will_be_done!(CONTROLLER, PLAY)
       end
