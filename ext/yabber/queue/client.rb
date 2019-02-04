@@ -14,6 +14,7 @@ class Client < MessagingQueue
     port: '5557'
   }.freeze
 
+  # @override ThreadSafe#queue_message
   def queue_message(string, callback)
     logger.debug(self.class) { 'Queue Message' }
     logger.debug(self.class) { "Queued Message: #{string}" }
@@ -30,6 +31,7 @@ class Client < MessagingQueue
 
   private
 
+  # @override ThreadSafe#pop
   def pop(i, thread_queue)
     logger.debug(self.class) { "Worker waiting (Next: Message ID: #{i})" }
     popped_messsage = thread_queue.pop
@@ -39,6 +41,7 @@ class Client < MessagingQueue
     logger.error(self.class) { e }
   end
 
+  # @override ThreadSafe#worker_process
   def worker_process(thread_queue)
     i = 1
     loop do
@@ -49,6 +52,7 @@ class Client < MessagingQueue
     end
   end
 
+  # @override ThreadSafe#forward_to_zeromq
   def forward_to_zeromq(string, &callback)
     timeout = 5
     3.times do
