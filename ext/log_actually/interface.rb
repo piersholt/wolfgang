@@ -12,7 +12,7 @@ class LogActually
     log = Log.new(:welcome, STDERR)
     Forrest.instance.add(:welcome, log)
     welcome_log = Forrest.instance.loggers[:welcome]
-    welcome_log.info('LogActually') { 'Beause log actually..., is all around.' }
+    welcome_log.info('LogActually') { 'Beause log actually..., is all around. ❤️' }
     Forrest.instance.remove(:welcome)
     true
   end
