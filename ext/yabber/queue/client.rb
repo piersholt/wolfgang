@@ -37,12 +37,12 @@ class Client < MessagingQueue
     false
   end
 
-  private
-
   # @override
   def logger
     LogActually.client
   end
+
+  private
 
   # @override ThreadSafe#pop
   def pop(i, thread_queue)
@@ -57,15 +57,19 @@ class Client < MessagingQueue
 
     # logger.debug(self.class) { "Message ID: #{i} => #{popped_messsage}" }
     # popped_messsage
+  rescue GoHomeNow => e
+    raise e
   rescue StandardError => e
-    logger.error(self.class) { e }
+    with_backtrace(logger, e)
   end
 
   # @override ThreadSafe#worker_process
   def worker_process(thread_queue)
+    logger.debug(self.class) { "#worker_process (#{Thread.current})" }
     i = 1
     loop do
       string_hash = pop(i, thread_queue)
+      # logger.debug(self.class) { "string_hash => #{string_hash}" }
       forward_to_zeromq(string_hash[:request], &string_hash[:callback])
       i += 1
       # Kernel.sleep(3)
@@ -80,39 +84,46 @@ class Client < MessagingQueue
 
   def deserialize(serialized_object)
     command = Messaging::Serialized.new(serialized_object).parse
-    logger.info(self.class) { "Deserialized: #{command}" }
-    logger.info(self.class) { "name: #{command.name} (#{command.name.class})" }
+    logger.debug(self.class) { "Deserialized: #{command}" }
+    logger.debug(self.class) { "name: #{command.name} (#{command.name.class})" }
     command
   end
 
+  # def send_tha_thing(i, string)
+  #   logger.debug(self.class) { "Attempt: #{i}" }
+  #   result = socket.send(string)
+  #   logger.debug(self.class) { "send(#{string}) => #{result}" }
+  #   raise StandardError, 'message failed to send...' unless result
+  # end
+
   # @override ThreadSafe#forward_to_zeromq
   def forward_to_zeromq(string, &callback)
-    timeout = 5
-    3.times do
-      LogActually.messaging.debug(self.class) { "#forward_to_zeromq(#{string})" }
+    timeout = 10
+    logger.debug(self.class) { "#forward_to_zeromq(#{string})" }
+    3.times do |i|
       result = socket.send(string)
-      LogActually.messaging.debug(self.class) { "send(#{string}) => #{result}" }
+      logger.debug(self.class) { "send(#{string}) => #{result}" }
       raise StandardError, 'message failed to send...' unless result
-
-      LogActually.messaging.debug(self.class) { "#select([socket], nil, nil, #{timeout})" }
+      logger.debug(self.class) { "#select([socket], nil, nil, #{timeout})" }
       if select([socket], nil, nil, timeout)
         serialized_reply = socket.recv
-        LogActually.messaging.debug(self.class) { "serialized_reply => #{serialized_reply}" }
+        logger.debug(self.class) { "serialized_reply => #{serialized_reply}" }
         reply = deserialize(serialized_reply)
-        LogActually.messaging.debug(self.class) { "reply => #{reply}" }
+        logger.debug(self.class) { "reply => #{reply}" }
         yield(reply, nil)
         return true
       else
-         LogActually.messaging.warn(self.class) { 'Timeout! Retry!' }
-         close
-         socket
-         timeout *= 2
+        yield(reply, :timeout)
+        logger.warn(self.class) { 'Timeout! Retry!' }
+        close
+        socket
+        timeout *= 2
       end
-      LogActually.messaging.warn(self.class) { 'Down?' }
+      logger.warn(self.class) { 'Down?' }
     end
 
     # raise StandardError, 'server down?'
-    yield(nil, StandardError)
+    yield(nil, :down)
 
     # reply = recv
     # LogActually.messaging.debug(self.class) { "reply => #{reply}" }
@@ -151,9 +162,9 @@ class Client < MessagingQueue
   end
 
   def connect
-    LogActually.messaging.warn(self.class) { '#connect' }
+    LogActually.messaging.debug(self.class) { '#connect' }
     result = context.connect(role, uri)
-    LogActually.messaging.warn(self.class) { "socket.connect => #{result}" }
+    LogActually.messaging.debug(self.class) { "socket.connect => #{result}" }
     result
   end
 

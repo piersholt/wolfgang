@@ -27,7 +27,7 @@ class Subscriber < MessagingQueue
   def self.subscribe(topic = :broadcast)
     topic_string = topic.to_s
     topic_human = topic_string.empty? ? 'All Topics' : topic_string
-    LogActually.messaging.info(self) { "Subscribe: #{topic_human}" }
+    LogActually.messaging.debug(self) { "Subscribe: #{topic_human}" }
     instance.subscribe(topic_string)
   end
 

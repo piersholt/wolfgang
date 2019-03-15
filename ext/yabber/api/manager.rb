@@ -6,20 +6,24 @@ module Messaging
     module Manager
       include Constants
 
-      def device_list
-        thy_will_be_done!(MANAGER, DEVICES)
+      # def device_list
+      #   thy_will_be_done!(DEVICE, DEVICES)
+      # end
+
+      def devices!(callback)
+        so?(DEVICE, DEVICES, {}, callback)
       end
 
       # def device_list?
-      #   so?(MANAGER, DEVICES)
+      #   so?(DEVICE, DEVICES)
       # end
 
       def connect(device_address)
-        thy_will_be_done!(MANAGER, CONNECT, address: device_address)
+        thy_will_be_done!(DEVICE, CONNECT, address: device_address)
       end
 
       def disconnect(device_address)
-        thy_will_be_done!(MANAGER, DISCONNECT, address: device_address)
+        thy_will_be_done!(DEVICE, DISCONNECT, address: device_address)
       end
     end
   end

@@ -15,6 +15,7 @@ class MessagingQueue
 
     def queue
       Mutex.new.synchronize do
+        logger.debug(self.class) { "#queue [Thread: #{Thread.current}]" }
         @queue ||= create_queue
       end
     end
@@ -34,6 +35,7 @@ class MessagingQueue
     end
 
     def worker_process(thread_queue)
+      logger.debug(self.class) { "#worker_process (#{Thread.current})" }
       i = 1
       loop do
         message_hash = pop(i, thread_queue)
@@ -62,22 +64,28 @@ class MessagingQueue
       return false if fuck_off?
       LogActually.messaging.debug(self.class) { 'Create Worker' }
       q = existing_queue ? existing_queue : queue
-      @worker = Thread.new(q) do |thread_queue|
-        LogActually.messaging.debug(self.class) { "Worker: #{Thread.current}" }
-        Thread.current[:name] = 'Publisher Worker'
-        begin
-          logger.debug(self.class) { 'Worker starting...' }
-          worker_process(thread_queue)
-          logger.debug(self.class) { 'Worker ended...!' }
-        rescue StandardError => e
-          logger.error(self.class) { e }
-          e.backtrace.each do |line|
-            logger.error(self.class) { line }
+      @worker = create_worker_thread(q)
+      add_thread(@worker)
+      fuck_off!
+    end
+
+    def create_worker_thread(q)
+      Mutex.new.synchronize do
+        Thread.new(q) do |thread_queue|
+          LogActually.messaging.debug(self.class) { "Worker: #{Thread.current}" }
+          Thread.current[:name] = 'Publisher Worker'
+          begin
+            logger.debug(self.class) { 'Worker starting...' }
+            worker_process(thread_queue)
+            logger.debug(self.class) { 'Worker ended...!' }
+          rescue StandardError => e
+            logger.error(self.class) { e }
+            e.backtrace.each do |line|
+              logger.error(self.class) { line }
+            end
           end
         end
       end
-      add_thread(@worker)
-      fuck_off!
     end
 
     def pop(i, thread_queue)
@@ -92,6 +100,10 @@ class MessagingQueue
       message_hash
     rescue IfYouWantSomethingDone
       logger.warn(self.class) { 'Chain did not handle!' }
+    rescue MessagingQueue::Errors::GoHomeNow => e
+      raise e
+    rescue StandardError => e
+      with_backtrace(logger, e)
     end
 
     def forward_to_zeromq(topic, payload)

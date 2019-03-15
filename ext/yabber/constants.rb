@@ -7,7 +7,9 @@ module Messaging
     module Types
       NOTIFICATION = :notification
       ACTION = :action
-      TYPES = %i[action notification].freeze
+      REQUEST = :request
+      REPLY = :reply
+      TYPES = %i[action notification request reply].freeze
     end
 
     # Message Topics/Channels
@@ -21,6 +23,8 @@ module Messaging
       MANAGER = :manager
       CONTROLLER = :controller
       TEL = :tel
+
+      MEDIA = CONTROLLER
 
       # TODO: make a new type for internal notifications
       DEVICE = :device
@@ -63,10 +67,13 @@ module Messaging
       include Topics
       # Walter/Wolfgang
       HELLO = :hello
+      PING = :ping
+      PONG = :pong
 
       # Device
       CONNECT = :connect
       DISCONNECT = :disconnect
+      DEVICES = :devices
 
       # Player
       PLAY = :play
@@ -78,10 +85,12 @@ module Messaging
       SCAN_FORWARD_STOP = :scan_forward_stop
       SCAN_BACKWARD_START = :scan_backward_start
       SCAN_BACKWARD_STOP = :scan_backward_stop
+      EVERYONE = :everyone
 
       ACTIONS = {
-        WALTER => [HELLO],
-        WOLFGANG => [HELLO],
+        WALTER => [HELLO, PING, PONG],
+        WOLFGANG => [HELLO, PING, PONG],
+        WILHELM => [HELLO, PING, PONG],
         DEVICE => [
           CONNECT, DISCONNECT
         ],

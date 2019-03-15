@@ -1,5 +1,17 @@
 # frozen_string_literal: true
 
+# Yabber
+LogActually.is_all_around(:messaging)
+LogActually.messaging.i
+LogActually.is_all_around(:client)
+LogActually.client.i
+LogActually.is_all_around(:publisher)
+LogActually.publisher.i
+LogActually.is_all_around(:server)
+LogActually.server.i
+LogActually.is_all_around(:subscriber)
+LogActually.subscriber.i
+
 require 'rbczmq'
 require 'singleton'
 

@@ -47,12 +47,13 @@ class Server < MessagingQueue
       begin
         i = 0
         logger.debug(self.class) { "enter loop..." }
-        while i < 500
+        loop do
           do_things(i)
           i += 1
         end
       rescue StandardError => e
-        logger.error(self.class) { e }
+        logger.fatal(self.class) { e }
+        e.backtrace { |line| logger.fatal(self.class) { line } }
       end
       logger.warn(self.class) { 'Test thread ending?' }
     end
