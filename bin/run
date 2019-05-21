@@ -2,39 +2,61 @@
 
 # frozen_string_literal: true
 
+# *************************************************************************** #
+#                                  LOAD PATHS                                 #
+# *************************************************************************** #
 begin
   require 'rubygems'
   require 'bundler/setup'
 
   require 'pry-byebug'
 
-  if ENV['BUNDLE_GEMFILE']
-    root_path = File.dirname(ENV['BUNDLE_GEMFILE'])
-    lib_path = root_path + '/lib'
-    $LOAD_PATH.unshift(lib_path)
-    ext_path = root_path + '/ext'
-    $LOAD_PATH.unshift(ext_path)
+  require 'walter/shared/log_actually'
+  require 'walter/shared/yabber'
+
+  # Setup load path for application (makes you realise RubyGems spoils you...)
+  def setup_path(dir)
+    load_path = File.expand_path(File.dirname(__FILE__) + "/../#{dir}")
+    $LOAD_PATH.unshift(load_path) unless $LOAD_PATH.include?(load_path)
+  rescue StandardError => e
+    puts e
+    e.backtrace.each { |line| puts line }
+    exit
   end
 
-  require 'log_actually'
+  setup_path('lib')
+rescue LoadError => e
+  # LogActually.default.error('run') { e }
+  puts e
+  e.backtrace.each { |line| puts line }
+  $LOAD_PATH.each { |line| puts line }
+  exit
+rescue StandardError => e
+  puts e
+  e.backtrace.each { |line| puts line }
+end
 
-  LogActually.is_all_around(:messaging)
-  LogActually.messaging.d
+begin
+  LOGGER = LogActually.is_all_around(:default)
+  LogActually.default.i
 
   # Bluez
   LogActually.is_all_around(:service)
   LogActually.service.i
 
+  # Core Objects
   LogActually.is_all_around(:object_manager)
   LogActually.object_manager.i
   LogActually.is_all_around(:properties)
   LogActually.properties.i
 
+  # Objects
   LogActually.is_all_around(:controller)
   LogActually.controller.i
   LogActually.is_all_around(:device)
   LogActually.device.i
 
+  # Interfaces
   LogActually.is_all_around(:media_transport)
   LogActually.media_transport.i
   LogActually.is_all_around(:media_player)
@@ -54,8 +76,12 @@ begin
   LogActually.is_all_around(:commands)
   LogActually.commands.i
 
-  LOGGER = LogActually.is_all_around(:default)
-  LogActually.default.i
+  # Yabber
+  LogActually.messaging.d
+  LogActually.publisher.d
+  LogActually.subscriber.d
+  LogActually.client.d
+  LogActually.server.d
 rescue LoadError => e
   LOGGER.error('bin') { 'Dependencies load error!' }
   LOGGER.error('bin') { e }
@@ -79,7 +105,7 @@ end
 LOGGER.debug('bin') { 'Require local dependencies' }
 
 begin
-  require 'yabber'
+
   require '1-dbus-decorator/dbus-decorator'
   require '2-bluez-dbus/bluez-dbus'
   require '3-bluez-manager/bluez-manager'
@@ -102,6 +128,13 @@ end
 begin
   t = Thread.current
   t[:name] = 'Main Thread'
+  LOGGER.info('bin') { 'Starting Publisher...' }
+  Publisher.announcement(:wolfgang)
+  LOGGER.info('bin') { 'Starting Server...' }
+  Server.start
+  LOGGER.info('bin') { 'Delay...' }
+  sleep(3)
+  LOGGER.info('bin') { 'Starting VirtualCarKit' }
   virtual_car_kit = VirtualCarKit.new
   virtual_car_kit.start
 rescue StandardError => e
