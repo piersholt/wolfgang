@@ -15,7 +15,7 @@ class MediaPlayerInterfaceHandler
 
   # @override SignalDelegate
   def properties_changed(signal)
-    LogActually.media_player.debug('MediaPlayerInterfaceHandler') { '#properties_changed' }
+    # LogActually.media_player.debug('MediaPlayerInterfaceHandler') { '#properties_changed' }
     callback.call(signal)
     # interrogate(signal)
   end

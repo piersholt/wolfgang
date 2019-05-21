@@ -8,8 +8,6 @@ class VirtualCarKit
   include Messaging::API
 
   def initialize
-    Publisher.announcement(:wolfgang)
-    Server.start
     @controller = Controller.new(outgoing_notifications_queue)
     @manager = Manager.new(outgoing_notifications_queue)
     setup_outgoing_notification_handlers
@@ -50,9 +48,13 @@ class VirtualCarKit
     media_handler = MediaHandler.instance
     media_handler.target = controller.target
 
+    target_handler = TargetHandler.instance
+    target_handler.target = controller.target
+
     wilhelm_handler = WilhelmHandler.instance
 
-    media_handler.successor = device_handler
+    media_handler.successor = target_handler
+    target_handler.successor = device_handler
     device_handler.successor = wilhelm_handler
 
     media_handler

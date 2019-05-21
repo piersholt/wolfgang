@@ -12,8 +12,6 @@ class MediaHandler
   def take_responsibility(command)
     logger.debug(self.class) { "#take_responsibility(#{command})" }
     case command.name
-    when EVERYONE
-      everyone(command)
     when PLAY
       play(command)
     when PAUSE
@@ -43,13 +41,7 @@ class MediaHandler
   end
 
   def responsibility
-    MEDIA
-  end
-
-  def everyone(command)
-    logger.info(self.class) { EVERYONE }
-    logger.debug(self.class) { command }
-    target.everyone!
+    PLAYER
   end
 
   def play(command)

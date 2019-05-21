@@ -36,7 +36,7 @@ module Core
 
       # array{string} UUIDs [readonly, optional]
       def uuids
-        attributes['{'] ||= object.uuids
+        attributes['UUIDs'] ||= object.uuids
       end
 
       # boolean Paired [readonly]

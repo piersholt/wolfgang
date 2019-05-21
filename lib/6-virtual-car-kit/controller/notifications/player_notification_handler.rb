@@ -16,7 +16,7 @@ class PlayerNotificationHandler
   end
 
   def take_responsibility(notification)
-    notification.topic = CONTROLLER
+    notification.topic = PLAYER
     relay(notification)
   end
 end

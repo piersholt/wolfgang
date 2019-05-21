@@ -33,6 +33,10 @@ module AVRCP
       def duration
         track['Duration'] ||= object.track['Duration']
       end
+
+      def track_number
+        track['TrackNumber'] ||= object.track['TrackNumber']
+      end
     end
   end
 end

@@ -16,7 +16,7 @@ class TargetNotificationHandler
   end
 
   def take_responsibility(notification)
-    notification.topic = CONTROLLER
+    notification.topic = TARGET
     relay(notification)
   end
 end

@@ -95,4 +95,8 @@ class PlayerPropertiesChanged < PropertiesChanged
   def artist
     track['Artist']
   end
+
+  def track_number
+    track['TrackNumber']
+  end
 end

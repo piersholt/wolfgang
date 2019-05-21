@@ -25,7 +25,7 @@ class CommandListener
     command = deserialize(serialized_object)
     delegate(command)
   rescue IfYouWantSomethingDone
-    logger.warn(self.class) { "Chain did not handle! (#{command})" }
+    logger.debug(self.class) { "Chain did not handle! (#{command})" }
   rescue StandardError => e
     logger.error(self.class) { e }
     e.backtrace.each { |line| logger.error(self.class) { line } }

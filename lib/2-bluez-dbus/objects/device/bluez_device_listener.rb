@@ -14,7 +14,8 @@ class BluezDeviceListener < BaseSignalListener
   end
 
   def interface_called(event)
-    logger.debug(name) { "#{method_name} called!" }
+    logger.debug(name) { "#interface_called(#{event})" }
+    # logger.debug(name) { "#{method_name} called!" }
     self.proc = 'Device#InterfaceCalled'
     delegate(:interface_called, event)
   rescue IfYouWantSomethingDone

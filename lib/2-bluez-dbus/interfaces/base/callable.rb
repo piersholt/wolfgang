@@ -7,11 +7,11 @@ module Callable
     on_calls(callback)
   end
 
-  def called(interface_name, method_name)
+  def called(interface_name, method_name, properties = {})
     logger.debug(self.class) { '#on_call_default_block' }
     call_callback = fetch_callback(method_name)
     # logger.debug(self.class) { "callback: #{call_callback}" }
-    call_callback.call(interface_name, method_name)
+    call_callback.call(interface_name, method_name, properties)
   end
 
   private
@@ -70,13 +70,13 @@ module Callable
     on_call_default_block
   end
 
-  def on_call_block(listener, method, klass)
+  def on_call_block(listener, method, klass, properties = {})
     proc do |called_interface, called_method|
       begin
         logger.debug('Interface') { "Thread: #{Thread.current}: #{Thread.current[:name]}" }
         logger.debug('Interface') { "Object: #{self}" }
-        call = klass.new(called_interface, called_method)
-        listener.public_send(method, call)
+        call_signal = klass.new(called_interface, called_method, properties)
+        listener.public_send(method, call_signal)
       rescue StandardError => e
         logger.error('Interface') { e }
         e.backtrace.each { |line| logger.error(line) }
@@ -102,8 +102,8 @@ module Callable
     proc do |response|
       begin
         # logger.any(self.class) { "result inspect: #{response.inspect}" }
-        logger.debug(self.class) { '#on_call_default_block' }
-        # logger.debug(self.class) { "result: #{response}" }
+        logger.debug(self.class.name) { '#on_call_default_block' }
+        logger.debug(self.class.name) { "result: #{response}" }
       rescue StandardError => e
         logger.error(self.class) { e }
         e.backtrace.each { |line| logger.error(line) }

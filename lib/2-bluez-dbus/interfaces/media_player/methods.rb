@@ -18,7 +18,9 @@ module BluezMediaPlayer
     end
 
     def stop
-      interface(BLUEZ_MEDIA_PLAYER).Stop
+      interface(BLUEZ_MEDIA_PLAYER).Stop do |resp|
+        LOGGER.info(self.class) { "#Stop callback? #{resp}" }
+      end
     end
 
     def next
@@ -34,11 +36,15 @@ module BluezMediaPlayer
     end
 
     def fast_forward
-      interface(BLUEZ_MEDIA_PLAYER).FastForward
+      interface(BLUEZ_MEDIA_PLAYER).FastForward do |resp|
+        LOGGER.info(self.class) { "#FastForward callback? #{resp}" }
+      end
     end
 
     def rewind
-      interface(BLUEZ_MEDIA_PLAYER).Rewind
+      interface(BLUEZ_MEDIA_PLAYER).Rewind do |resp|
+        LOGGER.info(self.class) { "#Rewind callback? #{resp}" }
+      end
     end
   end
 end

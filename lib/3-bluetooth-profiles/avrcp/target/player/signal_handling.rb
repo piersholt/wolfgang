@@ -24,6 +24,8 @@ module AVRCP
         attributes!(signal.changed)
         if signal.only_track? && signal.title?
           track_change(signal)
+        # elsif signal.only_duration?
+          # track ending, updating track that's starting
         elsif signal.duration? && !signal.title?
           track_duration(signal)
         elsif signal.only_position?
@@ -44,32 +46,28 @@ module AVRCP
 
       def track_change(signal)
         LogActually.avrcp.debug("#{self.class}#attributes!") { 'Track change!' }
-        # attributes!(signal.changed)
         track_changed!
       end
 
       def track_duration(signal)
         LogActually.avrcp.debug("#{self.class}#attributes!") { "Duration: #{signal.changed}" }
-        # attributes!(signal.changed)
       end
 
       def track_start(signal)
         LogActually.avrcp.debug("#{self.class}#attributes!") { 'Track start!' }
-        # attributes!(signal.changed)
         track_started!
       end
 
       def track_end(signal)
         LogActually.avrcp.debug("#{self.class}#attributes!") { 'Track end!' }
-        # attributes!(signal.changed)
         track_ended!
       end
 
       def track_end?(signal)
-        delta = signal.position - duration
-        LogActually.avrcp.debug("#{self.class}#attributes!") { "#{time signal.position} - #{time duration} => #{delta}" }
-        result = delta >= 0
-        LogActually.avrcp.debug("#{self.class}#attributes!") { "delta >= 0 => #{result}" }
+        delta =  duration - signal.position
+        LogActually.avrcp.debug("#{self.class}#attributes!") { "#{time duration} - #{time signal.position} => #{delta}" }
+        result = delta <= 1500
+        LogActually.avrcp.debug("#{self.class}#attributes!") { "delta <= 1500 => #{result}" }
         result
       end
 
@@ -81,25 +79,21 @@ module AVRCP
         return track_start(signal) if track_start?(signal)
         return track_end(signal) if track_end?(signal)
         LogActually.avrcp.debug("#{self.class}#attributes!") { "Position: #{time signal.position}" }
-        # attributes!(signal.changed)
         position!
       end
 
       def player_status(signal)
         LogActually.avrcp.debug("#{self.class}#attributes!") { signal.status }
-        # attributes!(signal.changed)
         status!
       end
 
       def player_repeat(signal)
         LogActually.avrcp.debug("#{self.class}#attributes!") { signal.repeat }
-        # attributes!(signal.changed)
         repeat!
       end
 
       def player_shuffle(signal)
         LogActually.avrcp.debug("#{self.class}#attributes!") { signal.shuffle }
-        # attributes!(signal.changed)
         shuffle!
       end
     end

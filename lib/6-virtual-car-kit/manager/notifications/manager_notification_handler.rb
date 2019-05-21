@@ -16,7 +16,7 @@ class ManagerNotificationHandler
   end
 
   def take_responsibility(notification)
-    notification.topic = MANAGER
+    notification.topic = DEVICE
     relay(notification)
     # case notification.name
     # when :player_added

@@ -23,6 +23,36 @@ module Core
       @devices ||= {}
     end
 
+    def connect(device_address)
+      logger.debug(self.class.name) { "#connect(#{device_address})" }
+      target_device = find_by(:address, device_address)
+      logger.debug(self.class.name) { "Cannot find device to connect!" } unless target_device
+      return false unless target_device
+      target_device.connect
+      device_connecting!(target_device)
+      logger.debug(self.class.name) { "#connect returning...." }
+    end
+
+    def disconnect(device_address)
+      logger.debug(self.class.name) { "#disconnect(#{device_address})" }
+      target_device = find_by(:address, device_address)
+      logger.debug(self.class.name) { "Cannot find device to disconnect!" } unless target_device
+      return false unless target_device
+      target_device.disconnect
+      device_disconnecting!(target_device)
+      logger.debug(self.class.name) { "#disconnect returning...." }
+    end
+
+    def find_by(property, value)
+      logger.debug(self.class.name) { "#find_by(#{property}, #{value})" }
+      found_device = devices.find do |_, device|
+        device.public_send(property) == value
+      end
+      logger.debug(self.class.name) { "#find_by => #{found_device}" }
+      return false unless found_device
+      found_device[1]
+    end
+
     def device(nickname)
       found_device = devices.find do |_, device|
         if device.alias == nickname
@@ -30,6 +60,8 @@ module Core
         elsif nickname.is_a?(Symbol) && device.alias == nickname.to_s
           true
         elsif nickname.is_a?(Symbol) && device.alias.downcase == nickname.downcase.to_s
+          true
+        elsif device.address == nickname
           true
         else
           false

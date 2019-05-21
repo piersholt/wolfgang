@@ -34,11 +34,13 @@ module Core
         case devices.key?(device_path)
         when true
           devices[device_path].attributes!(signal.changed)
+          devices[device_path]
         when false
           new_device = Core::Device.new(device_path)
           new_device.attributes!(signal.changed)
           devices[device_path] = new_device
           # d = Core::Device.new("/org/bluez/hci1/dev_70_70_0D_11_CF_29")
+          devices[device_path]
         end
       rescue StandardError => e
         with_backtrace(logger, e)
@@ -46,51 +48,53 @@ module Core
 
       def device_properties_changed(signal)
         logger.debug(self.class) { "device_properties_changed! #{signal.path}" }
-        create_or_update_device(signal)
+        device_in_question = create_or_update_device(signal)
         # logger.unknown("i'm getting weird bug here. self.class => #{self.class}")
 
         if signal.only?('Connected') && signal.connected?
-          device_connected
+          device_connected(device_in_question)
         elsif signal.only?('Connected') && signal.disconnected?
-          device_disconnected
+          device_disconnected(device_in_question)
         elsif signal.connected?
           # LogActually.device.debug(self.class.name) { '' }
-          device_connected
+          device_connected(device_in_question)
         elsif signal.disconnected?
           # LogActually.device.debug(self.class.name) { 'existing disconnected!' }
-          # device_disconnected
+          device_disconnected(device_in_question)
         end
       rescue StandardError => e
         with_backtrace(logger, e)
       end
 
-      def interface_called(event)
-        logger.debug(self.class) { 'interface_called!' }
-        if event.method == :connect
+      def interface_called(interface_called_signal)
+        logger.debug(self.class) { "interface_called! (#{interface_called_signal})" }
+        if interface_called_signal.method == :connect
           device_connecting
-        elsif event.method == :disconnect
+        elsif interface_called_signal.method == :disconnect
           device_disconnecting
         end
       end
 
       def device_connecting
-        logger.debug(self.class) { '#connect: Device connecting...' }
-        device_connecting!
+        logger.debug(self.class) { "#connect: Device connecting..." }
+        # properties = find_by(:address, address) || {}
+        # device_connecting!(properties)
       end
 
       def device_disconnecting
-        logger.debug(self.class) { '#disconnect: Device disconnecting...' }
-        device_disconnecting!
+        logger.debug(self.class) { "#disconnect: Device disconnecting..." }
+        # properties = find_by(:address, address) || {}
+        # device_disconnecting!(properties)
       end
 
-      def device_connected
+      def device_connected(device_in_question)
         logger.debug(self.class) { 'Device connected!' }
-        device_connected!
+        device_connected!(device_in_question)
       end
 
-      def device_disconnected
+      def device_disconnected(device_in_question)
         logger.debug(self.class) { 'Device disconnected!' }
-        device_disconnected!
+        device_disconnected!(device_in_question)
       end
     end
   end

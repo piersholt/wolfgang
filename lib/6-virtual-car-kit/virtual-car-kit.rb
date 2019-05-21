@@ -9,6 +9,7 @@ require "#{controller_root}/notifications/player_notification_handler"
 require "#{controller_root}/notifications/target_notification_handler"
 
 require "#{controller_root}/commands/media_handler"
+require "#{controller_root}/commands/target_handler"
 
 require "#{controller_root}/controller"
 
