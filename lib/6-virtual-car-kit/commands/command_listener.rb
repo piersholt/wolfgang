@@ -50,7 +50,7 @@ class CommandListener
         begin
           Thread.current[:name] = 'CommandListener'
           Kernel.sleep(5)
-          Subscriber.mbp
+          Subscriber.walter
 
           logger.debug('CommandListener') { 'Thread listen start!' }
           listen_loop

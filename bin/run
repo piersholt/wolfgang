@@ -129,7 +129,8 @@ begin
   t = Thread.current
   t[:name] = 'Main Thread'
   LOGGER.info('bin') { 'Starting Publisher...' }
-  Publisher.announcement(:wolfgang)
+  # Publisher.announcement(:wolfgang)
+  Publisher.wolfgang
   LOGGER.info('bin') { 'Starting Server...' }
   Server.start
   LOGGER.info('bin') { 'Delay...' }

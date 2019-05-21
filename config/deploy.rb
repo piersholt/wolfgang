@@ -1,7 +1,7 @@
 # config valid for current version and patch releases of Capistrano
 lock '~> 3.11.0'
 
-set :application, 'Wolfgang'
+set :application, 'wolfgang'
 set :repo_url, 'git@github.com:piersholt/wolfgang.git'
 
 # Default branch is :master
