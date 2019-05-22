@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/piersholt/walter-shared.git
-  revision: 7aa0a6d21865620109a8c251ddad1a39f66e45e8
+  revision: 5d8a16bfdcd9a055e1bec84c429d68a85efe66cc
   branch: master
   specs:
     walter-shared (1.0.0.beta1)

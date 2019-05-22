@@ -132,7 +132,7 @@ begin
   # Publisher.announcement(:wolfgang)
   Publisher.wolfgang
   LOGGER.info('bin') { 'Starting Server...' }
-  Server.start
+  Server.wolfgang!
   LOGGER.info('bin') { 'Delay...' }
   sleep(3)
   LOGGER.info('bin') { 'Starting VirtualCarKit' }
