@@ -5,6 +5,8 @@ tmp
 log
 scripts
 
+.bundle
+
 ### OSX ###
 # General
 .DS_Store
