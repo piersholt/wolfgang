@@ -3,6 +3,7 @@
 class VirtualCarKit
   # Comment
   class Manager
+    include Messaging::API
     attr_reader :manager
 
     def initialize(outgoing_notifications_queue)
@@ -11,6 +12,8 @@ class VirtualCarKit
       @manager = @manager_role.manager
     end
 
-    # alias m manager
+    def punch_it_chewie
+      announce(Messaging::Constants::DEVICE)
+    end
   end
 end

@@ -16,6 +16,8 @@ class WilhelmHandler
       hello(command)
     when PING
       pong(command)
+    else
+      not_handled(command)
     end
   rescue StandardError => e
     logger.error(self.class) { e }
@@ -39,6 +41,7 @@ class WilhelmHandler
   def pong(command)
     logger.info(self.class) { PONG }
     logger.debug(self.class) { command }
+
     n = Messaging::Reply.new(topic: WOLFGANG, name: PONG)
     # notifications_queue.push(n)
     result = Server.instance.send(n.to_yaml)

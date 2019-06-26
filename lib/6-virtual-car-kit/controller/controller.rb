@@ -7,10 +7,14 @@ class VirtualCarKit
 
     def initialize(outgoing_notifications_queue)
       @target_role = AVRCP::TargetRole.new(outgoing_notifications_queue)
-      # @target_role.notifications_queue = 
+      # @target_role.notifications_queue =
       @target = @target_role.target
       # setup_notification_handlers
       # setup_command_handlers
+    end
+
+    def punch_it_chewie
+      announce(Messaging::Constants::TARGET)
     end
 
     # def start

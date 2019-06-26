@@ -99,18 +99,12 @@ rescue StandardError => e
   LOGGER.error('bin') { lib_path }
 rescue Interrupt
   Signal.trap(0, proc { puts "Terminating: #{$$}" })
-  # LOGGER.close
   exit
-# ensure
-#   exit
 end
-
-# LOGGER = get_logger
 
 LOGGER.debug('bin') { 'Require local dependencies' }
 
 begin
-
   require '1-dbus-decorator/dbus-decorator'
   require '2-bluez-dbus/bluez-dbus'
   require '3-bluez-manager/bluez-manager'
@@ -134,14 +128,11 @@ begin
   t = Thread.current
   t[:name] = 'Main Thread'
   LOGGER.info('bin') { 'Starting Publisher...' }
-  # Publisher.announcement(:wolfgang)
   Publisher.wolfgang
-  LOGGER.info('bin') { 'Starting Server...' }
-  Server.wolfgang!
-  LOGGER.info('bin') { 'Delay...' }
-  sleep(3)
   LOGGER.info('bin') { 'Starting VirtualCarKit' }
   virtual_car_kit = VirtualCarKit.new
+  LOGGER.info('bin') { 'Delay...' }
+  sleep(3)
   virtual_car_kit.start
 rescue StandardError => e
   LOGGER.error('bin') { 'Error starting app' }

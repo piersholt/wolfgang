@@ -19,8 +19,10 @@ class CommandListener
     command
   end
 
+  # SUBSCRIBER ----------------------------------------------------------------
+
   def pop_and_delegate(i)
-    logger.debug(self.class) { "#{i}. Wait" }
+    logger.debug(self.class) { "SUB #{i}. Wait" }
     serialized_object = Subscriber.recv
     command = deserialize(serialized_object)
     delegate(command)
@@ -45,12 +47,13 @@ class CommandListener
   end
 
   def listen
+    logger.debug(self.class) { "#listen" }
     @listener_thread =
       Thread.new do
         begin
-          Thread.current[:name] = 'CommandListener'
+          Thread.current[:name] = 'CommandListener (SUB)'
           Kernel.sleep(5)
-          Subscriber.walter
+          Subscriber.walter.mbp.go!
 
           logger.debug('CommandListener') { 'Thread listen start!' }
           listen_loop
@@ -65,6 +68,53 @@ class CommandListener
       end
     add_thread(@listener_thread)
   end
+
+  # REPLY ---------------------------------------------------------------------
+
+  def reply_iteration(i)
+    logger.debug(self.class) { "REP #{i}. Wait" }
+    serialized_object = Server.recv
+    command = deserialize(serialized_object)
+    # logger.debug(self.class) { "recv => #{command}" }
+    # CommandListener.instance.delegate(command)
+    delegate(command)
+    # result = send('pong')
+    # logger.debug(self.class) { "send('pong') => #{result}" }
+  rescue IfYouWantSomethingDone
+    logger.warn(self.class) { "Chain did not handle! (#{command})" }
+  rescue StandardError => e
+    logger.error(self.class) { e }
+    e.backtrace.each { |line| logger.error(self.class) { line } }
+  end
+
+  def reply_loop
+    i = 0
+    loop do
+      reply_iteration(i)
+      i += 1
+    end
+  end
+
+  def start
+    logger.debug(self.class) { "#start" }
+    @thread = Thread.new do
+      begin
+        Thread.current[:name] = 'CommandListener (REP)'
+        Kernel.sleep(5)
+        Server.wolfgang
+
+        logger.debug('CommandListener (REP)') { 'Thread listen start!' }
+        reply_loop
+        logger.debug('CommandListener (REP)') { 'Thread listen end!' }
+      rescue StandardError => e
+        logger.fatal(self.class) { e }
+        e.backtrace { |line| logger.fatal(self.class) { line } }
+      end
+      logger.warn(self.class) { 'Test thread ending?' }
+    end
+  end
+
+  # METHODS -------------------------------------------------------------------
 
   def ignore
     @listener_thread.stop.join

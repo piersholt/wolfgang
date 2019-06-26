@@ -26,8 +26,13 @@ class VirtualCarKit
 
   # private
 
+  NO_ARGS = {}.freeze
+
   def start
-    signals({})
+    manager.punch_it_chewie
+    # Hack-McHackFace. Headless Pi has no PulseAudio autostart
+    Thread.new { puts `pactl list sinks` }
+    signals(NO_ARGS)
     run
     binding.pry
   end
@@ -35,13 +40,14 @@ class VirtualCarKit
   # Commands
 
   def setup_incoming_command_handlers
-    primary = setup_incoming_notification_handlers
+    primary = setup_incoming_command_delegates
     command_listener = CommandListener.instance
     command_listener.declare_primary_delegate(primary)
     command_listener.listen
+    command_listener.start
   end
 
-  def setup_incoming_notification_handlers
+  def setup_incoming_command_delegates
     device_handler = DeviceHandler.instance
     device_handler.manager = manager.manager
 

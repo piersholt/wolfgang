@@ -62,13 +62,13 @@ class DeviceHandler
 #
     # payload = manager.devices
     logger.debug(self.class) { "payload.size => #{payload.size}" }
-    r = Messaging::Reply.new(topic: DEVICE, name: DEVICES, properties: payload)
+    reply = Messaging::Reply.new(topic: DEVICE, name: DEVICES, properties: payload)
     # notifications_queue.push(n)
-    result = Server.instance.send(r.to_yaml)
+    result = Server.instance.send(reply.to_yaml)
     # manager.devices.each do |device_id, device_object|
     #   n = Messaging::Notification.new(topic: DEVICE, name: :new_device, properties: device_object.attributes)
     #   Publisher.send!(n)
     # end
-    logger.debug(self.class) { "send(#{n}) => #{result}" }
+    logger.debug(self.class) { "send(#{reply}) => #{result}" }
   end
 end
