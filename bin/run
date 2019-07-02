@@ -13,15 +13,43 @@ puts "Wolfgang Copyright (C) 2019 Piers Holt\n"\
 begin
   require 'bundler/setup'
 
-  require 'pry-byebug'
   require 'dbus'
+  require 'figaro'
+  require 'pry-byebug'
 
-  require 'walter/shared/log_actually'
-  require 'walter/shared/yabber'
+  require 'wilhelm/tools'
+
+  # *************************************************************************** #
+  #                              CLI OPTIONS                                    #
+  # *************************************************************************** #
+
+  require 'optparse'
+  require 'ostruct'
+
+  options = OpenStruct.new
+  options.environment = 'development'
+  options.console = true
+
+  OptionParser.new do |opts|
+    opts.banner = 'Usage: run -e development -c'
+
+    opts.on('-c', '--console', 'Open Walter console') do |c|
+      options.console = c
+    end
+
+    opts.on('-e ENVIRONMENT', '--envrionment= ENVIRONMENT', 'Runtime environment') do |e|
+      options.environment = e
+    end
+  end.parse!
+
+  Figaro::Application.new(path: 'config/application.yml', environment: options[:environment])&.load
+  Figaro.require_keys(%w[publisher_host publisher_port subscriber_host subscriber_port server_host server_port])
 
   # Setup load path for application (makes you realise RubyGems spoils you...)
   def setup_path(dir)
+    puts "#setup_path(#{dir})"
     load_path = File.expand_path(File.dirname(__FILE__) + "/../#{dir}")
+    puts "load_path => #{load_path}"
     $LOAD_PATH.unshift(load_path) unless $LOAD_PATH.include?(load_path)
   rescue StandardError => e
     puts e
@@ -91,54 +119,57 @@ begin
   LogActually.client.i
   LogActually.server.i
 rescue LoadError => e
-  LOGGER.error('bin') { 'Dependencies load error!' }
-  LOGGER.error('bin') { e }
-  e.backtrace.each { |line| LOGGER.error('bin') { line } }
-  LOGGER.error('bin') { lib_path }
+  LOGGER.error(PROG_NAME) { 'Dependencies load error!' }
+  LOGGER.error(PROG_NAME) { e }
+  e.backtrace.each { |line| LOGGER.error(PROG_NAME) { line } }
+  LOGGER.error(PROG_NAME) { lib_path }
 rescue StandardError => e
-  LOGGER.error('bin') { 'Dependencies standard error?' }
-  LOGGER.error('bin') { e }
-  e.backtrace.each { |line| LOGGER.error('bin') { line } }
-  LOGGER.error('bin') { lib_path }
+  LOGGER.error(PROG_NAME) { 'Dependencies standard error?' }
+  LOGGER.error(PROG_NAME) { e }
+  e.backtrace.each { |line| LOGGER.error(PROG_NAME) { line } }
+  LOGGER.error(PROG_NAME) { lib_path }
 rescue Interrupt
   Signal.trap(0, proc { puts "Terminating: #{$$}" })
   exit
 end
 
-LOGGER.debug('bin') { 'Require local dependencies' }
 
 begin
+  PROG_NAME = 'wolfgang'
+  LOGGER.debug(PROG_NAME) { 'Require local dependencies' }
   require 'wolfgang'
 rescue LoadError => e
-  LOGGER.error('bin') { 'Dependencies load error!' }
-  LOGGER.error('bin') { e }
-  e.backtrace.each { |line| LOGGER.error('bin') { line } }
-  LOGGER.error('bin') { lib_path }
-  quit
+  LOGGER.error(PROG_NAME) { 'Dependencies load error!' }
+  LOGGER.error(PROG_NAME) { e }
+  e.backtrace.each { |line| LOGGER.error(PROG_NAME) { line } }
+  $LOAD_PATH.each  { |path| LOGGER.error(PROG_NAME) { path } }
 rescue StandardError => e
-  LOGGER.error('bin') { 'Dependencies standard error?' }
-  LOGGER.error('bin') { e }
-  e.backtrace.each { |line| LOGGER.error('bin') { line } }
-  LOGGER.error('bin') { lib_path }
-  quit
+  LOGGER.error(PROG_NAME) { 'Dependencies standard error?' }
+  LOGGER.error(PROG_NAME) { e }
+  e.backtrace.each { |line| LOGGER.error(PROG_NAME) { line } }
 end
 
 begin
   t = Thread.current
   t[:name] = 'Main Thread'
-  LOGGER.info('bin') { 'Starting Publisher...' }
-  Publisher.wolfgang
-  LOGGER.info('bin') { 'Starting VirtualCarKit' }
+  LOGGER.info(PROG_NAME) { 'Starting Publisher...' }
+  connection_options = {
+    port: ENV['publisher_port'],
+    host: ENV['publisher_host']
+  }
+  LOGGER.debug(PROG_NAME) { "Publisher connection options: #{connection_options}" }
+  Publisher.params(connection_options)
+  LOGGER.info(PROG_NAME) { 'Starting VirtualCarKit' }
   virtual_car_kit = VirtualCarKit.new
-  LOGGER.info('bin') { 'Delay...' }
+  LOGGER.info(PROG_NAME) { 'Delay...' }
   sleep(3)
   virtual_car_kit.start
 rescue StandardError => e
-  LOGGER.error('bin') { 'Error starting app' }
-  LOGGER.error('bin') { e }
-  e.backtrace.each { |line| LOGGER.error('bin') { line } }
+  LOGGER.error(PROG_NAME) { 'Error starting app' }
+  LOGGER.error(PROG_NAME) { e }
+  e.backtrace.each { |line| LOGGER.error(PROG_NAME) { line } }
 end
 
-LOGGER.info('bin') { 'All over, red rover' }
+LOGGER.info(PROG_NAME) { 'All over, red rover' }
 
 exit

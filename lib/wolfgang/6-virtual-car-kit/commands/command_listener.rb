@@ -53,7 +53,12 @@ class CommandListener
         begin
           Thread.current[:name] = 'CommandListener (SUB)'
           Kernel.sleep(5)
-          Subscriber.walter.mbp.go!
+          connection_options = {
+            port: ENV['subscriber_port'],
+            host: ENV['subscriber_host']
+          }
+          logger.debug('CommandListener') { "Subscriber connection options: #{connection_options}" }
+          Subscriber.params(connection_options)
 
           logger.debug('CommandListener') { 'Thread listen start!' }
           listen_loop
@@ -101,7 +106,13 @@ class CommandListener
       begin
         Thread.current[:name] = 'CommandListener (REP)'
         Kernel.sleep(5)
-        Server.wolfgang
+
+        connection_options = {
+          port: ENV['server_port'],
+          host: ENV['server_host']
+        }
+        logger.debug('CommandListener (REP)') { "Server connection options: #{connection_options}" }
+        Server.params(connection_options)
 
         logger.debug('CommandListener (REP)') { 'Thread listen start!' }
         reply_loop
