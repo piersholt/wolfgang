@@ -78,14 +78,14 @@ begin
   LogActually.is_all_around(:notifications)
   LogActually.notifications.i
   LogActually.is_all_around(:commands)
-  LogActually.commands.i
+  LogActually.commands.d
 
   # Yabber
-  LogActually.messaging.d
-  LogActually.publisher.d
-  LogActually.subscriber.d
-  LogActually.client.d
-  LogActually.server.d
+  LogActually.messaging.i
+  LogActually.publisher.i
+  LogActually.subscriber.i
+  LogActually.client.i
+  LogActually.server.i
 rescue LoadError => e
   LOGGER.error('bin') { 'Dependencies load error!' }
   LOGGER.error('bin') { e }
