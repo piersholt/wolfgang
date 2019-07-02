@@ -14,6 +14,7 @@ begin
   require 'bundler/setup'
 
   require 'pry-byebug'
+  require 'dbus'
 
   require 'walter/shared/log_actually'
   require 'walter/shared/yabber'
@@ -27,6 +28,9 @@ begin
     e.backtrace.each { |line| puts line }
     exit
   end
+
+  LOAD_PATH_LOGGER = LogActually.is_all_around(:load_path)
+  LogActually.load_path.d
 
   setup_path('lib')
 rescue LoadError => e
@@ -104,11 +108,7 @@ end
 LOGGER.debug('bin') { 'Require local dependencies' }
 
 begin
-  require '1-dbus-decorator/dbus-decorator'
-  require '2-bluez-dbus/bluez-dbus'
-  require '3-bluez-manager/bluez-manager'
-  require '3-bluetooth-profiles/bluetooth-profiles'
-  require '6-virtual-car-kit/virtual-car-kit'
+  require 'wolfgang'
 rescue LoadError => e
   LOGGER.error('bin') { 'Dependencies load error!' }
   LOGGER.error('bin') { e }
