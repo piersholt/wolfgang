@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Bluez Player Object
 class BluezPlayerObject < ObjectAdapter
   include Properties
 

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Comment
+# Bluez Device Object
 class BluezDeviceObject < ObjectAdapter
   include Properties
 
