@@ -7,40 +7,48 @@ module Wolfgang
     include NotificationDelegator
     include ManageableThreads
 
+    PROG = 'NotificationListener'
+    ITERATION_SEED = 1
+
     attr_accessor :handler
 
     def logger
       LOGGER
     end
 
-    def pop_and_delegate(i, nq)
-      logger.debug(self.class) { "#{i}. Wait" }
-      notification = nq.pop
-      logger.debug(self.class) { "#{i}. #{notification}" }
+    def pop_and_delegate(i, queue)
+      logger.debug(PROG) { "#{i}. Wait" }
+      notification = queue.pop
+      logger.debug(PROG) { "#{i}. #{notification}" }
       delegate(notification)
     rescue IfYouWantSomethingDone
-      logger.warn(self.class) { 'Chain did not handle!' }
+      logger.warn(PROG) { 'Chain did not handle!' }
+    end
+
+    def notification_loop(queue)
+      i = ITERATION_SEED
+      loop do
+        pop_and_delegate(i, queue)
+        i += 1
+      end
     end
 
     def listen(notifications_queue)
-      @bluez_notification_listener = Thread.new(notifications_queue) do |nq|
-        Thread.current[:name] = 'NotificationListener'
+      logger.debug(PROG) { '#listen' }
+      @bluez_notification_listener = Thread.new(notifications_queue) do |queue|
         begin
-          logger.warn(self.class) { 'Thread start!' }
-          i = 1
-          loop do
-            pop_and_delegate(i, nq)
-            i += 1
-          end
-          logger.warn(self.class) { 'Thread end!' }
+          Thread.current[:name] = PROG
+
+          logger.warn(PROG) { 'Thread start!' }
+          notification_loop(queue)
+          logger.warn(PROG) { 'Thread end!' }
         rescue StandardError => e
-          logger.error(self.class) { e }
-          e.backtrace.each do |line|
-            logger.error(self.class) { line }
-          end
+          logger.error(PROG) { e }
+          e.backtrace.each { |line| logger.error(PROG) { line } }
         end
         add_thread(@bluez_notification_listener)
       end
+      logger.warn(PROG) { 'Thread ending!' }
     end
 
     def self.listen(notifications_queue)
