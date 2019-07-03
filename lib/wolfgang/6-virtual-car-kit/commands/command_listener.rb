@@ -7,6 +7,10 @@ module Wolfgang
     include NotificationDelegator
     include ManageableThreads
 
+    PROG = 'CommandListener'
+    THREAD = 'CommandListener [REP]'
+    DELAY = 5
+
     attr_reader :listener_thread
 
     def logger
@@ -15,23 +19,23 @@ module Wolfgang
 
     def deserialize(serialized_object)
       command = Messaging::Serialized.new(serialized_object).parse
-      logger.info(self.class) { "Deserialized: #{command}" }
-      logger.info(self.class) { "name: #{command.name} (#{command.name.class})" }
+      logger.info(PROG) { "Deserialized: #{command}" }
+      logger.info(PROG) { "name: #{command.name} (#{command.name.class})" }
       command
     end
 
-    # SUBSCRIBER ----------------------------------------------------------------
+    # SUBSCRIBER --------------------------------------------------------------
 
     def pop_and_delegate(i)
-      logger.debug(self.class) { "SUB #{i}. Wait" }
+      logger.debug(PROG) { "SUB #{i}. Wait" }
       serialized_object = Subscriber.recv
       command = deserialize(serialized_object)
       delegate(command)
     rescue IfYouWantSomethingDone
-      logger.debug(self.class) { "Chain did not handle! (#{command})" }
+      logger.debug(PROG) { "Chain did not handle! (#{command})" }
     rescue StandardError => e
-      logger.error(self.class) { e }
-      e.backtrace.each { |line| logger.error(self.class) { line } }
+      logger.error(PROG) { e }
+      e.backtrace.each { |line| logger.error(PROG) { line } }
     end
 
     def listen_loop
@@ -41,16 +45,15 @@ module Wolfgang
         i += 1
       end
     rescue StandardError => e
-      logger.error(self.class) { e }
+      logger.error(PROG) { e }
       e.backtrace.each do |line|
-        logger.error(self.class) { line }
+        logger.error(PROG) { line }
       end
     end
 
     def listen
-      logger.debug(self.class) { "#listen" }
-      @listener_thread =
-      Thread.new do
+      logger.debug(PROG) { '#listen' }
+      @listener_thread = Thread.new do
         begin
           Thread.current[:name] = 'CommandListener (SUB)'
           Kernel.sleep(5)
@@ -65,9 +68,9 @@ module Wolfgang
           listen_loop
           logger.debug('CommandListener') { 'Thread listen end!' }
         rescue StandardError => e
-          logger.error(self.class) { e }
+          logger.error(PROG) { e }
           e.backtrace.each do |line|
-            logger.error(self.class) { line }
+            logger.error(PROG) { line }
           end
         end
         logger.warn('CommandListener') { 'Listening thread is ending?' }
@@ -75,22 +78,18 @@ module Wolfgang
       add_thread(@listener_thread)
     end
 
-    # REPLY ---------------------------------------------------------------------
+    # REPLY -------------------------------------------------------------------
 
     def reply_iteration(i)
-      logger.debug(self.class) { "REP #{i}. Wait" }
+      logger.debug(PROG) { "REP #{i}. Wait" }
       serialized_object = Server.recv
       command = deserialize(serialized_object)
-      # logger.debug(self.class) { "recv => #{command}" }
-      # CommandListener.instance.delegate(command)
       delegate(command)
-      # result = send('pong')
-      # logger.debug(self.class) { "send('pong') => #{result}" }
     rescue IfYouWantSomethingDone
-      logger.warn(self.class) { "Chain did not handle! (#{command})" }
+      logger.warn(PROG) { "Chain did not handle! (#{command})" }
     rescue StandardError => e
-      logger.error(self.class) { e }
-      e.backtrace.each { |line| logger.error(self.class) { line } }
+      logger.error(PROG) { e }
+      e.backtrace.each { |line| logger.error(PROG) { line } }
     end
 
     def reply_loop
@@ -102,31 +101,34 @@ module Wolfgang
     end
 
     def start
-      logger.debug(self.class) { "#start" }
+      logger.debug(PROG) { '#start' }
       @thread = Thread.new do
         begin
-          Thread.current[:name] = 'CommandListener (REP)'
-          Kernel.sleep(5)
+          Thread.current[:name] = THREAD
+          logger.debug(THREAD) { "Delay: #{DELAY} seconds." }
+          Kernel.sleep(DELAY)
 
           connection_options = {
             port: ENV['server_port'],
             host: ENV['server_host']
           }
-          logger.debug('CommandListener (REP)') { "Server connection options: #{connection_options}" }
+          logger.debug(THREAD) do
+            "Server connection options: #{connection_options}"
+          end
           Server.params(connection_options)
 
-          logger.debug('CommandListener (REP)') { 'Thread listen start!' }
+          logger.debug(THREAD) { 'Thread listen start!' }
           reply_loop
-          logger.debug('CommandListener (REP)') { 'Thread listen end!' }
+          logger.debug(THREAD) { 'Thread listen end!' }
         rescue StandardError => e
-          logger.fatal(self.class) { e }
-          e.backtrace { |line| logger.fatal(self.class) { line } }
+          logger.fatal(PROG) { e }
+          e.backtrace { |line| logger.fatal(PROG) { line } }
         end
-        logger.warn(self.class) { 'Test thread ending?' }
+        logger.warn(PROG) { 'Test thread ending?' }
       end
     end
 
-    # METHODS -------------------------------------------------------------------
+    # METHODS -----------------------------------------------------------------
 
     def ignore
       @listener_thread.stop.join

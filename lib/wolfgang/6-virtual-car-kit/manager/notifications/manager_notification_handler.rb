@@ -19,26 +19,6 @@ module Wolfgang
     def take_responsibility(notification)
       notification.topic = DEVICE
       relay(notification)
-      # case notification.name
-      # when :player_added
-      #   player_added(notification)
-      # when :player_removed
-      #   player_removed(notification)
-      # end
     end
-
-    # private
-    #
-    # def player_added(notification)
-    #   LOGGER.fatal(self.class) { notification.inspect }
-    #   relay(notification)
-    #   # target.add_player(notification.properties[:path])
-    # end
-    #
-    # def player_removed(notification)
-    #   LOGGER.fatal(self.class) { notification.inspect }
-    #   relay(notification)
-    #   # target.remove_player
-    # end
   end
 end

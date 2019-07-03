@@ -33,12 +33,6 @@ module Wolfgang
       TARGET
     end
 
-    # def everyone(command)
-    #   logger.info(self.class) { EVERYONE }
-    #   logger.debug(self.class) { command }
-    #   target.everyone!
-    # end
-
     def player(command)
       logger.info(self.class) { PLAYER }
       name = target.addressed_player ? :addressed_player : :player_removed
