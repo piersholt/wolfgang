@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-LOAD_PATH_LOGGER.debug { 'wolfgang/bluez_manager' }
+puts 'wolfgang/bluez_manager'
 
 require_relative '3-bluez-manager/profiles'
 require_relative '3-bluez-manager/api'

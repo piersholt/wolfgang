@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-LOAD_PATH_LOGGER.debug { '| | |-- wolfgang/bluez_dbus/interfaces' }
+puts '| | |-- wolfgang/bluez_dbus/interfaces'
 
 # D-BUS INTERFACES
 

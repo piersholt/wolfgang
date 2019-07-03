@@ -7,24 +7,31 @@ puts "Wolfgang Copyright (C) 2019 Piers Holt\n"\
      "This is free software, and you are welcome to redistribute it\n"\
      'under certain conditions.'
 
-# *************************************************************************** #
-#                                  LOAD PATHS                                 #
-# *************************************************************************** #
 begin
   require 'bundler/setup'
-
+  # Gems
   require 'dbus'
   require 'figaro'
   require 'pry-byebug'
-
   require 'wilhelm/tools'
-
-  # *************************************************************************** #
-  #                              CLI OPTIONS                                    #
-  # *************************************************************************** #
-
+  # Ruby
   require 'optparse'
   require 'ostruct'
+
+  LOGGER = LogActually.is_all_around(:default)
+  LogActually.default.i
+  PROG_NAME = 'wolfgang'
+
+# *************************************************************************** #
+#                                  LOAD PATHS                                 #
+# *************************************************************************** #
+
+  load_path = File.expand_path(File.dirname(__FILE__) + '/../lib')
+  $LOAD_PATH.unshift(load_path) unless $LOAD_PATH.include?(load_path)
+
+# *************************************************************************** #
+#                              CLI OPTIONS                                    #
+# *************************************************************************** #
 
   options = OpenStruct.new
   options.environment = 'development'
@@ -42,25 +49,13 @@ begin
     end
   end.parse!
 
+
+# *************************************************************************** #
+#                                  CONFIG                                     #
+# *************************************************************************** #
+
   Figaro::Application.new(path: 'config/application.yml', environment: options[:environment])&.load
   Figaro.require_keys(%w[publisher_host publisher_port subscriber_host subscriber_port server_host server_port])
-
-  # Setup load path for application (makes you realise RubyGems spoils you...)
-  def setup_path(dir)
-    puts "#setup_path(#{dir})"
-    load_path = File.expand_path(File.dirname(__FILE__) + "/../#{dir}")
-    puts "load_path => #{load_path}"
-    $LOAD_PATH.unshift(load_path) unless $LOAD_PATH.include?(load_path)
-  rescue StandardError => e
-    puts e
-    e.backtrace.each { |line| puts line }
-    exit
-  end
-
-  LOAD_PATH_LOGGER = LogActually.is_all_around(:load_path)
-  LogActually.load_path.d
-
-  setup_path('lib')
 rescue LoadError => e
   # LogActually.default.error('run') { e }
   puts e
@@ -73,69 +68,6 @@ rescue StandardError => e
 end
 
 begin
-  LOGGER = LogActually.is_all_around(:default)
-  LogActually.default.i
-
-  # Bluez
-  LogActually.is_all_around(:service)
-  LogActually.service.i
-
-  # Core Objects
-  LogActually.is_all_around(:object_manager)
-  LogActually.object_manager.i
-  LogActually.is_all_around(:properties)
-  LogActually.properties.i
-
-  # Objects
-  LogActually.is_all_around(:controller)
-  LogActually.controller.i
-  LogActually.is_all_around(:device)
-  LogActually.device.i
-
-  # Interfaces
-  LogActually.is_all_around(:media_transport)
-  LogActually.media_transport.i
-  LogActually.is_all_around(:media_player)
-  LogActually.media_player.i
-  LogActually.is_all_around(:media_browser)
-  LogActually.media_browser.i
-
-  # Bluetooth Profiles
-  LogActually.is_all_around(:core)
-  LogActually.core.i
-  LogActually.is_all_around(:avrcp)
-  LogActually.avrcp.i
-
-  # Car Kit
-  LogActually.is_all_around(:notifications)
-  LogActually.notifications.i
-  LogActually.is_all_around(:commands)
-  LogActually.commands.d
-
-  # Yabber
-  LogActually.messaging.i
-  LogActually.publisher.i
-  LogActually.subscriber.i
-  LogActually.client.i
-  LogActually.server.i
-rescue LoadError => e
-  LOGGER.error(PROG_NAME) { 'Dependencies load error!' }
-  LOGGER.error(PROG_NAME) { e }
-  e.backtrace.each { |line| LOGGER.error(PROG_NAME) { line } }
-  LOGGER.error(PROG_NAME) { lib_path }
-rescue StandardError => e
-  LOGGER.error(PROG_NAME) { 'Dependencies standard error?' }
-  LOGGER.error(PROG_NAME) { e }
-  e.backtrace.each { |line| LOGGER.error(PROG_NAME) { line } }
-  LOGGER.error(PROG_NAME) { lib_path }
-rescue Interrupt
-  Signal.trap(0, proc { puts "Terminating: #{$$}" })
-  exit
-end
-
-
-begin
-  PROG_NAME = 'wolfgang'
   LOGGER.debug(PROG_NAME) { 'Require local dependencies' }
   require 'wolfgang'
 rescue LoadError => e

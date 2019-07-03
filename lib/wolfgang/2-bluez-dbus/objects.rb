@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-LOAD_PATH_LOGGER.debug { '| | |-- wolfgang/bluez_dbus/objects' }
+puts '| | |-- wolfgang/bluez_dbus/objects'
 
 require_relative 'objects/device/signals/device_properties_changed'
 require_relative 'objects/device/bluez_device_object'

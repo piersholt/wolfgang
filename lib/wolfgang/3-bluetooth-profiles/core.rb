@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-LOAD_PATH_LOGGER.debug { 'Loading wolfgang/bluetooth_profiles/core' }
+puts 'Loading wolfgang/bluetooth_profiles/core'
 
 # MANAGER
 require_relative 'core/manager/signal_handling'

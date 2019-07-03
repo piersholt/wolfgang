@@ -1,6 +1,6 @@
 # frozen_string_literal: false
 
-LOAD_PATH_LOGGER.debug { '|-+ wolfgang' }
+puts '|-+ wolfgang'
 
 require_relative('wolfgang/dbus-decorator')
 require_relative('wolfgang/bluez-dbus')

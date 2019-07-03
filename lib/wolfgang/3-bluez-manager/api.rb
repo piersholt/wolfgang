@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-LOAD_PATH_LOGGER.debug { 'wolfgang/bluez-manager/api' }
+puts 'wolfgang/bluez-manager/api'
 
 module BluezClientAPI; end
 

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-LOAD_PATH_LOGGER.debug { 'wolfgang/bluez-manager/profiles' }
+puts 'wolfgang/bluez-manager/profiles'
 
 module Profiles; end
 

@@ -1,6 +1,14 @@
 # frozen_string_literal: true
 
-LOAD_PATH_LOGGER.debug { 'Loading wolfgang/virtual_car_kit' }
+puts 'Loading wolfgang/virtual_car_kit'
+
+
+# Car Kit
+LogActually.is_all_around(:notifications)
+LogActually.notifications.i
+LogActually.is_all_around(:commands)
+LogActually.commands.d
+
 
 # Controller
 require_relative '6-virtual-car-kit/controller/notifications/player_notification_handler'
