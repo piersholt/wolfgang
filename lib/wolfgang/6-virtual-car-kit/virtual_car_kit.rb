@@ -15,18 +15,6 @@ module Wolfgang
       setup_incoming_command_handlers
     end
 
-    # Dirty Shortcuts
-
-    def devices
-      manager.manager.devices
-    end
-
-    def device(nickname)
-      manager.manager.device(nickname)
-    end
-
-    # private
-
     NO_ARGS = {}.freeze
 
     def start

@@ -8,10 +8,12 @@ module Wolfgang
     include NotificationDelegate
     include Messaging::Constants
 
+    PROG = 'Controller::MediaHandler'
+
     attr_accessor :target
 
     def take_responsibility(command)
-      logger.debug(self.class) { "#take_responsibility(#{command})" }
+      logger.debug(PROG) { "#take_responsibility(#{command})" }
       case command.name
       when PLAY
         play(command)
@@ -33,7 +35,7 @@ module Wolfgang
         play(command)
       end
     rescue StandardError => e
-      logger.error(self.class) { e }
+      logger.error(PROG) { e }
       e.backtrace.each { |l| logger.error(l) }
     end
 
@@ -46,44 +48,44 @@ module Wolfgang
     end
 
     def play(command)
-      logger.info(self.class) { PLAY }
-      logger.debug(self.class) { command }
+      logger.info(PROG) { PLAY }
+      logger.debug(PROG) { command }
       target.play
     end
 
     def pause(command)
-      logger.info(self.class) { PAUSE }
-      logger.debug(self.class) { command }
+      logger.info(PROG) { PAUSE }
+      logger.debug(PROG) { command }
       target.pause
     end
 
     def stop(command)
-      logger.info(self.class) { STOP }
-      logger.debug(self.class) { command }
+      logger.info(PROG) { STOP }
+      logger.debug(PROG) { command }
       target.stop
     end
 
     def seek_next(command)
-      logger.info(self.class) { SEEK_NEXT }
-      logger.debug(self.class) { command }
+      logger.info(PROG) { SEEK_NEXT }
+      logger.debug(PROG) { command }
       target.next
     end
 
     def seek_previous(command)
-      logger.info(self.class) { SEEK_PREVIOUS }
-      logger.debug(self.class) { command }
+      logger.info(PROG) { SEEK_PREVIOUS }
+      logger.debug(PROG) { command }
       target.previous
     end
 
     def fast_forward(command)
-      logger.info(self.class) { SCAN_FORWARD_START }
-      logger.debug(self.class) { command }
+      logger.info(PROG) { SCAN_FORWARD_START }
+      logger.debug(PROG) { command }
       target.fast_forward
     end
 
     def rewind(command)
-      logger.info(self.class) { SCAN_BACKWARD_START }
-      logger.debug(self.class) { command }
+      logger.info(PROG) { SCAN_BACKWARD_START }
+      logger.debug(PROG) { command }
       target.rewind
     end
   end

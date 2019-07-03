@@ -15,6 +15,14 @@ module Wolfgang
       def punch_it_chewie
         announce(Messaging::Constants::DEVICE)
       end
+
+      def devices
+        manager.devices
+      end
+
+      def device(nickname)
+        manager.device(nickname)
+      end
     end
   end
 end

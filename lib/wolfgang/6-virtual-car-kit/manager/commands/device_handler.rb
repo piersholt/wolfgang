@@ -9,12 +9,14 @@ module Wolfgang
 
     attr_accessor :manager
 
+    PROG = 'Manager::DeviceHandler'
+
     def responsibility
       DEVICE
     end
 
     def take_responsibility(command)
-      logger.debug(self.class) { "#take_responsibility(#{command})" }
+      logger.debug(PROG) { "#take_responsibility(#{command})" }
       case command.name
       when CONNECT
         connect(command.properties)
@@ -26,7 +28,7 @@ module Wolfgang
         not_handled(command)
       end
     rescue StandardError => e
-      logger.error(self.class) { e }
+      logger.error(PROG) { e }
       e.backtrace.each { |l| logger.error(l) }
     end
 
@@ -35,26 +37,26 @@ module Wolfgang
     end
 
     def connect(address:)
-      logger.info(self.class) { "#{CONNECT}: #{address}" }
+      logger.info(PROG) { "#{CONNECT}: #{address}" }
       manager.connect(address)
     end
 
     def disconnect(address:)
-      logger.info(self.class) { "#{DISCONNECT}: #{address}" }
+      logger.info(PROG) { "#{DISCONNECT}: #{address}" }
       manager.disconnect(address)
     end
 
     def devices
-      logger.info(self.class) { DEVICES }
+      logger.info(PROG) { DEVICES }
 
       payload = manager.devices.map do |_, device_object|
         device_object.attributes
       end
 
-      logger.debug(self.class) { "payload.size => #{payload.size}" }
+      logger.debug(PROG) { "payload.size => #{payload.size}" }
       reply = Messaging::Reply.new(topic: DEVICE, name: DEVICES, properties: payload)
       result = Server.instance.send(reply.to_yaml)
-      logger.debug(self.class) { "send(#{reply}) => #{result}" }
+      logger.debug(PROG) { "send(#{reply}) => #{result}" }
     end
   end
 end
