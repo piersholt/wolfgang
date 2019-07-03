@@ -1,25 +1,27 @@
 # frozen_string_literal: true
 
-# Bluez Device Object
-class BluezDeviceObject < ObjectAdapter
-  include Properties
+module Wolfgang
+  # Bluez Device Object
+  class BluezDeviceObject < ObjectAdapter
+    include Properties
 
-  include Callable
-  # include Returnable
+    include Callable
+    # include Returnable
 
-  include BluezDevice
-  include BluezMediaControl
-  include BluezNetwork
+    include BluezDevice
+    include BluezMediaControl
+    include BluezNetwork
 
-  def inspect
-    self.class
-  end
+    def inspect
+      self.class
+    end
 
-  def logger
-    LogActually.device
-  end
+    def logger
+      LogActually.device
+    end
 
-  def name
-    'DeviceObject'
+    def name
+      'DeviceObject'
+    end
   end
 end

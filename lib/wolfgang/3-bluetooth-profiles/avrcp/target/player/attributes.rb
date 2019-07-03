@@ -1,41 +1,43 @@
 # frozen_string_literal: true
 
-module AVRCP
-  class Player
-    # Comment
-    module Attributes
-      def name
-        attributes['Name'] ||= object.name
-      end
+module Wolfgang
+  module AVRCP
+    class Player
+      # Attributes
+      module Attributes
+        def name
+          attributes['Name'] ||= object.name
+        end
 
-      def status
-        attributes['Status'] ||= object.status
-      end
+        def status
+          attributes['Status'] ||= object.status
+        end
 
-      def reapt
-        attributes['Repeat'] ||= object.reapt
-      end
+        def reapt
+          attributes['Repeat'] ||= object.reapt
+        end
 
-      def shuffle
-        attributes['Shuffle'] ||= object.shuffle
-      end
+        def shuffle
+          attributes['Shuffle'] ||= object.shuffle
+        end
 
-      def position
-        attributes['Position'] ||= object.position
-      end
+        def position
+          attributes['Position'] ||= object.position
+        end
 
-      def track
-        attributes['Track'] ||= object.track
-      end
+        def track
+          attributes['Track'] ||= object.track
+        end
 
-      # Track Attributes
+        # Track Attributes
 
-      def duration
-        track['Duration'] ||= object.track['Duration']
-      end
+        def duration
+          track['Duration'] ||= object.track['Duration']
+        end
 
-      def track_number
-        track['TrackNumber'] ||= object.track['TrackNumber']
+        def track_number
+          track['TrackNumber'] ||= object.track['TrackNumber']
+        end
       end
     end
   end

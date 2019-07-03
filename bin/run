@@ -17,6 +17,7 @@ begin
   # Ruby
   require 'optparse'
   require 'ostruct'
+  require 'observer'
 
   LOGGER = LogActually.is_all_around(:default)
   LogActually.default.i
@@ -92,7 +93,7 @@ begin
   LOGGER.debug(PROG_NAME) { "Publisher connection options: #{connection_options}" }
   Publisher.params(connection_options)
   LOGGER.info(PROG_NAME) { 'Starting VirtualCarKit' }
-  virtual_car_kit = VirtualCarKit.new
+  virtual_car_kit = Wolfgang::VirtualCarKit.new
   LOGGER.info(PROG_NAME) { 'Delay...' }
   sleep(3)
   virtual_car_kit.start

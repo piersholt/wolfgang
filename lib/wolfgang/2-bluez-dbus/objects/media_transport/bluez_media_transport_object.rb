@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
-# Bluez MediaTransport Object
-class BluezMediaTransportObject < ObjectAdapter
-  include Properties
+module Wolfgang
+  # Bluez MediaTransport Object
+  class BluezMediaTransportObject < ObjectAdapter
+    include Properties
 
-  include BluezMediaTransport
+    include BluezMediaTransport
+  end
 end

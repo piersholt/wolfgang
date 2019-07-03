@@ -23,37 +23,39 @@
 # @volume
 # EVENT_VOLUME_CHANGED (0x0d)
 
-module AVRCP
-  # Comment
-  class Target
-    include SignalHandling
-    include Notifications
-    include Commands
+module Wolfgang
+  module AVRCP
+    # Target
+    class Target
+      include SignalHandling
+      include Notifications
+      include Commands
 
-    attr_reader :addressed_player, :browsed_player,
-                :battery_status, :system_status, :volume
+      attr_reader :addressed_player, :browsed_player,
+      :battery_status, :system_status, :volume
 
-    alias player addressed_player
+      alias player addressed_player
 
-    def initialize
-      @addressed_player = nil
-      @browsed_player = nil
+      def initialize
+        @addressed_player = nil
+        @browsed_player = nil
 
-      @battery_status = nil
-      @system_status = nil
+        @battery_status = nil
+        @system_status = nil
 
-      @volume = 50
-    end
+        @volume = 50
+      end
 
-    def add_player(player_path)
-      LogActually.avrcp.debug("#{self.class}!") { "#add_player(#{player_path})" }
-      new_player = Player.new(player_path)
-      new_player.notifications_queue = notifications_queue
-      @addressed_player = new_player
-    end
+      def add_player(player_path)
+        LogActually.avrcp.debug("#{self.class}!") { "#add_player(#{player_path})" }
+        new_player = Player.new(player_path)
+        new_player.notifications_queue = notifications_queue
+        @addressed_player = new_player
+      end
 
-    def remove_player
-      @addressed_player = nil
+      def remove_player
+        @addressed_player = nil
+      end
     end
   end
 end

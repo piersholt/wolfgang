@@ -1,22 +1,22 @@
 # frozen_string_literal: true
 
-require 'observer'
+module Wolfgang  
+  # D-BUS interface org.freedesktop.DBus.Properties
+  module Properties
+    include InterfaceConstants
+    include Methods
+    include Signals
 
-# D-BUS interface org.freedesktop.DBus.Properties
-module Properties
-  include InterfaceConstants
-  include Methods
-  include Signals
+    def properties
+      self.default_iface = PROPERTIES
+      @selected_interface = PROPERTIES
+      self
+    end
 
-  def properties
-    self.default_iface = PROPERTIES
-    @selected_interface = PROPERTIES
-    self
-  end
+    private
 
-  private
-
-  def properties_interface
-    interface(PROPERTIES)
+    def properties_interface
+      interface(PROPERTIES)
+    end
   end
 end

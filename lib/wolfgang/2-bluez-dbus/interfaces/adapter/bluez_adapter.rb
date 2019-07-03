@@ -1,46 +1,51 @@
-module BluezAdapter
-  include InterfaceConstants
+# frozen_string_literal: false
 
-  def start_discovery
-    interface(BLUEZ_ADAPTER).StartDiscovery
-  end
+module Wolfgang
+  # BluezAdapter
+  module BluezAdapter
+    include InterfaceConstants
 
-  def stop_discovery
-    interface(BLUEZ_ADAPTER).StopDiscovery
-  end
+    def start_discovery
+      interface(BLUEZ_ADAPTER).StartDiscovery
+    end
 
-  def discoverable(bool)
-    # value = bool ? 1 : 0
-    property_set(BLUEZ_ADAPTER, 'Discoverable', bool)
-  end
+    def stop_discovery
+      interface(BLUEZ_ADAPTER).StopDiscovery
+    end
 
-  # PROPERTIES
+    def discoverable(bool)
+      # value = bool ? 1 : 0
+      property_set(BLUEZ_ADAPTER, 'Discoverable', bool)
+    end
 
-  def name
-    adapter_property('Name')
-  end
+    # PROPERTIES
 
-  def address
-    adapter_property('Address')
-  end
+    def name
+      adapter_property('Name')
+    end
 
-  def alias
-    adapter_property('Alias')
-  end
+    def address
+      adapter_property('Address')
+    end
 
-  def adapter
-    self.default_iface = BLUEZ_ADAPTER
-    @selected_interface = BLUEZ_ADAPTER
-    self
-  end
+    def alias
+      adapter_property('Alias')
+    end
 
-  private
+    def adapter
+      self.default_iface = BLUEZ_ADAPTER
+      @selected_interface = BLUEZ_ADAPTER
+      self
+    end
 
-  def adapter_property(property)
-    property_get(BLUEZ_ADAPTER, property)
-  end
+    private
 
-  def adapter_properties
-    property_get(BLUEZ_ADAPTER, property)
+    def adapter_property(property)
+      property_get(BLUEZ_ADAPTER, property)
+    end
+
+    def adapter_properties
+      property_get(BLUEZ_ADAPTER, property)
+    end
   end
 end

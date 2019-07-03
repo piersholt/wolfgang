@@ -1,14 +1,17 @@
 # frozen_string_literal: true
 
-module PropertiesHandler
-  include InterfaceConstants
-  include SignalDelegate
+module Wolfgang
+  # PropertiesHandler
+  module PropertiesHandler
+    include InterfaceConstants
+    include SignalDelegate
 
-  attr_accessor :proc
+    attr_accessor :proc
 
-  private
+    private
 
-  def relates_to?(object)
-    object.this_interface?(responsibility)
+    def relates_to?(object)
+      object.this_interface?(responsibility)
+    end
   end
 end

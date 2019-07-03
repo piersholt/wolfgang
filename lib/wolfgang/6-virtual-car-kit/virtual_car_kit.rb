@@ -1,92 +1,94 @@
 # frozen_string_literal: true
 
-# Comment
-class VirtualCarKit
-  include BluezDBusInterface
-  attr_reader :controller
-  attr_reader :manager
-  include Messaging::API
+module Wolfgang
+  # VirtualCarKit
+  class VirtualCarKit
+    include BluezDBusInterface
+    attr_reader :controller
+    attr_reader :manager
+    include Messaging::API
 
-  def initialize
-    @controller = Controller.new(outgoing_notifications_queue)
-    @manager = Manager.new(outgoing_notifications_queue)
-    setup_outgoing_notification_handlers
-    setup_incoming_command_handlers
-  end
+    def initialize
+      @controller = Controller.new(outgoing_notifications_queue)
+      @manager = Manager.new(outgoing_notifications_queue)
+      setup_outgoing_notification_handlers
+      setup_incoming_command_handlers
+    end
 
-  # Dirty Shortcuts
+    # Dirty Shortcuts
 
-  def devices
-    manager.manager.devices
-  end
+    def devices
+      manager.manager.devices
+    end
 
-  def device(nickname)
-    manager.manager.device(nickname)
-  end
+    def device(nickname)
+      manager.manager.device(nickname)
+    end
 
-  # private
+    # private
 
-  NO_ARGS = {}.freeze
+    NO_ARGS = {}.freeze
 
-  def start
-    manager.punch_it_chewie
-    # Hack-McHackFace. Headless Pi has no PulseAudio autostart
-    Thread.new { puts `pactl list sinks` }
-    signals(NO_ARGS)
-    run
-    binding.pry
-  end
+    def start
+      manager.punch_it_chewie
+      # Hack-McHackFace. Headless Pi has no PulseAudio autostart
+      Thread.new { puts `pactl list sinks` }
+      signals(NO_ARGS)
+      run
+      binding.pry
+    end
 
-  # Commands
+    # Commands
 
-  def setup_incoming_command_handlers
-    primary = setup_incoming_command_delegates
-    command_listener = CommandListener.instance
-    command_listener.declare_primary_delegate(primary)
-    command_listener.listen
-    command_listener.start
-  end
+    def setup_incoming_command_handlers
+      primary = setup_incoming_command_delegates
+      command_listener = CommandListener.instance
+      command_listener.declare_primary_delegate(primary)
+      command_listener.listen
+      command_listener.start
+    end
 
-  def setup_incoming_command_delegates
-    device_handler = DeviceHandler.instance
-    device_handler.manager = manager.manager
+    def setup_incoming_command_delegates
+      device_handler = DeviceHandler.instance
+      device_handler.manager = manager.manager
 
-    media_handler = MediaHandler.instance
-    media_handler.target = controller.target
+      media_handler = MediaHandler.instance
+      media_handler.target = controller.target
 
-    target_handler = TargetHandler.instance
-    target_handler.target = controller.target
+      target_handler = TargetHandler.instance
+      target_handler.target = controller.target
 
-    wilhelm_handler = WilhelmHandler.instance
+      wilhelm_handler = WilhelmHandler.instance
 
-    media_handler.successor = target_handler
-    target_handler.successor = device_handler
-    device_handler.successor = wilhelm_handler
+      media_handler.successor = target_handler
+      target_handler.successor = device_handler
+      device_handler.successor = wilhelm_handler
 
-    media_handler
-  end
+      media_handler
+    end
 
-  # Notifications
+    # Notifications
 
-  def outgoing_notifications_queue
-    @outgoing_notifications_queue ||= Queue.new
-  end
+    def outgoing_notifications_queue
+      @outgoing_notifications_queue ||= Queue.new
+    end
 
-  def setup_outgoing_notification_handlers
-    primary = configure_outgoing_notification_delegates
-    notification_listener = NotificationListener.instance
-    notification_listener.declare_primary_delegate(primary)
-    notification_listener.listen(outgoing_notifications_queue)
-  end
+    def setup_outgoing_notification_handlers
+      primary = configure_outgoing_notification_delegates
+      notification_listener = NotificationListener.instance
+      notification_listener.declare_primary_delegate(primary)
+      notification_listener.listen(outgoing_notifications_queue)
+    end
 
-  def configure_outgoing_notification_delegates
-    player_handler = PlayerNotificationHandler.instance
-    target_handler = TargetNotificationHandler.instance
-    manager_handler = ManagerNotificationHandler.instance
+    def configure_outgoing_notification_delegates
+      player_handler = PlayerNotificationHandler.instance
+      target_handler = TargetNotificationHandler.instance
+      manager_handler = ManagerNotificationHandler.instance
 
-    player_handler.successor = target_handler
-    target_handler.successor = manager_handler
+      player_handler.successor = target_handler
+      target_handler.successor = manager_handler
 
-    player_handler
+      player_handler
+    end
   end
 end

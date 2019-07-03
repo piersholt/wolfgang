@@ -1,33 +1,36 @@
 # frozen_string_literal: true
 
-class DevicePropertiesChanged < PropertiesChanged
-  include InterfaceConstants
+module Wolfgang
+  # DevicePropertiesChanged
+  class DevicePropertiesChanged < PropertiesChanged
+    include InterfaceConstants
 
-  def initialize(object, target, changed, removed)
-    super
-  end
+    def initialize(object, target, changed, removed)
+      super
+    end
 
-  # PROPERTIES
+    # PROPERTIES
 
-  # Media1 and MediaControl1
-  def connected?
-    is?('Connected', true)
-  end
+    # Media1 and MediaControl1
+    def connected?
+      is?('Connected', true)
+    end
 
-  def disconnected?
-    is?('Connected', false)
-  end
+    def disconnected?
+      is?('Connected', false)
+    end
 
-  # MediaControl1
-  def player?
-    has?('Player')
-  end
+    # MediaControl1
+    def player?
+      has?('Player')
+    end
 
-  def no_player?
-    removed?('Player') && !has?('Player')
-  end
+    def no_player?
+      removed?('Player') && !has?('Player')
+    end
 
-  def player
-    fetch('Player')
+    def player
+      fetch('Player')
+    end
   end
 end

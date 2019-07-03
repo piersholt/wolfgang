@@ -2,7 +2,9 @@
 
 puts 'wolfgang/bluez-manager/profiles'
 
-module Profiles; end
+module Wolfgang
+  module Profiles; end
+end
 
 require_relative 'profiles/a2dp'
 require_relative 'profiles/avrcp'

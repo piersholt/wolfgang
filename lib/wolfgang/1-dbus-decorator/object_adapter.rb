@@ -1,22 +1,27 @@
-class ObjectAdapter < DBus::ProxyObject
-  def interface(name)
-    self[name]
-  end
+# frozen_string_literal: false
 
-  def introspect
-    # Synchronous call here.
-    xml = @bus.introspect_data(@destination, @path)
-    ProxyObjectFactoryAdapter.introspect_into(self, xml)
-    define_shortcut_methods
-    xml
-  end
+module Wolfgang
+  # Wolfgang::ObjectAdapter
+  class ObjectAdapter < DBus::ProxyObject
+    def interface(name)
+      self[name]
+    end
 
-  def path_suffix
-    path[10..-1]
-  end
+    def introspect
+      # Synchronous call here.
+      xml = @bus.introspect_data(@destination, @path)
+      ProxyObjectFactoryAdapter.introspect_into(self, xml)
+      define_shortcut_methods
+      xml
+    end
 
-  def selected_interface
-    raise(NameError, 'interface has not been selected!') unless @selected_interface
-    @selected_interface
+    def path_suffix
+      path[10..-1]
+    end
+
+    def selected_interface
+      raise(NameError, 'interface has not been selected!') unless @selected_interface
+      @selected_interface
+    end
   end
 end

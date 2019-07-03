@@ -1,102 +1,104 @@
 # frozen_string_literal: true
 
-# Comment
-class PlayerPropertiesChanged < PropertiesChanged
-  include InterfaceConstants
+module Wolfgang
+  # PlayerPropertiesChanged
+  class PlayerPropertiesChanged < PropertiesChanged
+    include InterfaceConstants
 
-  def initialize(object, target, changed, removed)
-    super
-  end
+    def initialize(object, target, changed, removed)
+      super
+    end
 
-  # INTERFACE
+    # INTERFACE
 
-  def player?
-    this_interface?(BLUEZ_MEDIA_PLAYER)
-  end
+    def player?
+      this_interface?(BLUEZ_MEDIA_PLAYER)
+    end
 
-  def folder?
-    this_interface?(BLUEZ_MEDIA_FOLDER)
-  end
+    def folder?
+      this_interface?(BLUEZ_MEDIA_FOLDER)
+    end
 
-  # PROPERTIES
+    # PROPERTIES
 
-  def track?
-    has('Track')
-  end
+    def track?
+      has('Track')
+    end
 
-  def only_track?
-    only?('Track')
-  end
+    def only_track?
+      only?('Track')
+    end
 
-  def position?
-    has('Position')
-  end
+    def position?
+      has('Position')
+    end
 
-  def only_position?
-    only?('Position')
-  end
+    def only_position?
+      only?('Position')
+    end
 
-  def only_status?
-    only?('Status')
-  end
+    def only_status?
+      only?('Status')
+    end
 
-  def status
-    fetch('Status')
-  end
+    def status
+      fetch('Status')
+    end
 
-  def track
-    fetch('Track') || {}
-  end
+    def track
+      fetch('Track') || {}
+    end
 
-  def position
-    fetch('Position')
-  end
+    def position
+      fetch('Position')
+    end
 
-  def only_shuffle?
-    only?('Shuffle')
-  end
+    def only_shuffle?
+      only?('Shuffle')
+    end
 
-  def only_repeat?
-    only?('Repeat')
-  end
+    def only_repeat?
+      only?('Repeat')
+    end
 
-  # alltracks, singletrack, off
-  def repeat
-    fetch('Repeat')
-  end
+    # alltracks, singletrack, off
+    def repeat
+      fetch('Repeat')
+    end
 
-  # alltracks, off
-  def shuffle
-    fetch('shuffle')
-  end
+    # alltracks, off
+    def shuffle
+      fetch('shuffle')
+    end
 
-  # TRACK
+    # TRACK
 
-  def title?
-    track['Title'] ? true : false
-  end
+    def title?
+      track['Title'] ? true : false
+    end
 
-  def number_of_tracks?
-    track['NumberOfTracks'] ? true : false
-  end
+    def number_of_tracks?
+      track['NumberOfTracks'] ? true : false
+    end
 
-  def track_number?
-    track['TrackNumber'] ? true : false
-  end
+    def track_number?
+      track['TrackNumber'] ? true : false
+    end
 
-  def duration?
-    track['Duration'] ? true : false
-  end
+    def duration?
+      track['Duration'] ? true : false
+    end
 
-  def title
-    track['Title']
-  end
+    def title
+      track['Title']
+    end
 
-  def artist
-    track['Artist']
-  end
+    def artist
+      track['Artist']
+    end
 
-  def track_number
-    track['TrackNumber']
+    def track_number
+      track['TrackNumber']
+    end
   end
 end

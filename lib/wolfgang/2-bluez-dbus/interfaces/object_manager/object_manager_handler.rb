@@ -1,16 +1,19 @@
 # frozen_string_literal: true
 
-module ObjectManagerHandler
-  include InterfaceConstants
-  # include SignalDelegate
+module Wolfgang
+  # ObjectManagerHandler
+  module ObjectManagerHandler
+    include InterfaceConstants
+    # include SignalDelegate
 
-  # attr_accessor :proc
+    # attr_accessor :proc
 
-  private
+    private
 
-  def manages?(signal)
-    responsibility.any? do |interface|
-      signal.added_interfaces.include?(interface)
+    def manages?(signal)
+      responsibility.any? do |interface|
+        signal.added_interfaces.include?(interface)
+      end
     end
   end
 end
