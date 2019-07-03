@@ -4,7 +4,7 @@ module Wolfgang
   class CommandListener
     # CommandSubscriber
     module CommandSubscriber
-      PROG_SUB = 'CommandListener [SUB]'
+      PROG_SUB = 'CommandSubscriber'
 
       attr_reader :command_subscriber_thread
 
@@ -41,7 +41,7 @@ module Wolfgang
           port: ENV['subscriber_port'],
           host: ENV['subscriber_host']
         }
-        logger.debug(PROG_SUB) do
+        logger.info(PROG_SUB) do
           "Subscriber connection options: #{connection_options}"
         end
         Subscriber.params(connection_options)

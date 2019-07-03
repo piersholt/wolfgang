@@ -4,7 +4,7 @@ module Wolfgang
   class CommandListener
     # CommandServer
     module CommandServer
-      PROG_SERVER = 'CommandListener [REP]'
+      PROG_SERVER = 'CommandServer'
 
       attr_reader :command_server_thread
 
@@ -36,7 +36,7 @@ module Wolfgang
           port: ENV['server_port'],
           host: ENV['server_host']
         }
-        logger.debug(PROG_SERVER) do
+        logger.info(PROG_SERVER) do
           "Server connection options: #{connection_options}"
         end
         Server.params(connection_options)
@@ -56,7 +56,7 @@ module Wolfgang
             logger.error(PROG_SERVER) { e }
             e.backtrace { |line| logger.error(PROG_SERVER) { line } }
           end
-          logger.warn(PROG) { 'Thread ending!' }
+          logger.warn(PROG_SERVER) { 'Thread ending!' }
         end
         add_thread(@command_server_thread)
       end
