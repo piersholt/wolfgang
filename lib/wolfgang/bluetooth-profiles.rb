@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-puts 'Loading wolfgang/bluetooth_profiles'
+puts 'wolfgang/bluetooth_profiles'
 
 # Bluetooth Profiles
 LogActually.is_all_around(:core)

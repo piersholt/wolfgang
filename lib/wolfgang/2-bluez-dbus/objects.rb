@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-puts '| | |-- wolfgang/bluez_dbus/objects'
+puts 'wolfgang/bluez_dbus/objects'
 
 require_relative 'objects/device/signals/device_properties_changed'
 require_relative 'objects/device/bluez_device_object'

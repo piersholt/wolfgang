@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-puts 'Loading wolfgang/bluetooth_profiles/core'
+puts 'wolfgang/bluetooth_profiles/core'
 
 # MANAGER
 require_relative 'core/manager/signal_handling'

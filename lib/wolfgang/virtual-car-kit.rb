@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-puts 'Loading wolfgang/virtual_car_kit'
+puts 'wolfgang/virtual_car_kit'
 
 
 # Car Kit

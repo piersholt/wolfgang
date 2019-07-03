@@ -1,6 +1,6 @@
 # frozen_string_literal: false
 
-puts '|-+ wolfgang'
+puts 'wolfgang'
 
 require_relative('wolfgang/dbus-decorator')
 require_relative('wolfgang/bluez-dbus')

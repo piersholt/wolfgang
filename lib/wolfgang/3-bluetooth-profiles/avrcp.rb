@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-puts 'Loading wolfgang/bluetooth_profiles/avrcp'
+puts 'wolfgang/bluetooth_profiles/avrcp'
 
 # PLAYER
 require_relative 'avrcp/target/player/attributes'

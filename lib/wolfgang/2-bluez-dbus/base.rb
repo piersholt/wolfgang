@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-puts '| | |-+ wolfgang/bluez_dbus/base'
+puts 'wolfgang/bluez_dbus/base'
 
 require_relative 'base/defaults'
 

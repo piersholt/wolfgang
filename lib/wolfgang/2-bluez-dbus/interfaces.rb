@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-puts '| | |-- wolfgang/bluez_dbus/interfaces'
+puts 'wolfgang/bluez_dbus/interfaces'
 
 # D-BUS INTERFACES
 

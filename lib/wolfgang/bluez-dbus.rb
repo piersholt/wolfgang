@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-puts '| |-+ wolfgang/bluez_dbus'
+puts 'wolfgang/bluez_dbus'
 
 # Bluez
 LogActually.is_all_around(:service)
