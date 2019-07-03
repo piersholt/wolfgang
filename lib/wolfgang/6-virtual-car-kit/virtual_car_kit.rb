@@ -44,8 +44,8 @@ module Wolfgang
       primary = setup_incoming_command_delegates
       command_listener = CommandListener.instance
       command_listener.declare_primary_delegate(primary)
-      command_listener.listen
-      command_listener.start
+      command_listener.start_subscriber
+      command_listener.start_server
     end
 
     def setup_incoming_command_delegates
