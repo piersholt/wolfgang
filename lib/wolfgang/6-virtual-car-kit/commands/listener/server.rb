@@ -28,22 +28,26 @@ module Wolfgang
         end
       end
 
+      def setup_server
+        logger.debug(PROG_SERVER) { "Delay: #{DELAY} seconds." }
+        Kernel.sleep(DELAY)
+
+        connection_options = {
+          port: ENV['server_port'],
+          host: ENV['server_host']
+        }
+        logger.debug(PROG_SERVER) do
+          "Server connection options: #{connection_options}"
+        end
+        Server.params(connection_options)
+      end
+
       def start_server
         logger.debug(PROG) { '#start_server' }
         @command_server_thread = Thread.new do
           begin
             Thread.current[:name] = PROG_SERVER
-            logger.debug(PROG_SERVER) { "Delay: #{DELAY} seconds." }
-            Kernel.sleep(DELAY)
-
-            connection_options = {
-              port: ENV['server_port'],
-              host: ENV['server_host']
-            }
-            logger.debug(PROG_SERVER) do
-              "Server connection options: #{connection_options}"
-            end
-            Server.params(connection_options)
+            setup_server
 
             logger.debug(PROG_SERVER) { "Thread: #{PROG_SERVER} listen start!" }
             server_loop
@@ -52,7 +56,7 @@ module Wolfgang
             logger.error(PROG_SERVER) { e }
             e.backtrace { |line| logger.error(PROG_SERVER) { line } }
           end
-          logger.warn(PROG) { 'Test thread ending?' }
+          logger.warn(PROG) { 'Thread ending!' }
         end
         add_thread(@command_server_thread)
       end

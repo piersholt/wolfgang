@@ -33,22 +33,26 @@ module Wolfgang
         end
       end
 
+      def setup_subscriber
+        logger.debug(PROG_SUB) { "Delay: #{DELAY} seconds." }
+        Kernel.sleep(DELAY)
+
+        connection_options = {
+          port: ENV['subscriber_port'],
+          host: ENV['subscriber_host']
+        }
+        logger.debug(PROG_SUB) do
+          "Subscriber connection options: #{connection_options}"
+        end
+        Subscriber.params(connection_options)
+      end
+
       def start_subscriber
         logger.debug(PROG) { '#start_subscriber' }
         @command_subscriber_thread = Thread.new do
           begin
             Thread.current[:name] = PROG_SUB
-            logger.debug(PROG_SUB) { "Delay: #{DELAY} seconds." }
-            Kernel.sleep(DELAY)
-
-            connection_options = {
-              port: ENV['subscriber_port'],
-              host: ENV['subscriber_host']
-            }
-            logger.debug(PROG_SUB) do
-              "Subscriber connection options: #{connection_options}"
-            end
-            Subscriber.params(connection_options)
+            setup_subscriber
 
             logger.debug(PROG_SUB) { "Thread: #{PROG_SUB} listen start!" }
             subscriber_loop
@@ -57,7 +61,7 @@ module Wolfgang
             logger.error(PROG_SUB) { e }
             e.backtrace.each { |line| logger.error(PROG_SUB) { line } }
           end
-          logger.warn(PROG_SUB) { 'Listening thread is ending?' }
+          logger.warn(PROG_SUB) { 'Thread ending!' }
         end
         add_thread(@command_subscriber_thread)
       end
