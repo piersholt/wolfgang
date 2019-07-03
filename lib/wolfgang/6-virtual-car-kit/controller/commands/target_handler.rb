@@ -53,18 +53,14 @@ module Wolfgang
 
     def volume_up(command)
       logger.info(PROG) { VOLUME_UP }
-      logger.debug(PROG) { command }
       logger.debug(PROG) { VOLUME_INCREASE }
-      result = `#{VOLUME_INCREASE}`
-      logger.debug(PROG) { result }
+      `#{VOLUME_INCREASE}`
     end
 
     def volume_down(command)
       logger.info(PROG) { VOLUME_DOWN }
-      logger.debug(PROG) { command }
       logger.debug(PROG) { VOLUME_DECREASE }
-      result = `#{VOLUME_DECREASE}`
-      logger.debug(PROG) { result }
+      `#{VOLUME_DECREASE}`
     end
   end
 end
