@@ -19,8 +19,6 @@ module Wolfgang
 
     def start
       manager.punch_it_chewie
-      # Hack-McHackFace. Headless Pi has no PulseAudio autostart
-      Thread.new { puts `pactl list sinks` }
       signals(NO_ARGS)
       run
       binding.pry
