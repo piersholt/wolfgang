@@ -10,11 +10,13 @@ module Wolfgang
     # [NEW] Device 70:70:0D:11:CF:29 P7
     # [NEW] Device 4C:8D:79:8C:A0:94 P5
     # [NEW] Controller 00:1A:7D:DA:71:13 raspberrypi
-    def new_service(service,
+    def new_service(
+      service,
       root: BluezRootListener,
       controller: BluezControllerListener,
       device: BluezDeviceListener,
-      player: BluezPlayerListener)
+      player: BluezPlayerListener
+    )
       logger.debug(name) { 'New Service!' }
 
       initialize_root(service, root)

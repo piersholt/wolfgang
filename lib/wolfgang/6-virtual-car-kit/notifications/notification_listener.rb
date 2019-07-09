@@ -46,9 +46,9 @@ module Wolfgang
           logger.error(PROG) { e }
           e.backtrace.each { |line| logger.error(PROG) { line } }
         end
-        add_thread(@bluez_notification_listener)
+        logger.warn(PROG) { 'Thread ending!' }
       end
-      logger.warn(PROG) { 'Thread ending!' }
+      add_thread(@bluez_notification_listener)
     end
 
     def self.listen(notifications_queue)

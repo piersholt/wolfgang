@@ -1,9 +1,10 @@
 # frozen_string_literal: false
 
 module Wolfgang
-  # BluezMediaControl
+  # Bluez Interface: org.bluez.MediaControl1
   module BluezMediaControl
     include InterfaceConstants
+
     # METHODS
 
     # @deprecated
@@ -44,6 +45,7 @@ module Wolfgang
     end
 
     # object Player [readonly, optional]
+    # Addressed Player object path.
     def player
       media_control_property(PLAYER)
     end

@@ -4,8 +4,6 @@ module Wolfgang
   module Core
     # ManagerRole
     class ManagerRole
-      # include BluezDBusInterface
-
       attr_accessor :notifications_queue, :commands_queue
 
       def initialize(outgoing_notifications_queue)
@@ -21,14 +19,17 @@ module Wolfgang
 
       private
 
-      # -------------------------- DEVICE --------------------------
-
+      # initialize =>
+      # BluezDeviceListener has primary delegate declared via TargetRole
+      # which is initialized prior to ManagerRole. Thus, #append_successor
+      # is called, not #declare_primary_delegate. Not ideal, but I know
+      # I'll no NFI if I don't know it now...
       def setup_device_handlers
-        primary = configure_device_delegates
         device_listener = BluezDeviceListener.instance
-        device_listener.append_successor(primary)
+        device_listener.append_successor(configure_device_delegates)
       end
 
+      # setup_device_handlers ->
       def configure_device_delegates
         device_handler = DeviceInterfaceHandler.instance
 
@@ -38,8 +39,7 @@ module Wolfgang
         device_handler
       end
 
-      # ------------------------------------------------------------
-
+      # manager =>
       def create_manager
         LogActually.core.debug(self.class) { "Create Manager." }
         manager = Core::Manager.new

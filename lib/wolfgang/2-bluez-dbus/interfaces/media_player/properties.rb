@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 module Wolfgang
-  # Bluez Interface: org.bluez.MediaPlayer1
   module BluezMediaPlayer
-    # Comment
+    # Properties of Bluez Interface: org.bluez.MediaPlayer1
     module Properties
       include Constants
 

@@ -36,25 +36,38 @@ require_relative 'interfaces/properties/properties'
 
 # Bluez Interfaces
 require_relative 'interfaces/adapter/bluez_adapter'
+
 require_relative 'interfaces/agent_manager/bluez_agent_manager'
+
 require_relative 'interfaces/device/device_interface_handler'
 require_relative 'interfaces/device/constants'
 require_relative 'interfaces/device/properties'
 require_relative 'interfaces/device/methods'
 require_relative 'interfaces/device/bluez_device'
+
 require_relative 'interfaces/gatt_manager/bluez_gatt_manager'
+
 require_relative 'interfaces/health_manager/bluez_health_manager'
+
 require_relative 'interfaces/media/bluez_media'
+
 require_relative 'interfaces/media_control/media_control_interface_handler'
 require_relative 'interfaces/media_control/bluez_media_control'
+
 require_relative 'interfaces/media_folder/bluez_media_folder'
+
 require_relative 'interfaces/media_item/bluez_media_item'
+
 require_relative 'interfaces/media_player/media_player_interface_handler'
-require_relative 'interfaces/media_player/methods'
 require_relative 'interfaces/media_player/constants'
 require_relative 'interfaces/media_player/properties'
+require_relative 'interfaces/media_player/methods'
 require_relative 'interfaces/media_player/bluez_media_player'
+
 require_relative 'interfaces/media_transport/bluez_media_transport'
+
 require_relative 'interfaces/network/bluez_network'
+
 require_relative 'interfaces/network_server/bluez_network_server'
+
 require_relative 'interfaces/profile_manager/bluez_profile_manager'

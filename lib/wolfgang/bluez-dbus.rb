@@ -21,6 +21,8 @@ LogActually.device.i
 # Interfaces
 LogActually.is_all_around(:media_transport)
 LogActually.media_transport.i
+LogActually.is_all_around(:media_control)
+LogActually.media_control.i
 LogActually.is_all_around(:media_player)
 LogActually.media_player.i
 LogActually.is_all_around(:media_browser)

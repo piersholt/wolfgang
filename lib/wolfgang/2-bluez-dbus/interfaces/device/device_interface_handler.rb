@@ -6,7 +6,6 @@ module Wolfgang
     include Singleton
     include SignalDelegate
 
-    # attr_accessor :mq
     PROG = 'DeviceInterfaceHandler'
     PROPERTIES_CHANGED = '#properties_changed'
     INTERFACE_CALLED = '#interface_called'
@@ -19,63 +18,14 @@ module Wolfgang
 
     # @override SignalDelegate
     def properties_changed(signal)
-      # binding.pry
       LogActually.device.debug(PROG) { PROPERTIES_CHANGED }
       signal_callback.call(signal)
     end
-
-    # @override SignalDelegate
-    # def properties_changed(signal)
-    #   if signal.only?('Connected') && signal.connected?
-    #     device_connected
-    #   elsif signal.only?('Connected') && signal.disconnected?
-    #     device_disconnected
-    #   end
-    # end
 
     # @override SignalDelegate
     def interface_called(event)
       LogActually.device.debug(PROG) { INTERFACE_CALLED }
       call_callback.call(event)
     end
-
-    # @override SignalDelegate
-    # def interface_called(event)
-    #   if event.method == :connect
-    #     device_connecting
-    #   elsif event.method == :disconnect
-    #     device_disconnecting
-    #   end
-    # end
-
-    private
-
-    # ------------------------------ Callable ------------------------------
-
-    # def device_connecting
-    #   LOGGER.unknown(self.class) { '#connect: Device connecting...' }
-    #   # n = Messaging::Notification.new(topic: :device, name: :device_connecting)
-    #   # mq.push(n)
-    # end
-    #
-    # def device_disconnecting
-    #   LOGGER.unknown(self.class) { '#disconnect: Device disconnecting...' }
-    #   # n = Messaging::Notification.new(topic: :device, name: :device_disconnecting)
-    #   # mq.push(n)
-    # end
-    #
-    # # ------------------------------ Signal ------------------------------
-    #
-    # def device_connected
-    #   LOGGER.unknown(self.class) { 'Device connected!' }
-    #   # n = Messaging::Notification.new(topic: :device, name: :device_connected)
-    #   # mq.push(n)
-    # end
-    #
-    # def device_disconnected
-    #   LOGGER.unknown(self.class) { 'Device disconnected!' }
-    #   # n = Messaging::Notification.new(topic: :device, name: :device_disconnected)
-    #   # mq.push(n)
-    # end
   end
 end

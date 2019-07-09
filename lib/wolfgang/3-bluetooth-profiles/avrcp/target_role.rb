@@ -4,8 +4,6 @@ module Wolfgang
   module AVRCP
     # TargetRole
     class TargetRole
-      # include BluezDBusInterface
-      
       attr_accessor :notifications_queue, :commands_queue
 
       def initialize(outgoing_notifications_queue)
@@ -23,14 +21,25 @@ module Wolfgang
 
       private
 
-      # -------------------------- OBJECTS --------------------------
-
+      # initialize =>
       def setup_object_handlers
-        primary = configure_object_delegates
         root_listener = BluezRootListener.instance
-        root_listener.declare_primary_delegate(primary)
+        root_listener.declare_primary_delegate(configure_object_delegates)
       end
 
+      # initialize =>
+      def setup_device_handlers
+        device_listener = BluezDeviceListener.instance
+        device_listener.declare_primary_delegate(configure_device_delegates)
+      end
+
+      # initialize =>
+      def setup_player_handlers
+        player_listener = BluezPlayerListener.instance
+        player_listener.declare_primary_delegate(configure_player_delegates)
+      end
+
+      # setup_object_handlers =>
       def configure_object_delegates
         player_handler    = PlayerObjectHandler.instance
         browser_handler   = BrowserObjectHandler.instance
@@ -42,49 +51,21 @@ module Wolfgang
         player_handler
       end
 
-      # -------------------------- DEVICE --------------------------
-
-      def setup_device_handlers
-        primary = configure_device_delegates
-        device_listener = BluezDeviceListener.instance
-        device_listener.declare_primary_delegate(primary)
-      end
-
+      # setup_device_handlers =>
       def configure_device_delegates
-        # device_handler        = DeviceInterfaceHandler.instance
         media_control_handler = MediaControlInterfaceHandler.instance
-
-        # device_handler.callback = target.target_callback
         media_control_handler.callback = target.target_control_callback
-        # device_handler.signal_callback = target.target_device_callback
-        # device_handler.call_callback = target.target_device_call_callback
-
-        # device_handler.mq        = mq
-        # media_control_handler.mq = mq
-        # device_handler.target = target
-        # media_control_handler.target = target
-
         media_control_handler
       end
 
-      # -------------------------- PLAYER --------------------------
-
-      def setup_player_handlers
-        primary = configure_player_delegates
-        player_listener = BluezPlayerListener.instance
-        player_listener.declare_primary_delegate(primary)
-      end
-
+      # setup_player_handlers =>
       def configure_player_delegates
         media_player_handler = MediaPlayerInterfaceHandler.instance
-
-        # media_player_handler.mq = mq
-        # media_player_handler.target = target
         media_player_handler.callback = target.player_callback
-
         media_player_handler
       end
 
+      # target =>
       def create_target
         LogActually.avrcp.debug(self.class) { "Create Target." }
         new_target = AVRCP::Target.new
@@ -93,7 +74,6 @@ module Wolfgang
         LogActually.avrcp.debug(self.class) { "@new_target.notifications_queue => #{new_target.notifications_queue}" }
         # new_target.commands_queue = commands_queue
         new_target
-
       end
     end
   end
