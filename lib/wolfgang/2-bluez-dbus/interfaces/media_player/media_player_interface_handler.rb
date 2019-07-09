@@ -8,6 +8,9 @@ module Wolfgang
 
     # attr_accessor :mq
     # attr_accessor :target
+    PROG = 'MediaPlayerInterfaceHandler'
+    PROPERTIES_CHANGED = '#properties_changed'
+
     attr_accessor :callback
 
     def responsibility
@@ -16,7 +19,7 @@ module Wolfgang
 
     # @override SignalDelegate
     def properties_changed(signal)
-      # LogActually.media_player.debug('MediaPlayerInterfaceHandler') { '#properties_changed' }
+      LogActually.media_player.debug(PROG) { PROPERTIES_CHANGED }
       callback.call(signal)
       # interrogate(signal)
     end

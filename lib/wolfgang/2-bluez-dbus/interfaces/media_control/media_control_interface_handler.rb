@@ -8,6 +8,9 @@ module Wolfgang
 
     # attr_accessor :mq
     # attr_accessor :target
+    PROG = 'MediaControlInterfaceHandler'
+    PROPERTIES_CHANGED = '#properties_changed'
+
     attr_accessor :callback
 
     def responsibility
@@ -16,7 +19,7 @@ module Wolfgang
 
     # @override SignalDelegate
     def properties_changed(signal)
-      LogActually.device.debug('MediaControlInterfaceHandler') { '#properties_changed' }
+      LogActually.media_control.debug(PROG) { PROPERTIES_CHANGED }
       callback.call(signal)
       # if signal.connected? && signal.player?
       #   player_added(signal)

@@ -7,6 +7,10 @@ module Wolfgang
     include SignalDelegate
 
     # attr_accessor :mq
+    PROG = 'DeviceInterfaceHandler'
+    PROPERTIES_CHANGED = '#properties_changed'
+    INTERFACE_CALLED = '#interface_called'
+
     attr_accessor :signal_callback, :call_callback
 
     def responsibility
@@ -16,7 +20,7 @@ module Wolfgang
     # @override SignalDelegate
     def properties_changed(signal)
       # binding.pry
-      LogActually.device.debug('DeviceInterfaceHandler') { '#properties_changed' }
+      LogActually.device.debug(PROG) { PROPERTIES_CHANGED }
       signal_callback.call(signal)
     end
 
@@ -31,7 +35,7 @@ module Wolfgang
 
     # @override SignalDelegate
     def interface_called(event)
-      LogActually.device.debug('DeviceInterfaceHandler') { '#interface_called' }
+      LogActually.device.debug(PROG) { INTERFACE_CALLED }
       call_callback.call(event)
     end
 

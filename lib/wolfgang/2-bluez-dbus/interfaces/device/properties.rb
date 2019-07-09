@@ -4,48 +4,50 @@ module Wolfgang
   module BluezDevice
     # Properties of Bluez Interface: org.bluez.Device1
     module Properties
+      include Constants
+
       def connected
-        device_property('Connected')
+        device_property(CONNECTED)
       end
 
       def paired
-        device_property('Paired')
+        device_property(PAIRED)
       end
 
       def name
-        device_property('Name')
+        device_property(NAME)
       end
 
       def address
-        device_property('Address')
+        device_property(ADDRESS)
       end
 
       def klass
-        device_property('Class')
+        device_property(CLASS)
       end
 
       def uuids
-        device_property('UUIDs')
+        device_property(UUIDS)
       end
 
       def trusted
-        device_property('Trusted')
+        device_property(TRUSTED)
       end
 
       def blocked
-        device_property('Blocked')
+        device_property(BLOCKED)
       end
 
       def alias
-        device_property('Alias')
+        device_property(ALIAS)
       end
 
       def adapter
-        device_property('Adapter')
+        device_property(ADAPTER)
       end
 
       def icon
-        device_property('Idapter')
+        device_property(ICON)
       end
 
       alias connected? connected

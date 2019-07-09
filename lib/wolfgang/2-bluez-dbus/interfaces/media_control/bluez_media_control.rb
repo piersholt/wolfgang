@@ -35,14 +35,17 @@ module Wolfgang
 
     # PROPERTIES
 
+    CONNECTED = 'Connected'.freeze
+    PLAYER    = 'Player'.freeze
+
     # boolean Connected [readonly]
     def connected?
-      media_control_property('Connected')
+      media_control_property(CONNECTED)
     end
 
     # object Player [readonly, optional]
     def player
-      media_control_property('Player')
+      media_control_property(PLAYER)
     end
 
     def media_control

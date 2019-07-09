@@ -2,7 +2,10 @@
 
 module Wolfgang
   module ObjectManagerListener
-    def interfaces_added(signal, proc_name = 'InterfacesAdded')
+    INTERFACES_ADDED = 'InterfacesAdded'
+    INTERFACES_REMOVED = 'InterfacesRemoved'
+
+    def interfaces_added(signal, proc_name = INTERFACES_ADDED)
       self.proc = proc_name
       LogActually.object_manager.debug(proc) { "#{signal.class}" }
       LogActually.object_manager.debug(proc) { "#{signal.object_suffixed}" }
@@ -12,7 +15,7 @@ module Wolfgang
       end
     end
 
-    def interfaces_removed(signal, proc_name = 'InterfacesAdded')
+    def interfaces_removed(signal, proc_name = INTERFACES_REMOVED)
       self.proc = proc_name
       LogActually.object_manager.debug(proc) { "#{signal.class}" }
       LogActually.object_manager.debug(proc) { "#{signal.object_suffixed}" }
