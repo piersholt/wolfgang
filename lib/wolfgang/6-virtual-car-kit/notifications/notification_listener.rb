@@ -4,7 +4,7 @@ module Wolfgang
   # NotificationListener
   class NotificationListener
     include Singleton
-    include NotificationDelegator
+    include Yabber::NotificationDelegator
     include ManageableThreads
 
     PROG = 'NotificationListener'

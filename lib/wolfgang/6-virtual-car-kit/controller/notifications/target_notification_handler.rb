@@ -4,9 +4,9 @@ module Wolfgang
   # TargetNotificationHandler
   class TargetNotificationHandler
     include Singleton
-    include NotificationDelegate
-    include NotificationsRelay
-    include Messaging::Constants
+    include Yabber::NotificationDelegate
+    include Yabber::NotificationsRelay
+    include Yabber::Constants
 
     def responsibility
       :target

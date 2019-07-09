@@ -5,8 +5,8 @@ module Wolfgang
   # TODO: MediaCommandHandler
   class TargetHandler
     include Singleton
-    include NotificationDelegate
-    include Messaging::Constants
+    include Yabber::NotificationDelegate
+    include Yabber::Constants
 
     PROG = 'Controller::TargetHandler'
 
@@ -39,9 +39,9 @@ module Wolfgang
       logger.info(PROG) { PLAYER }
       name = target.addressed_player ? :addressed_player : :player_removed
       payload = name == :addressed_player ? target.addressed_player.attributes : {}
-      r = Messaging::Reply.new(topic: TARGET, name: name, properties: payload)
-      result = Server.instance.send(r.to_yaml)
-      logger.debug(PROG) { "send(#{r}) => #{result}" }
+      reply = Yabber::Reply.new(topic: TARGET, name: name, properties: payload)
+      result = Server.instance.send(reply.to_yaml)
+      logger.debug(PROG) { "send(#{reply}) => #{result}" }
     end
 
     SINK_ID = 0

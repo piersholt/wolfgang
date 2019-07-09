@@ -92,7 +92,7 @@ begin
     host: ENV['publisher_host']
   }
   LOGGER.debug(PROG_NAME) { "Publisher connection options: #{connection_options}" }
-  Publisher.params(connection_options)
+  Yabber::Publisher.params(connection_options)
   LOGGER.info(PROG_NAME) { 'Publisher started...' }
 
   LOGGER.info(PROG_NAME) { 'Hack-McHackFace. Headless Pi has no PulseAudio autostart' }

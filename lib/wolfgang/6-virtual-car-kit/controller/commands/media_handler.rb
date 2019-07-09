@@ -5,8 +5,8 @@ module Wolfgang
   # TODO: MediaCommandHandler
   class MediaHandler
     include Singleton
-    include NotificationDelegate
-    include Messaging::Constants
+    include Yabber::NotificationDelegate
+    include Yabber::Constants
 
     PROG = 'Controller::MediaHandler'
 

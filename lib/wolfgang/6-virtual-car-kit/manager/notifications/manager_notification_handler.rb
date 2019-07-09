@@ -4,9 +4,9 @@ module Wolfgang
   # ManagerNotificationHandler
   class ManagerNotificationHandler
     include Singleton
-    include NotificationDelegate
-    include NotificationsRelay
-    include Messaging::Constants
+    include Yabber::NotificationDelegate
+    include Yabber::NotificationsRelay
+    include Yabber::Constants
 
     def responsibility
       :device

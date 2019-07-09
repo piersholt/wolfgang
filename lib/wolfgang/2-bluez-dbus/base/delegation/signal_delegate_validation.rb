@@ -3,7 +3,7 @@
 module Wolfgang
   # All mehods that are expected to be overriden by SignalDelegate
   module SignalDelegateValidation
-    include DelegateValidation
+    include Yabber::DelegateValidation
 
     # The methods called when a handler is responsible
     def properties_changed(___ = nil)

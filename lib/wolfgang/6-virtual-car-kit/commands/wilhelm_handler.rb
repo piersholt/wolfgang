@@ -5,8 +5,8 @@ module Wolfgang
   # TODO: MediaCommandHandler
   class WilhelmHandler
     include Singleton
-    include NotificationDelegate
-    include Messaging::Constants
+    include Yabber::NotificationDelegate
+    include Yabber::Constants
 
     # attr_accessor :target
 
@@ -43,7 +43,7 @@ module Wolfgang
       logger.info(self.class) { PONG }
       logger.debug(self.class) { command }
 
-      n = Messaging::Reply.new(topic: WOLFGANG, name: PONG)
+      n = Yabber::Reply.new(topic: WOLFGANG, name: PONG)
       # notifications_queue.push(n)
       result = Server.instance.send(n.to_yaml)
       logger.debug(self.class) { "send(#{n}) => #{result}" }

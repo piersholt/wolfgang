@@ -7,7 +7,7 @@ module Wolfgang
   # CommandListener
   class CommandListener
     include Singleton
-    include NotificationDelegator
+    include Yabber::NotificationDelegator
     include ManageableThreads
 
     PROG = 'CommandListener'
@@ -24,7 +24,7 @@ module Wolfgang
     end
 
     def deserialize(serialized_object)
-      command = Messaging::Serialized.new(serialized_object).parse
+      command = Yabber::Serialized.new(serialized_object).parse
       logger.info(PROG) { "Deserialized: #{command}" }
       logger.info(PROG) { "name: #{command.name} (#{command.name.class})" }
       command

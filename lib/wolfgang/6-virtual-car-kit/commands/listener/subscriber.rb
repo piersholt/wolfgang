@@ -44,7 +44,7 @@ module Wolfgang
         logger.info(PROG_SUB) do
           "Subscriber connection options: #{connection_options}"
         end
-        Subscriber.params(connection_options)
+        Yabber::Subscriber.params(connection_options)
       end
 
       def start_subscriber

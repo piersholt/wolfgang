@@ -4,7 +4,7 @@ module Wolfgang
   class VirtualCarKit
     # Manager
     class Manager
-      include Messaging::API
+      include Yabber::API
       attr_reader :manager
 
       def initialize(outgoing_notifications_queue)
@@ -13,7 +13,7 @@ module Wolfgang
       end
 
       def punch_it_chewie
-        announce(Messaging::Constants::DEVICE)
+        announce(Yabber::Constants::DEVICE)
       end
 
       def devices

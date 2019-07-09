@@ -6,7 +6,7 @@ module Wolfgang
     include BluezDBusInterface
     attr_reader :controller
     attr_reader :manager
-    include Messaging::API
+    include Yabber::API
 
     def initialize
       @controller = Controller.new(outgoing_notifications_queue)

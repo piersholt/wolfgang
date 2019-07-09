@@ -39,7 +39,7 @@ module Wolfgang
         logger.info(PROG_SERVER) do
           "Server connection options: #{connection_options}"
         end
-        Server.params(connection_options)
+        Yabber::Server.params(connection_options)
       end
 
       def start_server
