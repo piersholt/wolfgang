@@ -10,10 +10,10 @@ module Wolfgang
 
       def reply_iteration(iteration)
         logger.debug(PROG) { "REP #{iteration}. Wait" }
-        serialized_object = Server.recv
+        serialized_object = Yabber::Server.recv
         command = deserialize(serialized_object)
         delegate(command)
-      rescue IfYouWantSomethingDone
+      rescue Yabber::IfYouWantSomethingDone
         logger.warn(PROG) { "Chain did not handle! (#{command})" }
       rescue StandardError => e
         logger.error(PROG) { e }

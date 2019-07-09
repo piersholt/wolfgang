@@ -29,7 +29,7 @@ module Wolfgang
     end
 
     def forward(method, object)
-      raise(IfYouWantSomethingDone, "No one to handle: #{method}, #{object}") unless successor
+      raise(Yabber::IfYouWantSomethingDone, "No one to handle: #{method}, #{object}") unless successor
       successor.handle(method, object)
     end
 

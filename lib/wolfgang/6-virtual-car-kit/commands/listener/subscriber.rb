@@ -10,10 +10,10 @@ module Wolfgang
 
       def pop_and_delegate(iteration)
         logger.debug(PROG) { "SUB #{iteration}. Wait" }
-        serialized_object = Subscriber.recv
+        serialized_object = Yabber::Subscriber.recv
         command = deserialize(serialized_object)
         delegate(command)
-      rescue IfYouWantSomethingDone
+      rescue Yabber::IfYouWantSomethingDone
         logger.warn(PROG) { "Chain did not handle! (#{command})" }
       rescue StandardError => e
         logger.error(PROG) { e }

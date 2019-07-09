@@ -14,7 +14,7 @@ module Wolfgang
     def interfaces_added(signal)
       super(signal, 'Root#InterfacesAdded')
       delegate(:interfaces_added, signal)
-    rescue IfYouWantSomethingDone
+    rescue Yabber::IfYouWantSomethingDone
       LOGGER.warn(proc) { 'Chain did not handle!' }
     end
 

@@ -45,7 +45,7 @@ module Wolfgang
 
       n = Yabber::Reply.new(topic: WOLFGANG, name: PONG)
       # notifications_queue.push(n)
-      result = Server.instance.send(n.to_yaml)
+      result = Yabber::Server.instance.send(n.to_yaml)
       logger.debug(self.class) { "send(#{n}) => #{result}" }
     end
   end

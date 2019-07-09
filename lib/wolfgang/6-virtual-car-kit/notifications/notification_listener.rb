@@ -21,7 +21,7 @@ module Wolfgang
       notification = queue.pop
       logger.debug(PROG) { "#{i}. #{notification}" }
       delegate(notification)
-    rescue IfYouWantSomethingDone
+    rescue Yabber::IfYouWantSomethingDone
       logger.warn(PROG) { 'Chain did not handle!' }
     end
 

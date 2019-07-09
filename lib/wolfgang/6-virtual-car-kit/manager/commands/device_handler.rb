@@ -55,7 +55,7 @@ module Wolfgang
 
       logger.debug(PROG) { "payload.size => #{payload.size}" }
       reply = Yabber::Reply.new(topic: DEVICE, name: DEVICES, properties: payload)
-      result = Server.instance.send(reply.to_yaml)
+      result = Yabber::Server.instance.send(reply.to_yaml)
       logger.debug(PROG) { "send(#{reply}) => #{result}" }
     end
   end
