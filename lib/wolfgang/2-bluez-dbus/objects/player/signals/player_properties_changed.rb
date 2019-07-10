@@ -5,6 +5,21 @@ module Wolfgang
   class PlayerPropertiesChanged < PropertiesChanged
     include InterfaceConstants
 
+    PROG = 'PlayerPropertiesChanged'
+
+    STATUS = 'Status'
+    TRACK = 'Track'
+    POSITION = 'Position'
+    REPEAT = 'Repeat'
+    SHUFFLE = 'Shuffle'
+    TITLE = 'Title'
+    NUMBER_OF_TRACKS = 'NumberOfTracks'
+    DURATION = 'Duration'
+    TITLE = 'Title'
+    ARTIST = 'Artist'
+    TRACK_NUMBER = 'TrackNumber'
+    DEVICE = 'Device'
+
     def initialize(object, target, changed, removed)
       super
     end
@@ -22,83 +37,83 @@ module Wolfgang
     # PROPERTIES
 
     def track?
-      has('Track')
+      has(TRACK)
     end
 
     def only_track?
-      only?('Track')
+      only?(TRACK)
     end
 
     def position?
-      has('Position')
+      has(POSITION)
     end
 
     def only_position?
-      only?('Position')
+      only?(POSITION)
     end
 
     def only_status?
-      only?('Status')
+      only?(STATUS)
     end
 
     def status
-      fetch('Status')
+      fetch(STATUS)
     end
 
     def track
-      fetch('Track') || {}
+      fetch(TRACK) || {}
     end
 
     def position
-      fetch('Position')
+      fetch(POSITION)
     end
 
     def only_shuffle?
-      only?('Shuffle')
+      only?(SHUFFLE)
     end
 
     def only_repeat?
-      only?('Repeat')
+      only?(REPEAT)
     end
 
     # alltracks, singletrack, off
     def repeat
-      fetch('Repeat')
+      fetch(REPEAT)
     end
 
     # alltracks, off
     def shuffle
-      fetch('shuffle')
+      fetch(SHUFFLE)
     end
 
     # TRACK
 
     def title?
-      track['Title'] ? true : false
+      track[TITLE] ? true : false
     end
 
     def number_of_tracks?
-      track['NumberOfTracks'] ? true : false
+      track[NUMBER_OF_TRACKS] ? true : false
     end
 
     def track_number?
-      track['TrackNumber'] ? true : false
+      track[TRACK_NUMBER] ? true : false
     end
 
     def duration?
-      track['Duration'] ? true : false
+      track[DURATION] ? true : false
     end
 
     def title
-      track['Title']
+      track[TITLE]
     end
 
     def artist
-      track['Artist']
+      track[ARTIST]
     end
 
     def track_number
-      track['TrackNumber']
+      track[TRACK_NUMBER]
     end
   end
 end

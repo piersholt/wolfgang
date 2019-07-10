@@ -8,7 +8,7 @@ module Wolfgang
     include SignalDelegate
 
     def name
-      'Player'
+      'Root#PlayerObjectHandler'
     end
 
     def interfaces_added(signal)
@@ -25,6 +25,8 @@ module Wolfgang
       [BLUEZ_MEDIA_PLAYER, BLUEZ_MEDIA_FOLDER].freeze
     end
 
+    # @deprecated
+    # See BluezPlayerListener.instance.new_player
     def new_player(player)
       LogActually.media_player.debug(name) { 'Media player signal setup... properties_changed' }
       player

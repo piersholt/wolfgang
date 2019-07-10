@@ -5,6 +5,8 @@ module Wolfgang
     class Player
       # State
       module State
+        MODULE_PROG = 'Player::State'
+        
         def attributes
           @attributes ||= {}
         end
@@ -14,6 +16,7 @@ module Wolfgang
         end
 
         def attributes!(changes)
+          LogActually.avrcp.unknown(MODULE_PROG) { "#attributes(#{changes})" }
           attributes.merge!(changes) do |_, old, new|
             old.instance_of?(Hash) ? squish(old, new) : new
           end

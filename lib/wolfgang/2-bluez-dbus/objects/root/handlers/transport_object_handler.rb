@@ -7,7 +7,7 @@ module Wolfgang
     include SignalDelegate
 
     def name
-      'Media Transport'
+      'Root#MediaTransportHandler'
     end
 
     def interfaces_added(signal)

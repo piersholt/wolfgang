@@ -7,7 +7,7 @@ module Wolfgang
     include SignalDelegate
 
     def name
-      'Media Browser'
+      'Root#BrowserObjectHandler'
     end
 
     def interfaces_added(signal)
