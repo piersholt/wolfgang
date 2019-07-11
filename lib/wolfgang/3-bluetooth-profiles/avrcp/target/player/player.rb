@@ -5,7 +5,6 @@ module Wolfgang
     # Player
     class Player
       extend Forwardable
-      include State
       include Attributes
       include SignalHandling
       include Notifications

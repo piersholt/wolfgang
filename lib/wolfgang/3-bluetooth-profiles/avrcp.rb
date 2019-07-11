@@ -6,7 +6,6 @@ puts 'wolfgang/bluetooth_profiles/avrcp'
 require_relative 'avrcp/target/player/attributes'
 require_relative 'avrcp/target/player/notifications'
 require_relative 'avrcp/target/player/signal_handling'
-require_relative 'avrcp/target/player/state'
 require_relative 'avrcp/target/player/player'
 
 # TARGET
