@@ -5,15 +5,9 @@ module Wolfgang
     class Player
       # Attributes
       module Attributes
-        MODULE_PROG = 'Player::Attributes'
+        include Constants
 
-        NAME = 'Name'
-        STATUS = 'Status'
-        REPEAT = 'Repeat'
-        SHUFFLE = 'Shuffle'
-        POSITION = 'Position'
-        TRACK = 'Track'
-        DEVICE = 'Device'
+        MODULE_PROG = 'Player::Attributes'
 
         def attributes
           @attributes ||= {}
@@ -50,11 +44,11 @@ module Wolfgang
         # Track Attributes
 
         def duration
-          track['Duration'] ||= object.track['Duration']
+          track[DURATION] ||= object.track[DURATION]
         end
 
         def track_number
-          track['TrackNumber'] ||= object.track['TrackNumber']
+          track[TRACK_NUMBER] ||= object.track[TRACK_NUMBER]
         end
 
         def attributes!(changes)

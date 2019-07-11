@@ -5,11 +5,9 @@ module Wolfgang
     class Target
       # SignalHandling
       module SignalHandling
+        include Constants
+        
         MODULE_PROG = 'Target::SignalHandling'
-
-        PLAYER_ADDED = 'Player added!'
-        PLAYER_CHANGED = 'Player changed!'
-        PLAYER_REMOVED = 'Player removed!'
 
         def media_control_callback
           proc do |signal|

@@ -5,13 +5,12 @@ module Wolfgang
     class Target
       # Attributes
       module Attributes
+        include Constants
+
         MODULE_PROG = 'Target::Attributes'
 
-        PLAYER = 'Name'
-        CONNECTED = 'Status'
-
         def attributes
-          @attributes ||= { PLAYER => nil, CONNECTED => nil}
+          @attributes ||= { PLAYER => nil, CONNECTED => nil }
         end
 
         def player

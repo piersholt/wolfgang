@@ -23,6 +23,7 @@
 # @volume
 # EVENT_VOLUME_CHANGED (0x0d)
 
+require_relative 'constants'
 require_relative 'attributes'
 
 module Wolfgang
