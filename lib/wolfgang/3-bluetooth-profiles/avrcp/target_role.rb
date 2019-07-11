@@ -54,14 +54,14 @@ module Wolfgang
       # setup_device_handlers =>
       def configure_device_delegates
         media_control_handler = MediaControlInterfaceHandler.instance
-        media_control_handler.callback = target.target_control_callback
+        media_control_handler.callback = target.media_control_callback
         media_control_handler
       end
 
       # setup_player_handlers =>
       def configure_player_delegates
         media_player_handler = MediaPlayerInterfaceHandler.instance
-        media_player_handler.callback = target.player_callback
+        media_player_handler.callback = target.media_player_callback
         media_player_handler
       end
 

@@ -11,17 +11,17 @@ module Wolfgang
         PLAYER_CHANGED = 'Player changed!'
         PLAYER_REMOVED = 'Player removed!'
 
-        def target_control_callback
+        def media_control_callback
           proc do |signal|
             begin
-              control_properties_changed(signal)
+              properties_changed(signal)
             rescue StandardError => e
               LogActually.avrcp.error(MODULE_PROG) { e }
             end
           end
         end
 
-        def addressed_player_callback
+        def media_player_callback
           proc do |signal|
             begin
               addressed_player.properties_changed(signal)
@@ -31,10 +31,8 @@ module Wolfgang
           end
         end
 
-        alias player_callback addressed_player_callback
-
-        def control_properties_changed(signal)
-          LogActually.avrcp.debug(MODULE_PROG) { '#control_properties_changed! (#{signal.class})' }
+        def properties_changed(signal)
+          LogActually.avrcp.debug(MODULE_PROG) { "#properties_changed! (#{signal.class})" }
           if signal.connected? && signal.player?
             player_added(signal)
           elsif signal.player?
