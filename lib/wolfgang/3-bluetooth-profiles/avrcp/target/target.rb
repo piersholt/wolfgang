@@ -23,10 +23,13 @@
 # @volume
 # EVENT_VOLUME_CHANGED (0x0d)
 
+require_relative 'attributes'
+
 module Wolfgang
   module AVRCP
     # Target
     class Target
+      include Attributes
       include SignalHandling
       include Notifications
       include Commands
