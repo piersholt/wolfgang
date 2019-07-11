@@ -23,14 +23,6 @@ module Wolfgang
           seconds.divmod(60)
         end
 
-        def changed?
-          @changed ||= false
-        end
-
-        def changed!
-          @changed = true
-        end
-
         def track_changed!
           LogActually.avrcp.info(MODULE_PROG) { LOG_TRACK_CHANGED }
           n = Yabber::Notification.new(topic: :player, name: :track_change, properties: attributes)
