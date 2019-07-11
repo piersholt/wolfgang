@@ -63,7 +63,7 @@ module Wolfgang
     end
 
     def media_control_property(property)
-      media_control_property(BLUEZ_MEDIA_CONTROL, property)
+      property_get(BLUEZ_MEDIA_CONTROL, property)
     end
   end
 end
