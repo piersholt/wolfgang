@@ -44,7 +44,7 @@ module Wolfgang
       target_handler = TargetHandler.instance
       target_handler.target = controller.target
 
-      wilhelm_handler = WilhelmHandler.instance
+      wilhelm_handler = WolfgangHandler.instance
 
       media_handler.successor = target_handler
       target_handler.successor = device_handler

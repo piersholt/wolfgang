@@ -1,14 +1,12 @@
 # frozen_string_literal: true
 
 module Wolfgang
-  # WilhelmHandler
+  # WolfgangHandler
   # TODO: MediaCommandHandler
-  class WilhelmHandler
+  class WolfgangHandler
     include Singleton
     include Yabber::NotificationDelegate
     include Yabber::Constants
-
-    # attr_accessor :target
 
     def take_responsibility(command)
       logger.debug(self.class) { "#take_responsibility(#{command})" }
@@ -17,6 +15,10 @@ module Wolfgang
         hello(command)
       when PING
         pong(command)
+      when VOLUME_UP
+        volume_up(command)
+      when VOLUME_DOWN
+        volume_down(command)
       else
         not_handled(command)
       end
@@ -47,6 +49,25 @@ module Wolfgang
       # notifications_queue.push(n)
       result = Yabber::Server.instance.send(n.to_yaml)
       logger.debug(self.class) { "send(#{n}) => #{result}" }
+    end
+
+    SINK_ID = 0
+    VOLUME_MAX = 65_536
+    VOLUME_INTERVALS = 16
+    VOLUME_INTERVAL = VOLUME_MAX / VOLUME_INTERVALS
+    VOLUME_INCREASE = "pactl set-sink-volume #{SINK_ID} +#{VOLUME_INTERVAL}"
+    VOLUME_DECREASE = "pactl set-sink-volume #{SINK_ID} -#{VOLUME_INTERVAL}"
+
+    def volume_up(*)
+      logger.info(PROG) { VOLUME_UP }
+      logger.debug(PROG) { VOLUME_INCREASE }
+      `#{VOLUME_INCREASE}`
+    end
+
+    def volume_down(*)
+      logger.info(PROG) { VOLUME_DOWN }
+      logger.debug(PROG) { VOLUME_DECREASE }
+      `#{VOLUME_DECREASE}`
     end
   end
 end

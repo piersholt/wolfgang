@@ -17,10 +17,6 @@ module Wolfgang
       case command.name
       when PLAYER
         player(command)
-      when VOLUME_UP
-        volume_up(command)
-      when VOLUME_DOWN
-        volume_down(command)
       end
     rescue StandardError => e
       logger.error(PROG) { e }
@@ -37,30 +33,17 @@ module Wolfgang
 
     def player(command)
       logger.info(PROG) { PLAYER }
-      name = target.addressed_player ? :addressed_player : :player_removed
-      payload = name == :addressed_player ? target.addressed_player.attributes : {}
-      reply = Yabber::Reply.new(topic: TARGET, name: name, properties: payload)
-      result = Server.instance.send(reply.to_yaml)
-      logger.debug(PROG) { "send(#{reply}) => #{result}" }
-    end
-
-    SINK_ID = 0
-    VOLUME_MAX = 65_536
-    VOLUME_INTERVALS = 16
-    VOLUME_INTERVAL = VOLUME_MAX / VOLUME_INTERVALS
-    VOLUME_INCREASE = "pactl set-sink-volume #{SINK_ID} +#{VOLUME_INTERVAL}"
-    VOLUME_DECREASE = "pactl set-sink-volume #{SINK_ID} -#{VOLUME_INTERVAL}"
-
-    def volume_up(command)
-      logger.info(PROG) { VOLUME_UP }
-      logger.debug(PROG) { VOLUME_INCREASE }
-      `#{VOLUME_INCREASE}`
-    end
-
-    def volume_down(command)
-      logger.info(PROG) { VOLUME_DOWN }
-      logger.debug(PROG) { VOLUME_DECREASE }
-      `#{VOLUME_DECREASE}`
+      if target.addressed_player.nil?
+        reply = Yabber::Reply.new(topic: TARGET, name: :player_removed, properties: {})
+        Yabber::Server.instance.send(reply.to_yaml)
+        # logger.debug(PROG) { "send(#{reply}) => #{result}" }
+      else
+        payload = target.addressed_player.attributes
+        raise(ArgumentError, 'No attributes for addressed player you muppet!') unless payload
+        reply = Yabber::Reply.new(topic: TARGET, name: :addressed_player, properties: payload)
+        Yabber::Server.instance.send(reply.to_yaml)
+        # logger.debug(PROG) { "send(#{reply}) => #{result}" }
+      end
     end
   end
 end
