@@ -6,7 +6,8 @@ module Wolfgang
       # SignalHandling
       module SignalHandling
         MODULE_PROG = 'Target::SignalHandling'
-        PLAYER_AVAILABLE = 'Player available!'
+
+        PLAYER_ADDED = 'Player added!'
         PLAYER_CHANGED = 'Player changed!'
         PLAYER_REMOVED = 'Player removed!'
 
@@ -49,7 +50,7 @@ module Wolfgang
         end
 
         def player_added(signal)
-          LogActually.avrcp.debug(MODULE_PROG) { PLAYER_AVAILABLE }
+          LogActually.avrcp.debug(MODULE_PROG) { PLAYER_ADDED }
           add_player(signal.player)
           player_added!
         end

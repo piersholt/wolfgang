@@ -8,14 +8,15 @@ module Wolfgang
         attr_accessor :notifications_queue, :changed
 
         MODULE_PROG = 'Player::Notifications'
+
         LOG_TRACK_CHANGED = 'Track changed!'
         LOG_TRACK_STARTED = 'Track started!'
         LOG_TRACK_ENDED = 'Track ended!'
         LOG_POSITION = 'Position Update'
-        LOG_STATUS = 'Playback Status Changed'
-        LOG_REPEAT = 'Repeat Method Changed'
-        LOG_SHUFFLE = 'Shuffle Method Changed'
-        LOG_ATTRIBUTES_CHANGED = 'Player Changed'
+        LOG_STATUS = 'Playback Status changed'
+        LOG_REPEAT = 'Repeat Method changed'
+        LOG_SHUFFLE = 'Shuffle Method changed'
+        LOG_ATTRIBUTES_CHANGED = 'Player attributes changed'
 
         def time(milliseconds)
           seconds = milliseconds / 1000

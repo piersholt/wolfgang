@@ -17,7 +17,7 @@ module Wolfgang
 
     # @override SignalDelegate
     def properties_changed(signal)
-      LogActually.media_player.debug(PROG) { PROPERTIES_CHANGED }
+      LogActually.object_player.debug(PROG) { PROPERTIES_CHANGED }
       callback.call(signal)
     end
   end

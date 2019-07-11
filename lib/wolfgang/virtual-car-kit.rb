@@ -6,7 +6,7 @@ puts 'wolfgang/virtual_car_kit'
 LogActually.is_all_around(:notifications)
 LogActually.notifications.i
 LogActually.is_all_around(:commands)
-LogActually.commands.d
+LogActually.commands.i
 
 # Controller
 require_relative '6-virtual-car-kit/controller/notifications/player_notification_handler'

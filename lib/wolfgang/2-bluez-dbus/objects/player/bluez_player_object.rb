@@ -17,7 +17,7 @@ module Wolfgang
     end
 
     def logger
-      LogActually.media_player
+      LogActually.object_player
     end
   end
 end

@@ -12,7 +12,7 @@ module Wolfgang
     end
 
     def properties_changed_signal_registration(controller)
-      LogActually.service.debug(name) { 'properties_changed signal registration.' }
+      LogActually.service_bluez.debug(name) { 'properties_changed signal registration.' }
       controller.properties.listen(:properties_changed, self)
     end
 
@@ -21,7 +21,7 @@ module Wolfgang
     end
 
     def logger
-      LogActually.controller
+      LogActually.object_controller
     end
   end
 end

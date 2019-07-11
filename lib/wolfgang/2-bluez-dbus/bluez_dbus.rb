@@ -7,7 +7,7 @@ module Wolfgang
     include BluezDBusConfig
 
     def logger
-      LogActually.service
+      LogActually.service_bluez
     end
 
     def system_bus

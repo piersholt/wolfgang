@@ -18,13 +18,13 @@ module Wolfgang
 
     # @override SignalDelegate
     def properties_changed(signal)
-      LogActually.device.debug(PROG) { PROPERTIES_CHANGED }
+      LogActually.object_device.debug(PROG) { PROPERTIES_CHANGED }
       signal_callback.call(signal)
     end
 
     # @override SignalDelegate
     def interface_called(event)
-      LogActually.device.debug(PROG) { INTERFACE_CALLED }
+      LogActually.object_device.debug(PROG) { INTERFACE_CALLED }
       call_callback.call(event)
     end
   end

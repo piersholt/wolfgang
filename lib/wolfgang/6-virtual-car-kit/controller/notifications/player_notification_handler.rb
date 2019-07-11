@@ -13,7 +13,7 @@ module Wolfgang
     end
 
     def logger
-      LogActually.media_player
+      LogActually.avrcp
     end
 
     def take_responsibility(notification)

@@ -3,7 +3,6 @@
 module Wolfgang
   # BluezRootObject
   class BluezRootObject < ObjectAdapter
-    # include InterfaceConstants
     include Properties
     include ObjectManager
 
@@ -14,7 +13,7 @@ module Wolfgang
     end
 
     def logger
-      LogActually.object_manager
+      LogActually.object_root
     end
   end
 end

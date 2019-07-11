@@ -26,7 +26,7 @@ module Wolfgang
     end
 
     def logger
-      LogActually.service
+      LogActually.service_bluez
     end
 
     def name

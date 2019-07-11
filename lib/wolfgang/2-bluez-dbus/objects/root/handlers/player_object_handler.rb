@@ -8,12 +8,16 @@ module Wolfgang
     include SignalDelegate
 
     def name
-      'Root#PlayerObjectHandler'
+      'PlayerObjectHandler'
+    end
+
+    def logger
+      LogActually.object_root
     end
 
     def interfaces_added(signal)
-      LogActually.media_player.info(name) { "New media player! #{signal.object_suffixed}." }
-      LogActually.media_player.debug(name) { "#{signal.object_suffixed} includes #{responsibility} interface(s)." }
+      logger.info(name) { "New media player! #{signal.object_suffixed}." }
+      logger.debug(name) { "#{signal.object_suffixed} includes #{responsibility} interface(s)." }
       player_object = BluezDBus.service.player(signal.object_path)
       # new_player(player_object)
       BluezPlayerListener.instance.new_player(player_object)
@@ -28,7 +32,7 @@ module Wolfgang
     # @deprecated
     # See BluezPlayerListener.instance.new_player
     def new_player(player)
-      LogActually.media_player.debug(name) { 'Media player signal setup... properties_changed' }
+      logger.debug(name) { 'Media player signal setup... properties_changed' }
       player
       .properties
       .listen(

@@ -23,7 +23,7 @@ module Wolfgang
         MODULE_PROG = 'Player::SignalHandling'
 
         def properties_changed(signal)
-          LogActually.avrcp.debug(MODULE_PROG) { '#properties_changed!' }
+          LogActually.avrcp.debug(MODULE_PROG) { "#properties_changed! (#{signal.class})" }
           attributes!(signal.changed)
           if signal.only_track? && signal.title?
             track_change(signal)

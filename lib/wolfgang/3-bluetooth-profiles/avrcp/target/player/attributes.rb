@@ -5,28 +5,46 @@ module Wolfgang
     class Player
       # Attributes
       module Attributes
+        MODULE_PROG = 'Player::Attributes'
+
+        NAME = 'Name'
+        STATUS = 'Status'
+        REPEAT = 'Repeat'
+        SHUFFLE = 'Shuffle'
+        POSITION = 'Position'
+        TRACK = 'Track'
+        DEVICE = 'Device'
+
+        def attributes
+          @attributes ||= {}
+        end
+
         def name
-          attributes['Name'] ||= object.name
+          attributes[NAME] ||= object.name
         end
 
         def status
-          attributes['Status'] ||= object.status
+          attributes[STATUS] ||= object.status
         end
 
-        def reapt
-          attributes['Repeat'] ||= object.reapt
+        def repeat
+          attributes[REPEAT] ||= object.repeat
         end
 
         def shuffle
-          attributes['Shuffle'] ||= object.shuffle
+          attributes[SHUFFLE] ||= object.shuffle
         end
 
         def position
-          attributes['Position'] ||= object.position
+          attributes[POSITION] ||= object.position
         end
 
         def track
-          attributes['Track'] ||= object.track
+          attributes[TRACK] ||= object.track
+        end
+
+        def device
+          attributes[DEVICE] ||= object.device
         end
 
         # Track Attributes

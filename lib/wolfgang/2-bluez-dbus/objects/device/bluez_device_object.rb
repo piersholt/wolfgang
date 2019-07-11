@@ -17,7 +17,7 @@ module Wolfgang
     end
 
     def logger
-      LogActually.device
+      LogActually.object_device
     end
 
     def name

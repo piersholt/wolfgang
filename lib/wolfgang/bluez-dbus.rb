@@ -2,31 +2,40 @@
 
 puts 'wolfgang/bluez_dbus'
 
-# Bluez
-LogActually.is_all_around(:service)
-LogActually.service.i
 
 # Core Objects
-LogActually.is_all_around(:object_manager)
-LogActually.object_manager.i
-LogActually.is_all_around(:properties)
-LogActually.properties.i
-
-# Objects
-LogActually.is_all_around(:controller)
-LogActually.controller.i
-LogActually.is_all_around(:device)
-LogActually.device.i
+LogActually.is_all_around(:interface_object_manager)
+LogActually.interface_object_manager.i
+LogActually.is_all_around(:interface_properties)
+LogActually.interface_properties.i
 
 # Interfaces
-LogActually.is_all_around(:media_transport)
-LogActually.media_transport.i
-LogActually.is_all_around(:media_control)
-LogActually.media_control.i
-LogActually.is_all_around(:media_player)
-LogActually.media_player.i
-LogActually.is_all_around(:media_browser)
-LogActually.media_browser.i
+LogActually.is_all_around(:interface_media_transport)
+LogActually.interface_media_transport.i
+LogActually.is_all_around(:interface_media_control)
+LogActually.interface_media_control.d
+LogActually.is_all_around(:interface_media_player)
+LogActually.interface_media_player.d
+LogActually.is_all_around(:interface_media_browser)
+LogActually.interface_media_browser.i
+
+# Objects
+LogActually.is_all_around(:object_media_transport)
+LogActually.object_media_transport.i
+LogActually.is_all_around(:object_media_browser)
+LogActually.object_media_browser.i
+LogActually.is_all_around(:object_controller)
+LogActually.object_controller.i
+LogActually.is_all_around(:object_device)
+LogActually.object_device.d
+LogActually.is_all_around(:object_player)
+LogActually.object_player.d
+LogActually.is_all_around(:object_root)
+LogActually.object_root.d
+
+# Bluez
+LogActually.is_all_around(:service_bluez)
+LogActually.service_bluez.i
 
 require_relative '2-bluez-dbus/base'
 require_relative '2-bluez-dbus/interfaces'

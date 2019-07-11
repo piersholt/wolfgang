@@ -7,7 +7,7 @@ module Wolfgang
     include SignalDelegator
 
     def logger
-      LogActually.object_manager
+      LogActually.interface_object_manager
     end
 
     # @override ObjectManagerListener

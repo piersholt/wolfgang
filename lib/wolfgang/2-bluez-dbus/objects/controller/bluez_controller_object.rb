@@ -19,7 +19,7 @@ module Wolfgang
     end
 
     def logger
-      LogActually.controller
+      LogActually.object_controller
     end
   end
 end

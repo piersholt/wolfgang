@@ -34,6 +34,8 @@ module Wolfgang
       attr_reader :addressed_player, :browsed_player,
       :battery_status, :system_status, :volume
 
+      PROG = 'AVRCP::Target'
+
       alias player addressed_player
 
       def initialize
@@ -47,7 +49,7 @@ module Wolfgang
       end
 
       def add_player(player_path)
-        LogActually.avrcp.debug("#{self.class}!") { "#add_player(#{player_path})" }
+        LogActually.avrcp.debug(PROG) { "#add_player(#{player_path})" }
         new_player = Player.new(player_path)
         new_player.notifications_queue = notifications_queue
         @addressed_player = new_player
