@@ -3,7 +3,7 @@
 module Wolfgang
   module AVRCP
     class Target
-      # Notifications
+      # AVRCP::Target::Notifications
       module Notifications
         include Constants
         

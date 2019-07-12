@@ -25,7 +25,7 @@
 module Wolfgang
   module AVRCP
     class Target
-      # SignalHandling
+      # AVRCP::Target::SignalHandling
       module SignalHandling
         include Constants
         
@@ -62,7 +62,7 @@ module Wolfgang
           end
         rescue StandardError => e
           LogActually.avrcp.error(MODULE_PROG) { e }
-          e.backtrace.each do|line|
+          e.backtrace.each do |line|
             LogActually.avrcp.error(MODULE_PROG) { line }
           end
         end

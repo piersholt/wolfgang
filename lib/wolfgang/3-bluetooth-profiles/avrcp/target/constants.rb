@@ -6,8 +6,8 @@ module Wolfgang
       # AVRCP::Target::Constants
       module Constants
         # Attributes
-        PLAYER = 'Name'
-        CONNECTED = 'Status'
+        PLAYER = 'Player'.to_sym.downcase
+        CONNECTED = 'Connected'.to_sym.downcase
 
         # Signals & Notifications
         PLAYER_ADDED = 'Player added!'
