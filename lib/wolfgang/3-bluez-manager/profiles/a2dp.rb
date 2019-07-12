@@ -5,19 +5,22 @@ module Wolfgang
     # A2DP
     module A2DP
       PROFILE = {
+        identifier: '0x110D',
         service_class_name: 'AdvancedAudioDistribution',
         specification: 'Advanced Audio Distribution Profile (A2DP)',
         allowed_usage: 'Profile Class'
       }.freeze
 
-      SINK = {
-        service_class_name: 'AudioSink',
+      SOURCE = {
+        identifier: '0x110A',
+        service_class_name: 'AudioSource',
         specification: 'Advanced Audio Distribution Profile (A2DP)',
         allowed_usage: 'Service Class'
       }.freeze
 
-      SOURCE = {
-        service_class_name: 'AudioSource',
+      SINK = {
+        identifier: '0x110B',
+        service_class_name: 'AudioSink',
         specification: 'Advanced Audio Distribution Profile (A2DP)',
         allowed_usage: 'Service Class'
       }.freeze
