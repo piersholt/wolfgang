@@ -25,18 +25,24 @@
 
 require_relative 'constants'
 require_relative 'attributes'
+require_relative 'notifications'
+require_relative 'signal_handling'
 
 module Wolfgang
   module AVRCP
     # Target
     class Target
+      extend Forwardable
       include Attributes
       include SignalHandling
       include Notifications
-      include Commands
 
       attr_reader :addressed_player, :browsed_player,
       :battery_status, :system_status, :volume
+
+      attr_accessor :commands_queue
+
+      def_delegators :addressed_player, *BluezMediaPlayer.instance_methods
 
       PROG = 'AVRCP::Target'
 
