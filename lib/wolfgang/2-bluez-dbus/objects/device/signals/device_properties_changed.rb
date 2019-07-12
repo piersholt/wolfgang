@@ -5,32 +5,35 @@ module Wolfgang
   class DevicePropertiesChanged < PropertiesChanged
     include InterfaceConstants
 
+    CONNECTED = 'Connected'.to_sym.downcase
+    PLAYER = 'Player'.to_sym.downcase
+
     def initialize(object, target, changed, removed)
-      super
+      super(object, target, Hashify.symbolize(changed), Hashify.symbolize_array(removed))
     end
 
     # PROPERTIES
 
     # Media1 and MediaControl1
     def connected?
-      is?('Connected', true)
+      is?(CONNECTED, true)
     end
 
     def disconnected?
-      is?('Connected', false)
+      is?(CONNECTED, false)
     end
 
     # MediaControl1
     def player?
-      has?('Player')
+      has?(PLAYER)
     end
 
     def no_player?
-      removed?('Player') && !has?('Player')
+      removed?(PLAYER) && !has?(PLAYER)
     end
 
     def player
-      fetch('Player')
+      fetch(PLAYER)
     end
   end
 end

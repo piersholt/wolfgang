@@ -51,9 +51,9 @@ module Wolfgang
           device_in_question = create_or_update_device(signal)
           # logger.unknown("i'm getting weird bug here. self.class => #{self.class}")
 
-          if signal.only?('Connected') && signal.connected?
+          if signal.only?(:connected) && signal.connected?
             device_connected(device_in_question)
-          elsif signal.only?('Connected') && signal.disconnected?
+          elsif signal.only?(:connected) && signal.disconnected?
             device_disconnected(device_in_question)
           elsif signal.connected?
             # LogActually.device.debug(self.class.name) { '' }

@@ -2,6 +2,29 @@
 
 puts 'wolfgang/bluez_dbus'
 
+module Wolfgang
+  # Hashify
+  module Hashify
+    extend self
+
+    def symbolize(hash)
+      symbolized_hash = {}
+      hash.each do |key, value|
+        case value.is_a?(Hash)
+        when true
+          symbolized_hash[key.to_sym.downcase] = symbolize(value)
+        when false
+          symbolized_hash[key.to_sym.downcase] = value
+        end
+      end
+      symbolized_hash
+    end
+
+    def symbolize_array(array)
+      array.map { |o| o.to_sym.downcase }
+    end
+  end
+end
 
 # Core Objects
 LogActually.is_all_around(:interface_object_manager)
