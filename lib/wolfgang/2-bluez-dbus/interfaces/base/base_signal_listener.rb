@@ -35,6 +35,7 @@ module Wolfgang
       char_buffer.join
     end
 
+    # @param Hash properties
     def parse_properties(properties, depth = DEFAULT_INDENT_DEPTH)
       properties.each do |property, value|
         if value.instance_of?(Hash)
@@ -47,6 +48,15 @@ module Wolfgang
     rescue StandardError => e
       logger?.error(name?) { e }
       e.backtrace.each { |line| logger?.error(name?) { line } }
+    end
+
+    alias parse_changed parse_properties
+
+    # @param Array properties
+    def parse_removed(properties, depth = DEFAULT_INDENT_DEPTH)
+      properties.each do |property|
+        logger?.debug(name) { "#{indent(depth)}Removed: #{property}" }
+      end
     end
 
     def instance_info

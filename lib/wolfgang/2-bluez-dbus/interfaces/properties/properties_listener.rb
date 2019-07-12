@@ -6,14 +6,11 @@ module Wolfgang
     def properties_changed(signal, proc_name = 'PropertiesChanged')
       self.proc = proc_name
 
-      logger?.debug(name) { "#{signal.path_suffixed}" }
+      logger?.debug(name) { signal.path_suffixed }
       logger?.debug(name) { "\t#{signal.target}" }
 
-      parse_properties(signal.changed)
-
-      signal.removed.each do |property|
-        logger?.error(name) { "-#{property}: nil" }
-      end
+      parse_changed(signal.changed)
+      parse_removed(signal.removed)
     end
   end
 end
