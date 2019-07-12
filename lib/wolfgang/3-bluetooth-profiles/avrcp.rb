@@ -3,7 +3,7 @@
 puts 'wolfgang/bluetooth_profiles/avrcp'
 
 # PLAYER
-require_relative 'avrcp/target/player/player'
+require_relative 'avrcp/player/player'
 
 # TARGET
 require_relative 'avrcp/target/target'
