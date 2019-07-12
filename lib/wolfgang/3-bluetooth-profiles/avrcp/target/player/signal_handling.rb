@@ -25,6 +25,12 @@ module Wolfgang
         def properties_changed(signal)
           LogActually.avrcp.debug(MODULE_PROG) { "#properties_changed! (#{signal.class})" }
           attributes!(signal.changed)
+          attributes_changed!(signal)
+        rescue StandardError => e
+          LogActually.avrcp.error(MODULE_PROG) { e }
+          e.backtrace.each do |line|
+            LogActually.avrcp.error(MODULE_PROG) { line }
+          end
         end
       end
     end
