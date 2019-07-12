@@ -16,23 +16,23 @@ module Wolfgang
       logger.debug(PROG) { "#take_responsibility(#{command})" }
       case command.name
       when PLAY
-        play(command)
+        play(command.name, command.properties[:device])
       when PAUSE
-        pause(command)
+        pause(command.name, command.properties[:device])
       when STOP
-        stop(command)
+        stop(command.name, command.properties[:device])
       when SEEK_NEXT
-        seek_next(command)
+        seek_next(command.name, command.properties[:device])
       when SEEK_PREVIOUS
-        seek_previous(command)
+        seek_previous(command.name, command.properties[:device])
       when SCAN_FORWARD_START
-        fast_forward(command)
+        fast_forward(command.name, command.properties[:device])
       when SCAN_FORWARD_STOP
-        play(command)
+        play(command.name, command.properties[:device])
       when SCAN_BACKWARD_START
-        rewind(command)
+        rewind(command.name, command.properties[:device])
       when SCAN_BACKWARD_STOP
-        play(command)
+        play(command.name, command.properties[:device])
       end
     rescue StandardError => e
       logger.error(PROG) { e }
@@ -47,46 +47,46 @@ module Wolfgang
       PLAYER
     end
 
-    def play(command)
+    def play(command, device)
       logger.info(PROG) { PLAY }
       logger.debug(PROG) { command }
-      target.play
+      target.pass(device, :play)
     end
 
-    def pause(command)
+    def pause(command, device)
       logger.info(PROG) { PAUSE }
       logger.debug(PROG) { command }
-      target.pause
+      target.pass(device, :pause)
     end
 
-    def stop(command)
+    def stop(command, device)
       logger.info(PROG) { STOP }
       logger.debug(PROG) { command }
-      target.stop
+      target.pass(device, :stop)
     end
 
-    def seek_next(command)
+    def seek_next(command, device)
       logger.info(PROG) { SEEK_NEXT }
       logger.debug(PROG) { command }
-      target.next
+      target.pass(device, :next)
     end
 
-    def seek_previous(command)
+    def seek_previous(command, device)
       logger.info(PROG) { SEEK_PREVIOUS }
       logger.debug(PROG) { command }
-      target.previous
+      target.pass(device, :previous)
     end
 
-    def fast_forward(command)
+    def fast_forward(command, device)
       logger.info(PROG) { SCAN_FORWARD_START }
       logger.debug(PROG) { command }
-      target.fast_forward
+      target.pass(device, :fast_forward)
     end
 
-    def rewind(command)
+    def rewind(command, device)
       logger.info(PROG) { SCAN_BACKWARD_START }
       logger.debug(PROG) { command }
-      target.rewind
+      target.pass(device, :rewind)
     end
   end
 end

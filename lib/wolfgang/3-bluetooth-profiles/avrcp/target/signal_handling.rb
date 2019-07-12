@@ -70,19 +70,19 @@ module Wolfgang
 
         def player_added(signal)
           LogActually.avrcp.debug(MODULE_PROG) { PLAYER_ADDED }
-          add_player(signal.player)
+          add_player(signal.path, signal.player)
           player_added!(signal)
         end
 
         def player_changed(signal)
           LogActually.avrcp.debug(MODULE_PROG) { PLAYER_CHANGED }
-          add_player(signal.player)
+          add_player(signal.path, signal.player)
           player_changed!(signal)
         end
 
         def player_removed(signal)
           LogActually.avrcp.debug(MODULE_PROG) { PLAYER_REMOVED }
-          remove_player
+          remove_player(signal.path)
           player_removed!(signal)
         end
       end
