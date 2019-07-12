@@ -1,5 +1,27 @@
 # frozen_string_literal: true
 
+# EVENT_AVAILABLE_PLAYERS_CHANGED (0x0a):
+# The available players have changed, see Section 6.9.4.
+
+# ￼￼￼￼EVENT_ADDRESSED_PLAYER_CHANGED (0x0b):
+# The Addressed Player has been changed, see Section 6.9.2.
+
+# @browsed_player
+
+# EVENT_UIDS_CHANGED (0x0c):
+# The UIDs have changed, see Section 6.10.3.3.
+
+# @battery_status
+# EVENT_BATT_STATUS_CHANGED (0x06):
+# Change in battery status
+
+# @system_status
+# ￼EVENT_SYSTEM_STATUS_CHANGED (0x07):
+# Change in system status
+
+# @volume
+# EVENT_VOLUME_CHANGED (0x0d)
+
 module Wolfgang
   module AVRCP
     class Target
