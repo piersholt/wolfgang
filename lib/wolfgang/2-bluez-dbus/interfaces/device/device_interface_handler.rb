@@ -7,8 +7,8 @@ module Wolfgang
     include SignalDelegate
 
     PROG = 'DeviceInterfaceHandler'
-    PROPERTIES_CHANGED = '#properties_changed'
-    INTERFACE_CALLED = '#interface_called'
+    PROPERTIES_CHANGED = "#{BLUEZ_DEVICE}#properties_changed"
+    INTERFACE_CALLED = "#{BLUEZ_DEVICE}#interface_called"
 
     attr_accessor :signal_callback, :call_callback
 

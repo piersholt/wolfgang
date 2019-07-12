@@ -7,7 +7,7 @@ module Wolfgang
     include SignalDelegate
 
     PROG = 'MediaControlInterfaceHandler'
-    PROPERTIES_CHANGED = '#properties_changed'
+    PROPERTIES_CHANGED = "#{BLUEZ_MEDIA_CONTROL}#properties_changed"
 
     attr_accessor :callback
 
