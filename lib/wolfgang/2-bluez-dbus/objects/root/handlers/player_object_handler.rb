@@ -33,9 +33,7 @@ module Wolfgang
     # See BluezPlayerListener.instance.new_player
     def new_player(player)
       logger.debug(name) { 'Media player signal setup... properties_changed' }
-      player
-      .properties
-      .listen(
+      player.properties.listen(
         :properties_changed,
         BluezPlayerListener.instance,
         klass: PlayerPropertiesChanged
