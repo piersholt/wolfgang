@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 require_relative 'constants'
+require_relative 'attributes'
+require_relative 'notifications'
+require_relative 'signal_handling'
 
 module Wolfgang
   module AVRCP

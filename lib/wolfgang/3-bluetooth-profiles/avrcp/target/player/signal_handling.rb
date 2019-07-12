@@ -18,7 +18,7 @@
 module Wolfgang
   module AVRCP
     class Player
-      # Comment
+      # AVRCP::Player::SignalHandling
       module SignalHandling
         MODULE_PROG = 'Player::SignalHandling'
 

@@ -3,11 +3,11 @@
 module Wolfgang
   module AVRCP
     class Player
-      # Notifications
+      # AVRCP::Player::Notifications
       module Notifications
         include Constants
         
-        attr_accessor :notifications_queue, :changed
+        attr_accessor :notifications_queue
 
         MODULE_PROG = 'Player::Notifications'
       end
