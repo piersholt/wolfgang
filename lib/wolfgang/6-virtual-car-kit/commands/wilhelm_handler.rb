@@ -8,6 +8,8 @@ module Wolfgang
     include Yabber::NotificationDelegate
     include Yabber::Constants
 
+    PROG = 'Controller::WolfgangHandler'
+
     def take_responsibility(command)
       logger.debug(self.class) { "#take_responsibility(#{command})" }
       case command.name
