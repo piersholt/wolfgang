@@ -52,10 +52,5 @@ module Wolfgang
       prefix_length = SERVICE_NAMESPACE.length
       target_namespace[prefix_length..-1]
     end
-
-    # def interface_suffixed(target_interface = target)
-    #   prefix_length = CORE_OBJECT_PATH.length
-    #   target_path[prefix_length..-1]
-    # end
   end
 end
