@@ -5,6 +5,8 @@ module Wolfgang
   class BluezServiceListener
     include Singleton
 
+    PROG = 'BluezServiceListener'.freeze
+
     # pi@raspberrypi:~$ sudo bluetoothctl
     # [NEW] Controller B8:27:EB:E2:79:E7 pi_usb [default]
     # [NEW] Device 70:70:0D:11:CF:29 P7
@@ -30,7 +32,7 @@ module Wolfgang
     end
 
     def name
-      'BluezServiceListener'
+      PROG
     end
 
     # @desc: called on quiting Bluez
