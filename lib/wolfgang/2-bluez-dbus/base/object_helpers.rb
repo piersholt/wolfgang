@@ -17,14 +17,14 @@ module Wolfgang
 
     def transport_path(controller_index, device_address, file_descriptor)
       controller_path(controller_index) +
-      device_suffix(device_address) +
-      transport_suffix(file_descriptor)
+        device_suffix(device_address) +
+        transport_suffix(file_descriptor)
     end
 
     def player_path(controller_index, device_address, player_index)
       controller_path(controller_index) +
-      device_suffix(device_address) +
-      player_suffix(player_index)
+        device_suffix(device_address) +
+        player_suffix(player_index)
     end
 
     def device_suffix(device_address)
