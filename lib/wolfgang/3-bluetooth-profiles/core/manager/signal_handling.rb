@@ -5,6 +5,7 @@ module Wolfgang
     class Manager
       # SignalHandling
       module SignalHandling
+        # org.freedesktop.DBus.Properties.PropertiesChanged
         def device_properties_changed_block
           proc do |signal|
             begin
@@ -16,6 +17,7 @@ module Wolfgang
           end
         end
 
+        # Wolfgang::Callable.interface_called
         def device_interface_called_block
           proc do |signal|
             begin
@@ -66,6 +68,9 @@ module Wolfgang
           with_backtrace(logger, e)
         end
 
+        # Manager calls device_connecting! upon receiving :connect as the
+        # connecting/disconnecting states are used for UI 'loading' states and
+        # it would be rather counter intuitive to wait for device signal.
         def device_interface_called(*)
           logger.debug(self.class) { "#device_interface_called! (#{interface_called_signal})" }
           if interface_called_signal.method == :connect
