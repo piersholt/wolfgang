@@ -16,10 +16,10 @@ module Wolfgang
           end
         end
 
-        def device_called_block
+        def device_interface_called_block
           proc do |signal|
             begin
-              interface_called(signal)
+              device_interface_called(signal)
             rescue StandardError => e
               logger.error(self.class) { e }
               e.backtrace.each { |line| logger.error(line) }
@@ -66,8 +66,8 @@ module Wolfgang
           with_backtrace(logger, e)
         end
 
-        def interface_called(interface_called_signal)
-          logger.debug(self.class) { "interface_called! (#{interface_called_signal})" }
+        def device_interface_called(*)
+          logger.debug(self.class) { "#device_interface_called! (#{interface_called_signal})" }
           if interface_called_signal.method == :connect
             device_connecting
           elsif interface_called_signal.method == :disconnect

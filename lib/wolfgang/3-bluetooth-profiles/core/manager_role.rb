@@ -34,7 +34,7 @@ module Wolfgang
         device_handler = DeviceInterfaceHandler.instance
 
         device_handler.signal_callback = manager.device_properties_changed_block
-        device_handler.call_callback = manager.device_called_block
+        device_handler.call_callback = manager.device_interface_called_block
 
         device_handler
       end
