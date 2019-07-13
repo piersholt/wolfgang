@@ -40,7 +40,7 @@ module Wolfgang
     end
 
     def parse_device_address(device_address)
-      device_address.tr(':', '_')
+      device_address.tr(DEVICE_ADDRESS_COLON, DEVICE_ADDRESS_UNDERSCORE)
     end
 
     def path_suffixed(target_path = path)
@@ -49,7 +49,7 @@ module Wolfgang
     end
 
     def interface_suffixed(target_namespace)
-      prefix_length = 'org.bluez.'.length
+      prefix_length = SERVICE_NAMESPACE.length
       target_namespace[prefix_length..-1]
     end
 
