@@ -41,7 +41,6 @@ module Wolfgang
             new_device = Core::Device.new(device_path)
             new_device.attributes!(signal.changed)
             devices[device_path] = new_device
-            # d = Core::Device.new("/org/bluez/hci1/dev_70_70_0D_11_CF_29")
             devices[device_path]
           end
         rescue StandardError => e
@@ -51,17 +50,14 @@ module Wolfgang
         def device_properties_changed(signal)
           logger.debug(self.class) { "device_properties_changed! #{signal.path}" }
           device_in_question = create_or_update_device(signal)
-          # logger.unknown("i'm getting weird bug here. self.class => #{self.class}")
 
           if signal.only?(:connected) && signal.connected?
             device_connected(device_in_question)
           elsif signal.only?(:connected) && signal.disconnected?
             device_disconnected(device_in_question)
           elsif signal.connected?
-            # LogActually.device.debug(self.class.name) { '' }
             device_connected(device_in_question)
           elsif signal.disconnected?
-            # LogActually.device.debug(self.class.name) { 'existing disconnected!' }
             device_disconnected(device_in_question)
           end
         rescue StandardError => e
