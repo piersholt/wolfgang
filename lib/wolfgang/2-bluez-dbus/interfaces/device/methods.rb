@@ -12,8 +12,6 @@ module Wolfgang
       end
 
       def disconnect
-        # call_callback = fetch_callback(:disconnect)
-        # call_callback.call(BLUEZ_DEVICE, :disconnect)
         called(BLUEZ_DEVICE, :disconnect, path: path)
         device_interface.Disconnect(&default_callback)
       end

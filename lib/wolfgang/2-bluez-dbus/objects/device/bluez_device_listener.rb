@@ -17,7 +17,7 @@ module Wolfgang
       LogActually.object_device
     end
 
-    # @override PropertiesListener
+    # @override PropertiesListener.properties_changed
     def properties_changed(signal)
       logger.debug(name) { "#properties_changed" }
       super(signal, 'Device#PropertiesChanged')
@@ -26,10 +26,9 @@ module Wolfgang
       logger.warn(name) { 'Chain did not handle!' }
     end
 
-    # @override Callable
+    # @override Callable.interface_called
     def interface_called(event)
       logger.debug(name) { "#interface_called(#{event})" }
-      # logger.debug(name) { "#{method_name} called!" }
       self.proc = 'Device#InterfaceCalled'
       delegate(:interface_called, event)
     rescue Yabber::IfYouWantSomethingDone
