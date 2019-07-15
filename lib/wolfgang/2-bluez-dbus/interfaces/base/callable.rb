@@ -4,12 +4,13 @@ module Wolfgang
   # Callable
   module Callable
     def interface_called(listener, method, klass = InterfaceCalled)
+      logger.debug(self.class) { '#interface_called' }
       callback = on_call_block(listener, method, klass)
       on_calls(callback)
     end
 
     def called(interface_name, method_name, properties = {})
-      logger.debug(self.class) { '#on_call_default_block' }
+      logger.debug(self.class) { '#called' }
       call_callback = fetch_callback(method_name)
       # logger.debug(self.class) { "callback: #{call_callback}" }
       call_callback.call(interface_name, method_name, properties)
@@ -63,14 +64,6 @@ module Wolfgang
 
     # DEFAULT
 
-    def default_callback
-      on_call_default_block
-    end
-
-    def default_return_callback
-      on_call_default_block
-    end
-
     def on_call_block(listener, method, klass, properties = {})
       proc do |called_interface, called_method|
         begin
@@ -111,5 +104,8 @@ module Wolfgang
         end
       end
     end
+
+    alias default_callback on_call_default_block
+    alias default_return_callback on_call_default_block
   end
 end
