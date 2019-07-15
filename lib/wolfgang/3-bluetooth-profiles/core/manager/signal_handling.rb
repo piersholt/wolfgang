@@ -67,8 +67,10 @@ module Wolfgang
         # Manager calls device_connecting! upon receiving :connect as the
         # connecting/disconnecting states are used for UI 'loading' states and
         # it would be rather counter intuitive to wait for device signal.
-        def device_interface_called(*)
-          logger.debug(self.class) { "#device_interface_called! (#{interface_called_signal})" }
+        def device_interface_called(interface_called_signal)
+          logger.debug(self.class) do
+            "#device_interface_called: (#{interface_called_signal})"
+          end
           if interface_called_signal.method == :connect
             device_connecting
           elsif interface_called_signal.method == :disconnect
@@ -77,13 +79,17 @@ module Wolfgang
         end
 
         def device_connecting
-          logger.debug(self.class) { "#connect: Device connecting..." }
+          logger.warn(self.class) do
+            '[DISABLED] Called! BluezDevice[Interface].connect()'
+          end
           # properties = find_by(:address, address) || {}
           # device_connecting!(properties)
         end
 
         def device_disconnecting
-          logger.debug(self.class) { "#disconnect: Device disconnecting..." }
+          logger.warn(self.class) do
+            '[DISABLED] Called! BluezDevice[Interface].disconnect()'
+          end
           # properties = find_by(:address, address) || {}
           # device_disconnecting!(properties)
         end
