@@ -20,6 +20,7 @@ require_relative 'interfaces/base/callable'
 
 # Signal Classes
 require_relative 'interfaces/base/base_signal'
+require_relative 'interfaces/base/base_call'
 require_relative 'interfaces/object_manager/signals/interfaces_added'
 require_relative 'interfaces/object_manager/signals/interfaces_removed'
 require_relative 'interfaces/properties/signals/properties_changed'
