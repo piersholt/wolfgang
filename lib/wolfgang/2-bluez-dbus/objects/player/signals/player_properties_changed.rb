@@ -12,7 +12,6 @@ module Wolfgang
     POSITION = 'Position'.to_sym.downcase
     REPEAT = 'Repeat'.to_sym.downcase
     SHUFFLE = 'Shuffle'.to_sym.downcase
-    TITLE = 'Title'.to_sym.downcase
     NUMBER_OF_TRACKS = 'NumberOfTracks'.to_sym.downcase
     DURATION = 'Duration'.to_sym.downcase
     TITLE = 'Title'.to_sym.downcase
