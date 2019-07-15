@@ -12,6 +12,8 @@ module Wolfgang
     include BluezMediaControl
     include BluezNetwork
 
+    NAME = 'DeviceObject'
+
     def inspect
       self.class
     end
@@ -21,7 +23,7 @@ module Wolfgang
     end
 
     def name
-      'DeviceObject'
+      NAME
     end
   end
 end
