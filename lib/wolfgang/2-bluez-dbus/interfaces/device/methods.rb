@@ -5,6 +5,7 @@ module Wolfgang
     # Methods of Bluez Interface: org.bluez.Device1
     module Methods
       include InterfaceConstants
+      include Constants
 
       def connect
         called(BLUEZ_DEVICE, :connect, path: path)

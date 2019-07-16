@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Wolfgang
-  # BluezDevice
+  # BluezDevice Interface org.bluez.Device1
   module BluezDevice
     include InterfaceConstants
     include Constants
