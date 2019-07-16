@@ -63,6 +63,8 @@ module Wolfgang
       end
     end
 
+    alias start run
+
     def quit
       logger.debug(prog) { '#quit' }
       return false unless @main_loop
@@ -70,6 +72,8 @@ module Wolfgang
       @main_loop = nil
       loop.quit
     end
+
+    alias stop quit
 
     # Interface
 

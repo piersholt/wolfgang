@@ -11,9 +11,13 @@ module Wolfgang
       BluezDBus.run
     end
 
+    alias start run
+
     def quit!
       BluezDBus.quit
     end
+
+    alias stop quit!
 
     def signals(opts)
       BluezDBus.signals(opts)
