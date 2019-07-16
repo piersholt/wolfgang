@@ -2,6 +2,7 @@
 
 module Wolfgang
   # BluezRootObject
+  # Path: /
   class BluezRootObject < ObjectAdapter
     include Properties
     include ObjectManager

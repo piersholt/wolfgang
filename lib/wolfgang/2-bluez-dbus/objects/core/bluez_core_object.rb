@@ -1,7 +1,8 @@
 # frozen_string_literal: false
 
 module Wolfgang
-  # Bluez Core Object
+  # Bluez Core Objec
+  # Path: /org/bluez
   class BluezCoreObject < ObjectAdapter
     include BluezAgentManager
     include BluezHealthManager

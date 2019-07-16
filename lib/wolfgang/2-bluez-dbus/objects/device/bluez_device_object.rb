@@ -6,7 +6,6 @@ module Wolfgang
     include Properties
 
     include Callable
-    # include Returnable
 
     include BluezDevice
     include BluezMediaControl
