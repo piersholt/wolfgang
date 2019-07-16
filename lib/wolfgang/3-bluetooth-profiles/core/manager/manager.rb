@@ -74,6 +74,21 @@ module Wolfgang
 
       alias d device
 
+      def create_or_update_device(signal)
+        device_path = signal.path
+        case devices.key?(device_path)
+        when true
+          devices[device_path].attributes!(signal.changed)
+          devices[device_path]
+        when false
+          new_device = Core::Device.new(device_path)
+          new_device.attributes!(signal.changed)
+          devices[device_path] = new_device
+          devices[device_path]
+        end
+      rescue StandardError => e
+        with_backtrace(logger, e)
+      end
     end
   end
 end

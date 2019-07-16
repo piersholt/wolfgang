@@ -48,22 +48,6 @@ module Wolfgang
           with_backtrace(logger, e)
         end
 
-        def create_or_update_device(signal)
-          device_path = signal.path
-          case devices.key?(device_path)
-          when true
-            devices[device_path].attributes!(signal.changed)
-            devices[device_path]
-          when false
-            new_device = Core::Device.new(device_path)
-            new_device.attributes!(signal.changed)
-            devices[device_path] = new_device
-            devices[device_path]
-          end
-        rescue StandardError => e
-          with_backtrace(logger, e)
-        end
-
         def device_connected(device_in_question)
           logger.debug(self.class) { 'Device connected!' }
           device_connected!(device_in_question)
