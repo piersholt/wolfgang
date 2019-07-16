@@ -84,7 +84,7 @@ module Wolfgang
 
         def device_interface_called(interface_called_signal)
           logger.debug(self.class) do
-            "#device_interface_called: (#{interface_called_signal})"
+            "#device_interface_called(#{interface_called_signal})"
           end
           if interface_called_signal.method == :connect
             device_connecting
@@ -93,20 +93,15 @@ module Wolfgang
           end
         end
 
+        LOG_DEVICE_CONNECTING = 'Called! BluezDeviceInterface.connect()'
+        LOG_DEVICE_DISCONNECTING = 'Called! BluezDeviceInterface.disconnect()'
+
         def device_connecting
-          logger.warn(self.class) do
-            '[DISABLED] Called! BluezDevice[Interface].connect()'
-          end
-          # properties = find_by(:address, address) || {}
-          # device_connecting!(properties)
+          logger.debug(self.class) { LOG_DEVICE_CONNECTING }
         end
 
         def device_disconnecting
-          logger.warn(self.class) do
-            '[DISABLED] Called! BluezDevice[Interface].disconnect()'
-          end
-          # properties = find_by(:address, address) || {}
-          # device_disconnecting!(properties)
+          logger.debug(self.class) { LOG_DEVICE_DISCONNECTING }
         end
       end
     end

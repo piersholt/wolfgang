@@ -74,13 +74,6 @@ module Wolfgang
 
       alias d device
 
-      # def initialize
-      #   @connected = nil
-      # end
-
-      # def initialize(player_path)
-      #   @object = BluezDBus.service.player(player_path)
-      # end
     end
   end
 end
