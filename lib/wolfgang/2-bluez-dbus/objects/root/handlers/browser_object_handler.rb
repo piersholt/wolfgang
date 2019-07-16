@@ -6,8 +6,10 @@ module Wolfgang
     include Singleton
     include SignalDelegate
 
-    def name
-      'BrowserObjectHandler'
+    PROG = 'BrowserObjectHandler'
+
+    def prog
+      PROG
     end
 
     def logger
@@ -15,8 +17,8 @@ module Wolfgang
     end
 
     def interfaces_added(signal)
-      logger.info(name) { "New media item! #{signal.object_suffixed}." }
-      logger.debug(name) { "#{signal.object_suffixed} includes #{responsibility} interface(s)." }
+      logger.info(prog) { "New media item! #{signal.object_suffixed}." }
+      logger.debug(prog) { "#{signal.object_suffixed} includes #{responsibility} interface(s)." }
       browser_object = BluezDBus.service.browser(signal.object_path)
       new_browser(browser_object)
     end
@@ -28,7 +30,7 @@ module Wolfgang
     end
 
     def new_browser(browser)
-      logger.debug(name) { 'Media borwser signal setup... :properties_changed' }
+      logger.debug(prog) { 'Media borwser signal setup... :properties_changed' }
       browser.properties.listen(:properties_changed, BluezPlayerListener.instance)
     end
   end

@@ -3,8 +3,8 @@
 module Wolfgang
   # Wolfgang::ObjectAdapter
   class ObjectAdapter < DBus::ProxyObject
-    def interface(name)
-      self[name]
+    def interface(interface_name)
+      self[interface_name]
     end
 
     def introspect

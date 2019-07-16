@@ -10,6 +10,7 @@ module Wolfgang
     attr_writer :proc
 
     PROC = 'BaseSignalListener'
+    PROG = PROC
     DEFAULT_INDENT_DEPTH = 2
 
     # INDENT = '\t'
@@ -21,8 +22,8 @@ module Wolfgang
       LOGGER
     end
 
-    def name?
-      return name if respond_to?(:name)
+    def prog?
+      return prog if respond_to?(:prog)
       proc
     end
 
@@ -39,15 +40,15 @@ module Wolfgang
     def parse_properties(properties, depth = DEFAULT_INDENT_DEPTH)
       properties.each do |property, value|
         if value.instance_of?(Hash)
-          logger?.debug(name?) { "#{indent(depth)}#{property} =" }
+          logger?.debug(prog?) { "#{indent(depth)}#{property} =" }
           parse_properties(value, 3)
         else
-          logger?.debug(name?) { "#{indent(depth)}#{property} = #{value}" }
+          logger?.debug(prog?) { "#{indent(depth)}#{property} = #{value}" }
         end
       end
     rescue StandardError => e
-      logger?.error(name?) { e }
-      e.backtrace.each { |line| logger?.error(name?) { line } }
+      logger?.error(prog?) { e }
+      e.backtrace.each { |line| logger?.error(prog?) { line } }
     end
 
     alias parse_changed parse_properties
@@ -55,13 +56,13 @@ module Wolfgang
     # @param Array properties
     def parse_removed(properties, depth = DEFAULT_INDENT_DEPTH)
       properties.each do |property|
-        logger?.debug(name) { "#{indent(depth)}Removed: #{property}" }
+        logger?.debug(prog) { "#{indent(depth)}Removed: #{property}" }
       end
     end
 
     def instance_info
-      logger?.debug(name?) { "Thread: #{Thread.current}: #{Thread.current[:name]}" }
-      logger?.debug(name?) { "Object: #{self}" }
+      logger?.debug(prog?) { "Thread: #{Thread.current}: #{Thread.current[:name]}" }
+      logger?.debug(prog?) { "Object: #{self}" }
     end
 
     def proc

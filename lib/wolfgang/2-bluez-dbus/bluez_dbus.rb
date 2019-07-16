@@ -6,6 +6,12 @@ module Wolfgang
     include Singleton
     include BluezDBusConfig
 
+    PROG = 'BluezDBus'
+
+    def prog
+      PROG
+    end
+
     def logger
       LogActually.service_bluez
     end
@@ -19,7 +25,7 @@ module Wolfgang
     end
 
     def create_service
-      logger.debug(name) { 'Creating Bluez DBus Service...' }
+      logger.debug(prog) { 'Creating Bluez DBus Service...' }
       system_bus.service(SERVICE_NAME, BluezService)
     end
 
@@ -32,37 +38,33 @@ module Wolfgang
     end
 
     def create_main_loop
-      logger.debug(name) { 'Creating main loop...' }
+      logger.debug(prog) { 'Creating main loop...' }
       DBus::Main.new
     end
 
-    def name
-      'BluezDBus'
-    end
-
     def signals(opts)
-      logger.debug(name) { "#signals(#{opts})" }
+      logger.debug(prog) { "#signals(#{opts})" }
       service_listener = BluezServiceListener.instance
       service_listener.new_service(service, opts)
     end
 
     def run
-      logger.debug(name) { '#run' }
+      logger.debug(prog) { '#run' }
       Thread.new(system_bus, main_loop) do |bus, main|
         begin
           Thread.current[:name] = 'DBus Loop'
-          logger.warn(name) { 'DBus main loop starting.' }
+          logger.warn(prog) { 'DBus main loop starting.' }
           main << bus
           main.run
         rescue StandardError => e
-          logger.error(name) { e }
+          logger.error(prog) { e }
         end
-        logger.warn(name) { 'DBus main loop ending.' }
+        logger.warn(prog) { 'DBus main loop ending.' }
       end
     end
 
     def quit
-      logger.debug(name) { '#quit' }
+      logger.debug(prog) { '#quit' }
       return false unless @main_loop
       loop = main_loop
       @main_loop = nil

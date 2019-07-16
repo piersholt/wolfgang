@@ -4,6 +4,7 @@ module Wolfgang
   # BluezDevice
   module BluezDevice
     include InterfaceConstants
+    include Constants
     include Properties
     include Methods
 
@@ -20,7 +21,7 @@ module Wolfgang
     end
 
     def device_property(property)
-      logger.debug(name) { "#device_property(#{property})" }
+      logger.debug(PROG) { "#device_property(#{property})" }
       property_get(BLUEZ_DEVICE, property)
     end
   end

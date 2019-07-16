@@ -4,6 +4,7 @@ module Wolfgang
   # Bluez Player Object
   class BluezPlayerObject < ObjectAdapter
     include Properties
+    PROG = 'BluezPlayerObject'
 
     include BluezMediaFolder
     include BluezMediaPlayer
@@ -12,8 +13,8 @@ module Wolfgang
       self.class
     end
 
-    def name
-      'BluezPlayerObject'
+    def prog
+      PROG
     end
 
     def logger

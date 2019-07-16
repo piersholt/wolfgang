@@ -4,6 +4,7 @@ module Wolfgang
   # Bluez Controller Object
   class BluezControllerObject < ObjectAdapter
     include Properties
+    PROG = 'BluezControllerObject'
 
     include BluezAdapter
     # include BluezGattManager
@@ -14,8 +15,8 @@ module Wolfgang
       self.class
     end
 
-    def name
-      'BluezControllerObject'
+    def prog
+      PROG
     end
 
     def logger

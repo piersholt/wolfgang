@@ -12,8 +12,8 @@ module Wolfgang
       LOGGER
     end
 
-    def name?
-      return name if respond_to?(:name)
+    def prog?
+      return prog if respond_to?(:prog)
       self.class.name
     end
 
@@ -34,7 +34,7 @@ module Wolfgang
     end
 
     def responsible?(method, object)
-      logger?.debug(name?) { method }
+      logger?.debug(prog?) { method }
       case method
       when :properties_changed
         respond_to?(:properties_changed) && relates_to?(object)

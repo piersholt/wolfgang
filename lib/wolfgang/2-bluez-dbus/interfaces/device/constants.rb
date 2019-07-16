@@ -15,6 +15,8 @@ module Wolfgang
       ALIAS     = 'Alias'
       ADAPTER   = 'Adapter'
       ICON      = 'Icon'
+      PROG = 'Interface::Device'
+
     end
   end
 end

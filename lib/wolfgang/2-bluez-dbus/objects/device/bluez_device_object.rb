@@ -12,7 +12,7 @@ module Wolfgang
     include BluezMediaControl
     include BluezNetwork
 
-    NAME = 'DeviceObject'
+    PROG = 'DeviceObject'
 
     def inspect
       self.class
@@ -20,10 +20,6 @@ module Wolfgang
 
     def logger
       LogActually.object_device
-    end
-
-    def name
-      NAME
     end
   end
 end

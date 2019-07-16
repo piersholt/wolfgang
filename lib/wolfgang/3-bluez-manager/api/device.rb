@@ -7,6 +7,8 @@ module Wolfgang
       include BluezClientAPI::Service
       include ObjectConstants
 
+      PROG = 'Manager Device'
+
       attr_reader :device_list, :device_info
 
       def devices
@@ -20,12 +22,12 @@ module Wolfgang
 
       def info_callback(device_address)
         proc do
-          logger.debug(name) { "#info => callback" }
-          logger.debug(name) { "service.device(#{device_address})" }
+          logger.debug(prog) { "#info => callback" }
+          logger.debug(prog) { "service.device(#{device_address})" }
           device_object = service.device(device_address)
-          logger.debug(name) { device_object.class }
+          logger.debug(prog) { device_object.class }
           device_properties = device_object.device.property_get_all
-          logger.debug(name) { device_properties }
+          logger.debug(prog) { device_properties }
           @device_info = device_properties
           print_device_info
         end
@@ -36,13 +38,13 @@ module Wolfgang
       end
 
       def connect(device_address = selected_device)
-        logger.info(name) { "Device: #{device_address}" }
+        logger.info(prog) { "Device: #{device_address}" }
         device_object = service.device(device_address)
         device_object.connect
       end
 
       def disconnect(device_address = selected_device)
-        logger.info(name) { "Device: #{device_address}" }
+        logger.info(prog) { "Device: #{device_address}" }
         device_object = service.device(device_address)
         device_object.disconnect
       end
@@ -56,38 +58,38 @@ module Wolfgang
         LogActually.device
       end
 
-      def name
-        'Manager Device'
+      def prog
+        PROG
       end
 
       def devices_callback
         proc do |response, mananged_objects|
-          logger.debug(name) { '#devices => callback!' }
+          logger.debug(prog) { '#devices => callback!' }
           begin
-            # logger.debug(name) { "response: #{response}" }
-            logger.debug(name) { "mananged_objects =>" }
+            # logger.debug(prog) { "response: #{response}" }
+            logger.debug(prog) { "mananged_objects =>" }
             mananged_objects.each do |k, _|
-              logger.debug(name) { k }
+              logger.debug(prog) { k }
             end
             objects = mananged_objects
 
-            # logger.debug(name) { "Object paths: #{objects.keys}" }
+            # logger.debug(prog) { "Object paths: #{objects.keys}" }
             result = objects.find_all do |path, _|
               matches = path.scan(DEVICE_OBJECT_PATTERN)
               result = matches.length.positive?
-              logger.debug(name) { "Checking #{path}... => #{result}" }
+              logger.debug(prog) { "Checking #{path}... => #{result}" }
               result
             end
 
             return [] if result.empty?
-            # logger.debug(name) { result }
+            # logger.debug(prog) { result }
             device_paths = result.to_h.keys
-            # logger.debug(name) { device_paths }
+            # logger.debug(prog) { device_paths }
 
             @device_list = device_paths.map do |path|
-              logger.debug(name) { path }
+              logger.debug(prog) { path }
               device_object = service.device(path)
-              logger.debug(name) { device_object.class }
+              logger.debug(prog) { device_object.class }
               nickname = device_object.device.alias
               address = device_object.device.address
               [address, nickname]
@@ -95,21 +97,21 @@ module Wolfgang
             print_device_list
             true
           rescue StandardError => e
-            logger.error(name) { e }
-            e.backtrace.each { |line| logger.warn(name) { line } }
+            logger.error(prog) { e }
+            e.backtrace.each { |line| logger.warn(prog) { line } }
           end
         end
       end
 
       def print_device_list
         device_list.each do |device|
-          logger.info(name) { device }
+          logger.info(prog) { device }
         end
         true
       end
 
       def print_device_info
-        logger.info(name) { device_info }
+        logger.info(prog) { device_info }
         true
       end
     end

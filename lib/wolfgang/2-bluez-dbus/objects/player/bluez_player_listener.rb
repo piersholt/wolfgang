@@ -6,10 +6,10 @@ module Wolfgang
     include Singleton
     include SignalDelegator
 
-    NAME = 'PlayerListener'
+    PROG = 'PlayerListener'
 
-    def name
-      NAME
+    def prog
+      PROG
     end
 
     def logger
@@ -18,17 +18,17 @@ module Wolfgang
 
     # @override PropertiesListener
     def properties_changed(signal)
-      logger.debug(name) { "#properties_changed" }
+      logger.debug(prog) { "#properties_changed" }
       super(signal, 'Player#PropertiesChanged')
       delegate(:properties_changed, signal)
     rescue Yabber::IfYouWantSomethingDone
-      logger.warn(name) { "Chain did not handle! (#{signal.path})" }
+      logger.warn(prog) { "Chain did not handle! (#{signal.path})" }
     end
 
     # Called by BluezServiceListener when initialized
     def new_player(player)
-      logger.info(name) { "New Player! #{player.path_suffix}" }
-      logger.debug(name) { "New player class => #{player.class}" }
+      logger.info(prog) { "New Player! #{player.path_suffix}" }
+      logger.debug(prog) { "New player class => #{player.class}" }
 
       properties_changed_signal_registration(player)
 
@@ -38,7 +38,7 @@ module Wolfgang
     private
 
     def properties_changed_signal_registration(player)
-      logger.debug(name) { 'Signal Registration: :properties_changed.' }
+      logger.debug(prog) { 'Signal Registration: :properties_changed.' }
       player.properties.listen(
         :properties_changed,
         BluezPlayerListener.instance,
@@ -47,13 +47,13 @@ module Wolfgang
     end
 
     def fetch_current_state!(player)
-      logger.debug(name) { "State Fetch: #{BLUEZ_MEDIA_PLAYER}" }
+      logger.debug(prog) { "State Fetch: #{BLUEZ_MEDIA_PLAYER}" }
       player_interface_props = player.media_player.property_get_all
       signal = PlayerPropertiesChanged.new(player.path, BLUEZ_MEDIA_PLAYER, player_interface_props, [])
       public_send(:properties_changed, signal)
     rescue StandardError => e
-      logger.error(name) { e }
-      e.backtrace.each { |line| logger.warn(name) { line } }
+      logger.error(prog) { e }
+      e.backtrace.each { |line| logger.warn(prog) { line } }
     end
   end
 end
