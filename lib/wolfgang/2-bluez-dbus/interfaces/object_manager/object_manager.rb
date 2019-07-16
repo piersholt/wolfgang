@@ -14,6 +14,10 @@ module Wolfgang
     include Methods
     include Signals
 
+    def logger
+      LogActually.interface_object_manager
+    end
+
     def object_manager
       self.default_iface = OBJECT_MANAGER
       @selected_interface = OBJECT_MANAGER

@@ -7,10 +7,11 @@ module Wolfgang
     module Methods
       include InterfaceConstants
 
-      def get_managed_objects(super_response_callback = nil)
-        # called(OBJECT_MANAGER, :get_managed_objects)
-        return object_manager_interface.GetManagedObjects unless super_response_callback
-        object_manager_interface.GetManagedObjects(&super_response_callback)
+      PROG = 'Interface::ObjectManager'
+
+      def get_managed_objects(&block)
+        logger.debug(PROG) { "#get_managed_objects(#{block ? true : false})" }
+        object_manager_interface.GetManagedObjects(&block)
       end
 
       alias managed_objects get_managed_objects

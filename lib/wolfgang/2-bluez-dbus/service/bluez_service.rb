@@ -6,6 +6,12 @@ module Wolfgang
     include ObjectConstants
     include ObjectHelpers
 
+    PROG = 'BluezService'
+
+    def logger
+      LogActually.service_bluez
+    end
+
     # Get service root object: '/"
     def root_object
       root
@@ -75,52 +81,49 @@ module Wolfgang
     # ------- MODULE OBJECT FILTER HELPER
 
     def controller_objects
+      logger.debug(PROG) { "#controller_objects()" }
       filter_objects(CONTROLLER_OBJECT_PATTERN)
     end
 
-    def device_objects
-      filter_objects(DEVICE_OBJECT_PATTERN)
+    def device_objects(&block)
+      logger.debug(PROG) { "#device_objects(#{block ? true : false})" }
+      filter_objects(DEVICE_OBJECT_PATTERN, &block)
     end
 
-    def device_objects!(filter_callback)
-      filter_objects_callback(DEVICE_OBJECT_PATTERN, filter_callback)
-    end
+    alias device_objects! device_objects
 
     def media_transport_objects
+      logger.debug(PROG) { "#media_transport_objects()" }
       filter_objects(MEDIA_TRANSPORT_OBJECT_PATTERN)
     end
 
     def player_objects
+      logger.debug(PROG) { "#player_objects()" }
       filter_objects(PLAYER_OBJECT_PATTERN)
     end
 
-    def filter_objects(pattern)
-      LOGGER.debug(self.class) { "Filtering objects: #{pattern}" }
+    def filter_objects(pattern, &block)
+      logger.debug(PROG) { "#filter_objects(#{pattern}, #{block ? true : false})" }
+      return root_object.get_managed_objects(&bhostnlock) if block
       objects = root_object.get_managed_objects
+      apply_filter(objects, pattern)
+    rescue StandardError => e
+      logger.error(PROG) { e }
+      e.backtrace.each { |l| logger.error(PROG) { l } }
+    end
 
-      # LOGGER.debug(self.class) { "Objects: #{objects}" }
-      LOGGER.debug(self.class) { "Object paths: #{objects.keys}" }
+    def apply_filter(objects, pattern)
+      logger.debug(PROG) { "#apply_filter(#{objects&.keys}, #{pattern})" }
       result = objects.find_all do |path, _|
         matches = path.scan(pattern)
         result = matches.length.positive?
-        LOGGER.debug(self.class) { "Checking #{path}... => #{result}" }
+        logger.debug(PROG) { "Checking #{path}... => #{result}" }
         result
       end
 
       return [] if result.empty?
-      LOGGER.debug(self.class) { result }
+      logger.debug(PROG) { result }
       result.to_h.keys
-    rescue StandardError => e
-      LOGGER.error(self.class) { e }
-      e.backtrace.each { |l| LOGGER.error(self.class) { l } }
-    end
-
-    def filter_objects_callback(pattern, filter_callback)
-      LOGGER.debug(self.class) { "Filtering objects: #{pattern}" }
-      root_object.get_managed_objects(filter_callback)
-    rescue StandardError => e
-      LOGGER.error(self.class) { e }
-      e.backtrace.each { |l| LOGGER.error(self.class) { l } }
     end
   end
 end

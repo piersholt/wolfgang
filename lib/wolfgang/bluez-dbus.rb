@@ -26,13 +26,13 @@ module Wolfgang
   end
 end
 
-# Core Objects
+# Standard Interfaces
 LogActually.is_all_around(:interface_object_manager)
 LogActually.interface_object_manager.i
 LogActually.is_all_around(:interface_properties)
 LogActually.interface_properties.i
 
-# Interfaces
+# Bluez Interraces
 LogActually.is_all_around(:interface_media_transport)
 LogActually.interface_media_transport.i
 LogActually.is_all_around(:interface_media_control)
@@ -42,7 +42,11 @@ LogActually.interface_media_player.d
 LogActually.is_all_around(:interface_media_browser)
 LogActually.interface_media_browser.i
 
-# Objects
+# Standard Objects
+LogActually.is_all_around(:object_root)
+LogActually.object_root.d
+
+# Bluez Objects
 LogActually.is_all_around(:object_media_transport)
 LogActually.object_media_transport.i
 LogActually.is_all_around(:object_media_browser)
@@ -53,8 +57,6 @@ LogActually.is_all_around(:object_device)
 LogActually.object_device.d
 LogActually.is_all_around(:object_player)
 LogActually.object_player.d
-LogActually.is_all_around(:object_root)
-LogActually.object_root.d
 
 # Bluez
 LogActually.is_all_around(:service_bluez)
