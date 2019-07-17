@@ -23,8 +23,6 @@ module Wolfgang
         logger.debug(respond_to?(:prog) ? prog : PROG) { "#property_get_all(#{interface_name})" }
         properties_interface.GetAll(interface_name)
       end
-
-      # alias properties property_get_all
     end
   end
 end
