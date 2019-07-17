@@ -19,7 +19,7 @@ module Wolfgang
     def interfaces_added(signal)
       logger.info(prog) { "New media endpoint! #{signal.object_suffixed}." }
       logger.debug(prog) { "#{signal.object_suffixed} includes #{responsibility} interface(s)." }
-      transport_object = BluezDBus.service.media_transport(signal.object_path)
+      transport_object = BluezDBus.service.media_transport_object(signal.object_path)
       new_media_transport(transport_object)
     end
 

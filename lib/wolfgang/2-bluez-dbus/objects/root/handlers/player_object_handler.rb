@@ -20,7 +20,7 @@ module Wolfgang
     def interfaces_added(signal)
       logger.info(prog) { "New media player! #{signal.object_suffixed}." }
       logger.debug(prog) { "#{signal.object_suffixed} includes #{responsibility} interface(s)." }
-      player_object = BluezDBus.service.player(signal.object_path)
+      player_object = BluezDBus.service.player_object(signal.object_path)
       # new_player(player_object)
       BluezPlayerListener.instance.new_player(player_object)
     end

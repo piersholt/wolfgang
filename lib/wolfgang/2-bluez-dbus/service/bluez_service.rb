@@ -14,97 +14,90 @@ module Wolfgang
 
     # Get service root object: '/"
     def root_object
-      root
+      logger.debug(PROG) { '#root_object()' }
+      object_by_path(ROOT_OBJECT_PATH, BluezRootObject)
     end
+
+    alias root root_object
 
     # Get core bluez object: '/org/bluez'
     def core_object
-      core
+      logger.debug(PROG) { '#core_object()' }
+      object_by_path(CORE_OBJECT_PATH, BluezCoreObject)
     end
 
-    # Get controller/adapter object: '/org/bluez/hciX'
-    def controller_object(controller_index)
-      path = controller_path(controller_index)
-      controller(path)
+    alias core core_object
+
+    def controller_object(object_path)
+      logger.debug(PROG) { "#controller_object(#{object_path})" }
+      object_by_path(object_path, BluezControllerObject)
     end
 
-    # Get device object: '/org/bluez/hciX/dev_XX_XX_XX_XX_XX_XX'
-    def device_object(controller_index, device_address)
-      path = device_path(controller_index, device_address)
-      public_send(:[], path, adapter: BluezDeviceObject)
+    def device_object(object_path)
+      logger.debug(PROG) { "#device_object(#{object_path})" }
+      object_by_path(object_path, BluezDeviceObject)
     end
 
-    def media_transport_object(controller_index, device_address, file_descriptor)
-      path = transport_path(controller_index, device_address, file_descriptor)
-      media_transport(path)
+    def media_transport_object(object_path)
+      logger.debug(PROG) { "#media_transport_object(#{object_path})" }
+      object_by_path(object_path, BluezMediaTransportObject)
     end
 
-    def player_object(controller_index, device_address, player_index)
-      path = player_path(controller_index, device_address, player_index)
-      player(path)
+    def player_object(object_path)
+      logger.debug(PROG) { "#player_object(#{object_path})" }
+      object_by_path(object_path, BluezPlayerObject)
     end
 
-    # ------- MODULE GET HELPERS
-
-    def root(full_path = ROOT_OBJECT_PATH)
-      object_by_path(full_path, BluezRootObject)
-    end
-
-    def core(full_path = CORE_OBJECT_PATH)
-      object_by_path(full_path, BluezCoreObject)
-    end
-
-    def controller(full_path)
-      object_by_path(full_path, BluezControllerObject)
-    end
-
-    def device(full_path)
-      object_by_path(full_path, BluezDeviceObject)
-    end
-
-    def media_transport(full_path)
-      object_by_path(full_path, BluezMediaTransportObject)
-    end
-
-    def player(full_path)
-      object_by_path(full_path, BluezPlayerObject)
-    end
-
-    def browser(full_path)
-      object_by_path(full_path, BluezMediaBrowserObject)
+    def browser_object(object_path)
+      logger.debug(PROG) { "#browser_object(#{object_path})" }
+      object_by_path(object_path, BluezMediaBrowserObject)
     end
 
     def object_by_path(path, object_adapter)
+      logger.debug(PROG) { "#object_by_path(#{path}, #{object_adapter})" }
       public_send(:[], path, adapter: object_adapter)
     end
 
     # ------- MODULE OBJECT FILTER HELPER
 
-    def controller_objects
-      logger.debug(PROG) { "#controller_objects()" }
+    def controller_paths
+      logger.debug(PROG) { '#controller_paths()' }
       filter_objects(CONTROLLER_OBJECT_PATTERN)
     end
 
-    def device_objects(&block)
-      logger.debug(PROG) { "#device_objects(#{block ? true : false})" }
+    def device_paths(&block)
+      logger.debug(PROG) { "#device_paths(#{block ? true : false})" }
       filter_objects(DEVICE_OBJECT_PATTERN, &block)
     end
 
-    alias device_objects! device_objects
+    # @deprecated in favour of #device_paths. Remove with bluetooth-manager.
+    alias device_objects! device_paths
 
-    def media_transport_objects
-      logger.debug(PROG) { "#media_transport_objects()" }
+    def media_transport_paths
+      logger.debug(PROG) { '#media_transport_paths()' }
       filter_objects(MEDIA_TRANSPORT_OBJECT_PATTERN)
     end
 
-    def player_objects
-      logger.debug(PROG) { "#player_objects()" }
+    def player_paths
+      logger.debug(PROG) { '#player_paths()' }
       filter_objects(PLAYER_OBJECT_PATTERN)
     end
 
+    private
+
     def filter_objects(pattern, &block)
-      logger.debug(PROG) { "#filter_objects(#{pattern}, #{block ? true : false})" }
-      return root_object.get_managed_objects(&bhostnlock) if block
+      logger.debug(PROG) do
+        "#filter_objects(#{pattern}, #{block ? true : false})"
+      end
+      if block
+        root_object.get_managed_objects do |reply, objects|
+          logger.debug(PROG) { "get_managed_objects.reply => #{reply}" }
+          filtered_objects = apply_filter(objects, pattern)
+          logger.debug(PROG) { "filtered_objects => #{filtered_objects}" }
+          yield(filtered_objects)
+        end
+        return true
+      end
       objects = root_object.get_managed_objects
       apply_filter(objects, pattern)
     rescue StandardError => e
@@ -112,12 +105,15 @@ module Wolfgang
       e.backtrace.each { |l| logger.error(PROG) { l } }
     end
 
+    MATCH = 'Match'
+    NO_MATCH = 'No Match'
+
     def apply_filter(objects, pattern)
       logger.debug(PROG) { "#apply_filter(#{objects&.keys}, #{pattern})" }
       result = objects.find_all do |path, _|
         matches = path.scan(pattern)
         result = matches.length.positive?
-        logger.debug(PROG) { "Checking #{path}... => #{result}" }
+        logger.debug(PROG) { "#{path} => #{result ? MATCH : NO_MATCH}" }
         result
       end
 

@@ -24,7 +24,7 @@ module Wolfgang
       # end
 
       def initialize(device_path)
-        @object = BluezDBus.service.device(device_path)
+        @object = BluezDBus.service.device_object(device_path)
         @methods = BluezDevice::Methods.instance_methods
       end
     end

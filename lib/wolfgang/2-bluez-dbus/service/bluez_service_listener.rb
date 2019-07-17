@@ -52,10 +52,10 @@ module Wolfgang
       logger.debug(prog) { "Initialize Controllers!" }
       logger.debug(prog) { "Controller Object Listener: #{controller_klass}" }
       controller_listener = controller_klass.instance
-      controller_objects = service.controller_objects
-      logger.info(prog) { "Controller Object(s): #{controller_objects.size}" }
-      controller_objects.each do |controller_path|
-        new_controller = service.controller(controller_path)
+      controller_paths = service.controller_paths
+      logger.info(prog) { "Controller Object(s): #{controller_paths.size}" }
+      controller_paths.each do |controller_path|
+        new_controller = service.controller_object(controller_path)
         logger.info(prog) { "Controller Object: #{new_controller.path}" }
         controller_listener.new_controller(new_controller)
       end
@@ -65,10 +65,10 @@ module Wolfgang
       logger.debug(prog) { "Initialize Devices!" }
       logger.debug(prog) { "Device Object Listener: #{device_klass}" }
       device_listener = device_klass.instance
-      device_objects = service.device_objects
-      logger.info(prog) { "Device Object(s): #{device_objects.size}" }
-      device_objects.each do |device_path|
-        new_device = service.device(device_path)
+      device_paths = service.device_paths
+      logger.info(prog) { "Device Object(s): #{device_paths.size}" }
+      device_paths.each do |device_path|
+        new_device = service.device_object(device_path)
         logger.info(prog) { "Device Object: #{new_device.path}" }
         device_listener.new_device(new_device)
       end
@@ -78,10 +78,10 @@ module Wolfgang
       logger.info(prog) { "Initialize Players!" }
       logger.debug(prog) { "Player Object Listener: #{player_klass}" }
       player_listener = player_klass.instance
-      player_objects = service.player_objects
-      logger.info(prog) { "Player Object(s): #{player_objects.size}" }
-      player_objects.each do |player_path|
-        new_player = service.player(player_path)
+      player_paths = service.player_paths
+      logger.info(prog) { "Player Object(s): #{player_paths.size}" }
+      player_paths.each do |player_path|
+        new_player = service.player_object(player_path)
         logger.info(prog) { "Player Object: #{new_player.path}" }
         player_listener.new_player(new_player)
       end

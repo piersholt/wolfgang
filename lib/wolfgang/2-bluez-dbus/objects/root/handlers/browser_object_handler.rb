@@ -19,7 +19,7 @@ module Wolfgang
     def interfaces_added(signal)
       logger.info(prog) { "New media item! #{signal.object_suffixed}." }
       logger.debug(prog) { "#{signal.object_suffixed} includes #{responsibility} interface(s)." }
-      browser_object = BluezDBus.service.browser(signal.object_path)
+      browser_object = BluezDBus.service.browser_object(signal.object_path)
       new_browser(browser_object)
     end
 

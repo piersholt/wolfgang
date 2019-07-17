@@ -19,7 +19,7 @@ module Wolfgang
       attr_reader :object
 
       def initialize(player_path)
-        @object = BluezDBus.service.player(player_path)
+        @object = BluezDBus.service.player_object(player_path)
       end
     end
   end
