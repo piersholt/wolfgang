@@ -12,9 +12,9 @@ module Wolfgang
       end
 
       # @return string  AddressType [readonly]
-      # def address_type
-      #   device_property(ADDRESS_TYPE)
-      # end
+      def address_type
+        device_property(ADDRESS_TYPE)
+      end
 
       # @return string  Name [readonly, optional]
       def name
