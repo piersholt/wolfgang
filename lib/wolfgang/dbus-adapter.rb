@@ -2,8 +2,8 @@
 
 puts 'wolfgang/dbus_adapter'
 
-require_relative '1-dbus-decorator/object_adapter'
-require_relative '1-dbus-decorator/proxy_object_factory_adapter'
-require_relative '1-dbus-decorator/interface_adapter'
-require_relative '1-dbus-decorator/service_adapter'
-require_relative '1-dbus-decorator/bus_adapter'
+require_relative '1-dbus-adapter/object_adapter'
+require_relative '1-dbus-adapter/proxy_object_factory_adapter'
+require_relative '1-dbus-adapter/interface_adapter'
+require_relative '1-dbus-adapter/service_adapter'
+require_relative '1-dbus-adapter/bus_adapter'
