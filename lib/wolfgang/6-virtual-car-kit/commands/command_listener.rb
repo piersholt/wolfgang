@@ -11,7 +11,7 @@ module Wolfgang
     include ManageableThreads
 
     PROG = 'CommandListener'
-    DELAY = 5
+    DELAY = 3
     ITERATION_SEED = 1
 
     include CommandServer
@@ -20,13 +20,13 @@ module Wolfgang
     attr_reader :listener_thread
 
     def logger
-      LogActually.messaging
+      LogActually.commands
     end
 
     def deserialize(serialized_object)
+      logger.debug(PROG) { "#deserialize(#{serialized_object})" }
       command = Yabber::Serialized.new(serialized_object).parse
-      logger.info(PROG) { "Deserialized: #{command}" }
-      logger.info(PROG) { "name: #{command.name} (#{command.name.class})" }
+      logger.info(PROG) { "Deserialized Command: #{command.name} (#{command.name.class})" }
       command
     end
 

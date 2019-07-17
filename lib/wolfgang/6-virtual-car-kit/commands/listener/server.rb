@@ -5,25 +5,30 @@ module Wolfgang
     # CommandServer
     module CommandServer
       PROG_SERVER = 'CommandServer'
+      LOG_CALL_START_SERVER = '#start_server'
+      LOG_THREAD_END = 'Thread ending!'
 
       attr_reader :command_server_thread
 
-      def reply_iteration(iteration)
-        logger.debug(PROG) { "REP #{iteration}. Wait" }
-        serialized_object = Yabber::Server.recv
+      def process_request(iteration)
+        logger.debug(PROG_SERVER) { "REP #{iteration}. Wait" }
+        serialized_object = Yabber::Server.receive_message
         command = deserialize(serialized_object)
         delegate(command)
       rescue Yabber::IfYouWantSomethingDone
-        logger.warn(PROG) { "Chain did not handle! (#{command})" }
+        logger.warn(PROG_SERVER) { "Chain did not handle! (#{command})" }
       rescue StandardError => e
-        logger.error(PROG) { e }
-        e.backtrace.each { |line| logger.error(PROG) { line } }
+        logger.error(PROG_SERVER) { e }
+        e.backtrace.each { |line| logger.error(PROG_SERVER) { line } }
+        # Error must be raised as any exceptions in the message parsing
+        # will cause server_loop to go into death spiral.
+        raise e
       end
 
       def server_loop
         i = ITERATION_SEED
         loop do
-          reply_iteration(i)
+          process_request(i)
           i += 1
         end
       end
@@ -43,10 +48,10 @@ module Wolfgang
       end
 
       def start_server
-        logger.debug(PROG) { '#start_server' }
+        logger.debug(PROG) { LOG_CALL_START_SERVER }
         @command_server_thread = Thread.new do
           begin
-            Thread.current[:name] = PROG_SERVER
+            thread_name(PROG_SERVER)
             setup_server
 
             logger.debug(PROG_SERVER) { "Thread: #{PROG_SERVER} listen start!" }
@@ -56,9 +61,10 @@ module Wolfgang
             logger.error(PROG_SERVER) { e }
             e.backtrace { |line| logger.error(PROG_SERVER) { line } }
           end
-          logger.warn(PROG_SERVER) { 'Thread ending!' }
+          logger.warn(PROG_SERVER) { LOG_THREAD_END }
         end
         add_thread(@command_server_thread)
+        true
       end
 
       alias start start_server
