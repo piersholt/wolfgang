@@ -43,7 +43,7 @@ module Wolfgang
       properties_changed_signal_registration(device)
       interface_called_signal_registration(device)
 
-      fetch_current_state!(device)
+      fetch_current_device_state(device)
     end
 
     private
@@ -66,20 +66,42 @@ module Wolfgang
       )
     end
 
-    def fetch_current_state!(device)
-      logger.debug(PROG) { "State Fetch: #{BLUEZ_DEVICE}" }
-      device_interface_props = device.device.property_get_all
-      signal = DevicePropertiesChanged.new(device.path, BLUEZ_DEVICE, device_interface_props, [])
-      logger.debug(PROG) { "State Fetch: sending #{BLUEZ_DEVICE} :properties_changed signal." }
-      public_send(:properties_changed, signal)
+    public
 
-      logger.debug(PROG) { "State Fetch: #{BLUEZ_MEDIA_CONTROL}" }
-      media_control_interface_props = device.media_control.property_get_all
-      signal = DevicePropertiesChanged.new(device.path, BLUEZ_MEDIA_CONTROL, media_control_interface_props, [])
-      logger.debug(PROG) { "State Fetch: sending #{BLUEZ_MEDIA_CONTROL} :properties_changed signal." }
-      public_send(:properties_changed, signal)
+    def fetch_current_device_state(device)
+      logger.debug(PROG) { "#fetch_current_device_state(#{device})" }
+      fetch_device_interface_state(device)
+      fetch_media_control_interface_state(device)
     rescue StandardError => e
       logger.error(PROG) { e }
+    end
+
+    private
+
+    def fetch_device_interface_state(device)
+      logger.info(PROG) { "State Fetch: #{BLUEZ_DEVICE}" }
+      device.device.property_get_all do |_, props|
+        signal = DevicePropertiesChanged.new(
+          device.path, BLUEZ_DEVICE, props, []
+        )
+        logger.debug(PROG) do
+          "State Fetch: sending #{BLUEZ_DEVICE} :properties_changed signal."
+        end
+        public_send(:properties_changed, signal)
+      end
+    end
+
+    def fetch_media_control_interface_state(device)
+      logger.info(PROG) { "State Fetch: #{BLUEZ_MEDIA_CONTROL}" }
+      device.media_control.property_get_all do |_, props|
+        signal = DevicePropertiesChanged.new(
+          device.path, BLUEZ_MEDIA_CONTROL, props, []
+        )
+        logger.debug(PROG) do
+          "State Fetch: sending #{BLUEZ_MEDIA_CONTROL} :properties_changed signal."
+        end
+        public_send(:properties_changed, signal)
+      end
     end
   end
 end
