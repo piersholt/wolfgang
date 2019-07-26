@@ -78,9 +78,9 @@ module Wolfgang
       filter_objects(MEDIA_TRANSPORT_OBJECT_PATTERN)
     end
 
-    def player_paths
+    def player_paths(&block)
       logger.debug(PROG) { '#player_paths()' }
-      filter_objects(PLAYER_OBJECT_PATTERN)
+      filter_objects(PLAYER_OBJECT_PATTERN, &block)
     end
 
     private
@@ -89,12 +89,21 @@ module Wolfgang
       logger.debug(PROG) do
         "#filter_objects(#{pattern}, #{block ? true : false})"
       end
-      if block
-        root_object.get_managed_objects do |reply, objects|
-          logger.debug(PROG) { "get_managed_objects.reply => #{reply}" }
+      if block_given?
+        root_object.get_managed_objects do |_, objects|
+          logger.debug(PROG) { "get_managed_objects ->" }
           filtered_objects = apply_filter(objects, pattern)
           logger.debug(PROG) { "filtered_objects => #{filtered_objects}" }
-          yield(filtered_objects)
+          case block_given?
+          when false
+            to_enum(:each, filtered_objects) unless block_given?
+          when true
+            i = 0
+            while i < filtered_objects.length
+              yield filtered_objects[i]
+              i += 1
+            end
+          end
         end
         return true
       end
