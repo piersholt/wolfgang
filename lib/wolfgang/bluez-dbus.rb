@@ -44,7 +44,7 @@ LogActually.interface_media_browser.i
 
 # Standard Objects
 LogActually.is_all_around(:object_root)
-LogActually.object_root.d
+LogActually.object_root.i
 
 # Bluez Objects
 LogActually.is_all_around(:object_media_transport)

@@ -6,7 +6,7 @@ puts 'wolfgang/virtual_car_kit'
 LogActually.is_all_around(:notifications)
 LogActually.notifications.i
 LogActually.is_all_around(:commands)
-LogActually.commands.i
+LogActually.commands.d
 LogActually.is_all_around(:vcc)
 LogActually.vcc.d
 
