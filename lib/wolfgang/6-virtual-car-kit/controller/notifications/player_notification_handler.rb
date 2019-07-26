@@ -13,7 +13,7 @@ module Wolfgang
     end
 
     def logger
-      LogActually.avrcp
+      LogActually.bt_ct
     end
 
     def take_responsibility(notification)

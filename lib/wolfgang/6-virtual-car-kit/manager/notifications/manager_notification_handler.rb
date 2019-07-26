@@ -13,7 +13,7 @@ module Wolfgang
     end
 
     def logger
-      LogActually.core
+      LogActually.bt_device
     end
 
     def take_responsibility(notification)

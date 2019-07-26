@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+LogActually.is_all_around(:bt_device)
+LogActually.bt_device.d
+
 require_relative 'device/constants'
 require_relative 'device/actions'
 require_relative 'device/notifications'
