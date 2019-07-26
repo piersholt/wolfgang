@@ -32,7 +32,7 @@ module Wolfgang
 
       properties_changed_signal_registration(player)
 
-      fetch_current_state!(player)
+      fetch_player_object_state(player)
     end
 
     private
@@ -46,14 +46,29 @@ module Wolfgang
       )
     end
 
-    def fetch_current_state!(player)
-      logger.debug(prog) { "State Fetch: #{BLUEZ_MEDIA_PLAYER}" }
-      player_interface_props = player.media_player.property_get_all
-      signal = PlayerPropertiesChanged.new(player.path, BLUEZ_MEDIA_PLAYER, player_interface_props, [])
-      public_send(:properties_changed, signal)
+    public
+
+    def fetch_player_object_state(player)
+      logger.info(PROG) { "#fetch_player_object_state(#{player})" }
+      fetch_media_player_interface_state(player)
     rescue StandardError => e
       logger.error(prog) { e }
       e.backtrace.each { |line| logger.warn(prog) { line } }
+    end
+
+    private
+
+    def fetch_media_player_interface_state(player)
+      logger.info(prog) { "State Fetch: #{BLUEZ_MEDIA_PLAYER}" }
+      player.media_player.property_get_all do |_, props|
+        signal = PlayerPropertiesChanged.new(
+          player.path, BLUEZ_MEDIA_PLAYER, props, []
+        )
+        logger.debug(PROG) do
+          "State Fetch: sending #{BLUEZ_MEDIA_PLAYER} :properties_changed signal."
+        end
+        public_send(:properties_changed, signal)
+      end
     end
   end
 end
