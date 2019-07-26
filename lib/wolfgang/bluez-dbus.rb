@@ -62,11 +62,11 @@ LogActually.object_player.d
 LogActually.is_all_around(:service_bluez)
 LogActually.service_bluez.i
 
-require_relative '2-bluez-dbus/base'
-require_relative '2-bluez-dbus/interfaces'
-require_relative '2-bluez-dbus/objects'
-require_relative '2-bluez-dbus/service'
-require_relative '2-bluez-dbus/bluez_dbus'
-require_relative '2-bluez-dbus/bluez_dbus_interface'
+require_relative 'bluez-dbus/base'
+require_relative 'bluez-dbus/interfaces'
+require_relative 'bluez-dbus/objects'
+require_relative 'bluez-dbus/service'
+require_relative 'bluez-dbus/bluez_dbus'
+require_relative 'bluez-dbus/bluez_dbus_interface'
 
 puts "\tDone!"

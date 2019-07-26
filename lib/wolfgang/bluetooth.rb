@@ -2,7 +2,7 @@
 
 puts 'Loading wolfgang/bluetooth'
 
-require_relative '3-bluetooth/device'
-require_relative '3-bluetooth/profile'
+require_relative 'bluetooth/device'
+require_relative 'bluetooth/profile'
 
 puts "\tDone!"
