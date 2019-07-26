@@ -53,7 +53,7 @@ module Wolfgang
 
     SINK_ID = 0
     VOLUME_MAX = 65_536
-    VOLUME_INTERVALS = 16
+    VOLUME_INTERVALS = 32
     VOLUME_INTERVAL = VOLUME_MAX / VOLUME_INTERVALS
     VOLUME_INCREASE = "pactl set-sink-volume #{SINK_ID} +#{VOLUME_INTERVAL}"
     VOLUME_DECREASE = "pactl set-sink-volume #{SINK_ID} -#{VOLUME_INTERVAL}"
