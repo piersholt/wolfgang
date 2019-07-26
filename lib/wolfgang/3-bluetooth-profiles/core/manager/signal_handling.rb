@@ -36,26 +36,26 @@ module Wolfgang
           device_in_question = create_or_update_device(signal)
 
           if signal.only?(:connected) && signal.connected?
-            device_connected(device_in_question)
+            device_connected(signal)
           elsif signal.only?(:connected) && signal.disconnected?
-            device_disconnected(device_in_question)
+            device_disconnected(signal)
           elsif signal.connected?
-            device_connected(device_in_question)
+            device_connected(signal)
           elsif signal.disconnected?
-            device_disconnected(device_in_question)
+            device_disconnected(signal)
           end
         rescue StandardError => e
           with_backtrace(logger, e)
         end
 
-        def device_connected(device_in_question)
+        def device_connected(signal)
           logger.debug(self.class) { 'Device connected!' }
-          device_connected!(device_in_question)
+          device_connected!(signal)
         end
 
-        def device_disconnected(device_in_question)
+        def device_disconnected(signal)
           logger.debug(self.class) { 'Device disconnected!' }
-          device_disconnected!(device_in_question)
+          device_disconnected!(signal)
         end
 
         # DEVICE_INTERFACE_CALLED_BLOCK ---------------------------------------
