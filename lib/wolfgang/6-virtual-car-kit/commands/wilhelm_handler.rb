@@ -47,10 +47,8 @@ module Wolfgang
       logger.info(self.class) { PONG }
       logger.debug(self.class) { command }
 
-      n = Yabber::Reply.new(topic: WOLFGANG, name: PONG)
-      # notifications_queue.push(n)
-      result = Yabber::Server.instance.send(n.to_yaml)
-      logger.debug(self.class) { "send(#{n}) => #{result}" }
+      reply = Yabber::Reply.new(topic: WOLFGANG, name: PONG)
+      Yabber::Server.send_message(reply.to_yaml)
     end
 
     SINK_ID = 0
