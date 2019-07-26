@@ -44,16 +44,18 @@ module Wolfgang
     def new_device(device)
       logger.info(PROG) { "New Device! #{device.path_suffix} (#{device.class})" }
 
+      logger.info(PROG) { "Register Signals! #{device.path_suffix}" }
       properties_changed_signal_registration(device)
       interface_called_signal_registration(device)
 
-      fetch_current_device_state(device)
+      logger.info(PROG) { "Fetch State! #{device.path_suffix}" }
+      fetch_device_object_state(device)
     end
 
     private
 
     def properties_changed_signal_registration(device)
-      logger.debug(PROG) { LOG_REG_PROPERTIES_CHANGED }
+      logger.debug(PROG) { "#{device.path}: #{LOG_REG_PROPERTIES_CHANGED}" }
       device.properties.listen(
         :properties_changed,
         BluezDeviceListener.instance,
@@ -63,7 +65,7 @@ module Wolfgang
     end
 
     def interface_called_signal_registration(device)
-      logger.debug(PROG) { LOG_REG_INTERFACE_CALLED }
+      logger.debug(PROG) { "#{device.path}: #{LOG_REG_INTERFACE_CALLED}" }
       device.device.interface_called(
         BluezDeviceListener.instance,
         :interface_called
@@ -72,8 +74,8 @@ module Wolfgang
 
     public
 
-    def fetch_current_device_state(device)
-      logger.debug(PROG) { "#fetch_current_device_state(#{device})" }
+    def fetch_device_object_state(device)
+      logger.debug(PROG) { "#fetch_device_object_state(#{device})" }
       fetch_device_interface_state(device)
       fetch_media_control_interface_state(device)
     rescue StandardError => e
