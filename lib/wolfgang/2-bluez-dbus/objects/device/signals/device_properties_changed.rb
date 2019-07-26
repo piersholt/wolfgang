@@ -28,8 +28,12 @@ module Wolfgang
       has?(PLAYER)
     end
 
-    def no_player?
+    def player_removed?
       removed?(PLAYER) && !has?(PLAYER)
+    end
+
+    def no_player?
+      only?(CONNECTED)
     end
 
     def player
