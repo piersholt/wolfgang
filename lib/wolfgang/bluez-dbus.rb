@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-puts 'wolfgang/bluez_dbus'
+puts 'Loading wolfgang/bluez_dbus'
 
 module Wolfgang
   # Hashify
@@ -68,3 +68,5 @@ require_relative '2-bluez-dbus/objects'
 require_relative '2-bluez-dbus/service'
 require_relative '2-bluez-dbus/bluez_dbus'
 require_relative '2-bluez-dbus/bluez_dbus_interface'
+
+puts "\tDone!"

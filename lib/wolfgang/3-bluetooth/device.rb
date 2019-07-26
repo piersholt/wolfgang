@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+puts "\tLoading wolfgang/bluetooth/device"
+
 LogActually.is_all_around(:bt_device)
 LogActually.bt_device.d
 
