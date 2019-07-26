@@ -10,29 +10,29 @@ module Wolfgang
 
     PROG = 'Controller::MediaHandler'
 
-    attr_accessor :target
+    attr_accessor :controller
 
     def take_responsibility(command)
       logger.debug(PROG) { "#take_responsibility(#{command})" }
       case command.name
       when PLAY
-        play(command.name, command.properties[:device])
+        play(command.name, command.properties)
       when PAUSE
-        pause(command.name, command.properties[:device])
+        pause(command.name, command.properties)
       when STOP
-        stop(command.name, command.properties[:device])
+        stop(command.name, command.properties)
       when SEEK_NEXT
-        seek_next(command.name, command.properties[:device])
+        seek_next(command.name, command.properties)
       when SEEK_PREVIOUS
-        seek_previous(command.name, command.properties[:device])
+        seek_previous(command.name, command.properties)
       when SCAN_FORWARD_START
-        fast_forward(command.name, command.properties[:device])
+        fast_forward(command.name, command.properties)
       when SCAN_FORWARD_STOP
-        play(command.name, command.properties[:device])
+        play(command.name, command.properties)
       when SCAN_BACKWARD_START
-        rewind(command.name, command.properties[:device])
+        rewind(command.name, command.properties)
       when SCAN_BACKWARD_STOP
-        play(command.name, command.properties[:device])
+        play(command.name, command.properties)
       end
     rescue StandardError => e
       logger.error(PROG) { e }
@@ -47,46 +47,46 @@ module Wolfgang
       PLAYER
     end
 
-    def play(command, device)
+    def play(command, path:)
       logger.info(PROG) { PLAY }
       logger.debug(PROG) { command }
-      target.pass(device, :play)
+      controller.route(:play, path)
     end
 
-    def pause(command, device)
+    def pause(command, path:)
       logger.info(PROG) { PAUSE }
       logger.debug(PROG) { command }
-      target.pass(device, :pause)
+      controller.route(:pause, path)
     end
 
-    def stop(command, device)
+    def stop(command, path:)
       logger.info(PROG) { STOP }
       logger.debug(PROG) { command }
-      target.pass(device, :stop)
+      controller.route(:stop, path)
     end
 
-    def seek_next(command, device)
+    def seek_next(command, path:)
       logger.info(PROG) { SEEK_NEXT }
       logger.debug(PROG) { command }
-      target.pass(device, :next)
+      controller.route(:next, path)
     end
 
-    def seek_previous(command, device)
+    def seek_previous(command, path:)
       logger.info(PROG) { SEEK_PREVIOUS }
       logger.debug(PROG) { command }
-      target.pass(device, :previous)
+      controller.route(:previous, path)
     end
 
-    def fast_forward(command, device)
+    def fast_forward(command, path:)
       logger.info(PROG) { SCAN_FORWARD_START }
       logger.debug(PROG) { command }
-      target.pass(device, :fast_forward)
+      controller.route(:fast_forward, path)
     end
 
-    def rewind(command, device)
+    def rewind(command, path:)
       logger.info(PROG) { SCAN_BACKWARD_START }
       logger.debug(PROG) { command }
-      target.pass(device, :rewind)
+      controller.route(:rewind, path)
     end
   end
 end

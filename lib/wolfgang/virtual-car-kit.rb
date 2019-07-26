@@ -7,6 +7,8 @@ LogActually.is_all_around(:notifications)
 LogActually.notifications.i
 LogActually.is_all_around(:commands)
 LogActually.commands.i
+LogActually.is_all_around(:vcc)
+LogActually.vcc.d
 
 # Controller
 require_relative '6-virtual-car-kit/controller/notifications/player_notification_handler'

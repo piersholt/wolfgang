@@ -4,13 +4,25 @@ module Wolfgang
   # VirtualCarKit
   class VirtualCarKit
     include BluezDBusInterface
-    attr_reader :controller
-    attr_reader :manager
+    attr_reader :device, :controller
     include Yabber::API
 
+    PROG = 'VirtualCarKit'
+
+    def logger
+      LogActually.vcc
+    end
+
     def initialize
-      @controller = Controller.new(outgoing_notifications_queue)
-      @manager = Manager.new(outgoing_notifications_queue)
+      @device = Bluetooth::Device.instance
+      @device.notifications_queue = outgoing_notifications_queue
+
+      @controller = Bluetooth::Profile::AVRCP::Controller.instance
+      @controller.notifications_queue = outgoing_notifications_queue
+
+      # @manager = Manager.new(outgoing_notifications_queue)
+      # @controller = Controller.new(outgoing_notifications_queue)
+
       setup_outgoing_notification_handlers
       setup_incoming_command_handlers
     end
@@ -18,7 +30,7 @@ module Wolfgang
     NO_ARGS = {}.freeze
 
     def start
-      manager.punch_it_chewie
+      announce(Yabber::Constants::DEVICE)
       signals(NO_ARGS)
       run
       binding.pry
@@ -27,6 +39,7 @@ module Wolfgang
     # Commands
 
     def setup_incoming_command_handlers
+      logger.debug(PROG) { '#setup_incoming_command_handlers' }
       primary = setup_incoming_command_delegates
       command_listener = CommandListener.instance
       command_listener.declare_primary_delegate(primary)
@@ -35,14 +48,16 @@ module Wolfgang
     end
 
     def setup_incoming_command_delegates
+      logger.debug(PROG) { '#setup_incoming_command_delegates' }
       device_handler = DeviceHandler.instance
-      device_handler.manager = manager.manager
+      device_handler.device = device
 
       media_handler = MediaHandler.instance
-      media_handler.target = controller.target
+      media_handler.controller = controller
 
       target_handler = TargetHandler.instance
-      target_handler.target = controller.target
+      target_handler.controller = controller
+      target_handler.device = device
 
       wilhelm_handler = WolfgangHandler.instance
 
@@ -60,6 +75,7 @@ module Wolfgang
     end
 
     def setup_outgoing_notification_handlers
+      logger.debug(PROG) { '#setup_outgoing_notification_handlers' }
       primary = configure_outgoing_notification_delegates
       notification_listener = NotificationListener.instance
       notification_listener.declare_primary_delegate(primary)
@@ -67,6 +83,7 @@ module Wolfgang
     end
 
     def configure_outgoing_notification_delegates
+      logger.debug(PROG) { '#configure_outgoing_notification_delegates' }
       player_handler = PlayerNotificationHandler.instance
       target_handler = TargetNotificationHandler.instance
       manager_handler = ManagerNotificationHandler.instance
