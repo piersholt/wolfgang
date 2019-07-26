@@ -96,7 +96,7 @@ begin
   LOGGER.info(PROG_NAME) { 'Publisher started...' }
 
   LOGGER.info(PROG_NAME) { 'Hack-McHackFace. Headless Pi has no PulseAudio autostart' }
-  Thread.new { puts `pactl list sinks` }
+  Thread.new { `pactl list sinks` }
   LOGGER.info(PROG_NAME) { 'Hack-McHackFace done...' }
 
   LOGGER.info(PROG_NAME) { 'Starting VirtualCarKit' }
