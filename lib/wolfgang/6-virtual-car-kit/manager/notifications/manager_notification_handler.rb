@@ -18,7 +18,19 @@ module Wolfgang
 
     def take_responsibility(notification)
       notification.topic = DEVICE
-      relay(notification)
+      case notification.type
+      when Types::NOTIFICATION
+        relay(notification)
+      when Types::ACTION
+        false
+        # raise TypeError, 'ACTION cannot be forwarded!'
+      when Types::REQUEST
+        false
+        # raise TypeError, 'REQUEST cannot be forwarded!'
+      when Types::REPLY
+        false
+        # raise TypeError, 'REPLY cannot be forwarded!'
+      end
     end
   end
 end
