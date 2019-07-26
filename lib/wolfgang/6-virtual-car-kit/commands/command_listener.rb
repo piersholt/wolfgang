@@ -11,7 +11,7 @@ module Wolfgang
     include ManageableThreads
 
     PROG = 'CommandListener'
-    DELAY = 3
+    DELAY = 1
     ITERATION_SEED = 1
 
     include CommandServer

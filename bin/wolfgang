@@ -102,7 +102,7 @@ begin
   LOGGER.info(PROG_NAME) { 'Starting VirtualCarKit' }
   virtual_car_kit = Wolfgang::VirtualCarKit.new
   LOGGER.info(PROG_NAME) { 'VirtualCarKit start delay...' }
-  sleep(3)
+  sleep(1)
   virtual_car_kit.start
 rescue StandardError => e
   LOGGER.error(PROG_NAME) { 'Error starting app' }
