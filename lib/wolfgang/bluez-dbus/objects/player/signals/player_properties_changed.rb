@@ -124,6 +124,10 @@ module Wolfgang
       track[TRACK_NUMBER]
     end
 
+    def duration
+      track[DURATION]
+    end
+
     # TRACK HAS
 
     def title?

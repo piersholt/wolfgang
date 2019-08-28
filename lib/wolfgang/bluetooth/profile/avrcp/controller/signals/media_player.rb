@@ -45,12 +45,17 @@ module Wolfgang
                 when :track_start
                   notify!(:track_start, signal)
                 when :track_pending
+                  @duration = signal.duration if signal.duration?
                   notify!(:track_pending, signal)
                 when :track_change
+                  @duration = signal.duration if signal.duration?
                   notify!(:track_change, signal)
+                when :track_end
+                  notify!(:track_end, signal)
                 when :status
                   notify!(:status, signal)
                 when :created
+                  @duration = signal.duration if signal.duration?
                   notify!(:created, signal)
                 when :updated
                   notify!(:updated, signal)
@@ -61,26 +66,47 @@ module Wolfgang
 
               START_MAX = 1500
 
+              def duration
+                @duration ||= 0
+              end
+
+              # Manual vs. Duration track change.
+              # When manually changing tracks, the staged track duration will be 0,
+              # and the position update used to determine if a track is nearing duration,
+              # will also be 0.
+              # As position will commonly be >= ~180ms when a track starts, if position
+              # and duration is zero, this is evaluated as track_end.
               def evaluate_media_player_properties(signal)
-                if signal.only_position? && (200..START_MAX).cover?(signal.position)
-                  :track_start
-                elsif signal.only_position? && (0..199).cover?(signal.position)
-                  :track_end
-                elsif signal.only_position? && signal.position >= START_MAX
-                  :track_end
-                elsif signal.only_track? && signal.title?
-                  :track_pending
-                elsif signal.only_track? && signal.duration?
-                  :track_change
-                elsif signal.only_status?
-                  :status
-                elsif signal.device?
-                  :created
-                elsif signal.name?
-                  :created
-                else
-                  :updated
+                result =
+                  if signal.only_position? && (128..START_MAX).cover?(signal.position)
+                    :track_start
+                  elsif signal.only_position? && signal.position.zero? && signal.position == duration
+                    :track_end
+                  elsif signal.only_position? && (0..127).cover?(signal.position)
+                    :track_end
+                  elsif signal.only_position? && duration.zero?
+                    :track_start
+                  elsif signal.only_position? && (duration - signal.position) <= START_MAX
+                    :track_end
+                  elsif signal.only_position?
+                    :status
+                  elsif signal.only_track? && signal.title?
+                    :track_pending
+                  elsif signal.only_track? && signal.duration?
+                    :track_change
+                  elsif signal.only_status?
+                    :status
+                  elsif signal.device?
+                    :created
+                  elsif signal.name?
+                    :created
+                  else
+                    :updated
+                  end
+                logger.debug(MODULE_PROG) do
+                  "#evaluate_media_player_properties => :#{result}"
                 end
+                result
               end
             end
           end
