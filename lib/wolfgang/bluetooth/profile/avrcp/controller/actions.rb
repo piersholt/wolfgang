@@ -8,9 +8,9 @@ module Wolfgang
           # AVRCP::Controller::Actions
           module Actions
             include Constants
-            
+
             def forward(command, path)
-              logger.warn(PROG) { "Disabled #connect(#{path})" }
+              logger.warn(PROG) { "#forward(#{command}, #{path})" }
               service.player_object(path)&.public_send(command)
             end
 
