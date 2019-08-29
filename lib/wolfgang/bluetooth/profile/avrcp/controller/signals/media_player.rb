@@ -54,6 +54,8 @@ module Wolfgang
                   notify!(:track_end, signal)
                 when :status
                   notify!(:status, signal)
+                when :position
+                  notify!(:position, signal)
                 when :created
                   @duration = signal.duration if signal.duration?
                   notify!(:created, signal)
@@ -89,7 +91,7 @@ module Wolfgang
                   elsif signal.only_position? && (duration - signal.position) <= START_MAX
                     :track_end
                   elsif signal.only_position?
-                    :status
+                    :position
                   elsif signal.only_track? && signal.title?
                     :track_pending
                   elsif signal.only_track? && signal.duration?
