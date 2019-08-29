@@ -83,8 +83,9 @@ module Wolfgang
     end
 
     # Request Player object
-    def player(path:)
+    def player(path: nil)
       logger.info(PROG) { PLAYER }
+      return no_player(path) if path.nil?
 
       callback_queue = Queue.new
 
