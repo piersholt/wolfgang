@@ -21,6 +21,8 @@ module Wolfgang
         volume_up(command)
       when VOLUME_DOWN
         volume_down(command)
+      when :volume_set
+        volume_set(command.properties[:level])
       else
         not_handled(command)
       end
@@ -68,6 +70,16 @@ module Wolfgang
       logger.info(PROG) { VOLUME_DOWN }
       logger.debug(PROG) { VOLUME_DECREASE }
       `#{VOLUME_DECREASE}`
+    end
+
+    def volume_set(level)
+      logger.info(PROG) { :volume_set }
+      logger.debug(PROG) { volume_set_command(level) }
+      `#{volume_set_command(level)}`
+    end
+
+    def volume_set_command(level)
+      "pactl set-sink-volume #{SINK_ID} #{VOLUME_MAX / 32 * level}"
     end
   end
 end
