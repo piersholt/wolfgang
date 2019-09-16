@@ -36,7 +36,7 @@ begin
 
   options = OpenStruct.new
   options.environment = 'development'
-  options.console = true
+  options.console = false
 
   OptionParser.new do |opts|
     opts.banner = 'Usage: run -e development -c'
@@ -100,16 +100,19 @@ begin
   LOGGER.info(PROG_NAME) { 'Hack-McHackFace done...' }
 
   LOGGER.info(PROG_NAME) { 'Starting VirtualCarKit' }
-  virtual_car_kit = Wolfgang::VirtualCarKit.new
+  virtual_car_kit = Wolfgang::VirtualCarKit.new(options)
   LOGGER.info(PROG_NAME) { 'VirtualCarKit start delay...' }
   sleep(1)
   virtual_car_kit.start
+rescue Interrupt
+  Signal.trap(0, proc { puts "Terminating: #{$$}" })
 rescue StandardError => e
   LOGGER.error(PROG_NAME) { 'Error starting app' }
   LOGGER.error(PROG_NAME) { e }
   e.backtrace.each { |line| LOGGER.error(PROG_NAME) { line } }
 end
 
-LOGGER.info(PROG_NAME) { 'All over, red rover!' }
+LOGGER&.info(PROG_NAME) { 'All over, red rover!' }
+LOGGER&.close
 
 exit

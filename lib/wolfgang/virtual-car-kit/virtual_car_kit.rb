@@ -4,6 +4,7 @@ module Wolfgang
   # VirtualCarKit
   class VirtualCarKit
     include BluezDBusInterface
+    include ManageableThreads
     attr_reader :device, :controller
     include Yabber::API
 
@@ -13,7 +14,8 @@ module Wolfgang
       LogActually.vcc
     end
 
-    def initialize
+    def initialize(options)
+      @options = options
       @device = Bluetooth::Device.instance
       @device.notifications_queue = outgoing_notifications_queue
 
@@ -33,7 +35,16 @@ module Wolfgang
       announce(Yabber::Constants::DEVICE)
       signals(NO_ARGS)
       run
+      raise(NotImplementedError, 'Pry Console') if @options.console
+      LOGGER.debug(PROG) { 'Main Thread / Entering keep alive loop...' }
+      loop do
+        print_status(true)
+        sleep 5
+      end
+    rescue NotImplementedError
+      LOGGER.info(PROG) { 'Console start.' }
       binding.pry
+      LOGGER.info(PROG) { 'Console end.' }
     end
 
     # Commands

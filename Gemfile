@@ -16,4 +16,5 @@ end
 group :development, optional: true do
   gem 'capistrano'
   gem 'capistrano-rbenv'
+  gem 'rb-readline'
 end
