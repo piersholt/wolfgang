@@ -57,8 +57,8 @@ module Wolfgang
     VOLUME_MAX = 65_536
     VOLUME_INTERVALS = 32
     VOLUME_INTERVAL = VOLUME_MAX / VOLUME_INTERVALS
-    VOLUME_INCREASE = "pactl set-sink-volume #{SINK_ID} +#{VOLUME_INTERVAL}"
-    VOLUME_DECREASE = "pactl set-sink-volume #{SINK_ID} -#{VOLUME_INTERVAL}"
+    VOLUME_INCREASE = "/usr/bin/pactl set-sink-volume #{SINK_ID} +#{VOLUME_INTERVAL}"
+    VOLUME_DECREASE = "/usr/bin/pactl set-sink-volume #{SINK_ID} -#{VOLUME_INTERVAL}"
 
     def volume_up(*)
       logger.info(PROG) { VOLUME_UP }
